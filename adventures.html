@@ -94,20 +94,56 @@
       <hr class="border-slate-200 my-8" />
 
       <!-- ============================================================== -->
-      <!-- BLOG-BEITRÄGE (Neueste Beiträge immer hier oben einfügen)        -->
+      <!-- BLOG-BEITRÄGE (Wird automatisch von build-posts.js befüllt)     -->
       <!-- ============================================================== -->
+      <!-- POSTS_LIST_START -->
+      <div id="posts-list" class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
 
-      <article id="tuerkei-urlaub" class="my-8 pb-8 border-b border-slate-200">
-        <span class="text-xs text-slate-400 uppercase tracking-wider">10.04.2026</span>
-        <h2 class="text-2xl font-bold my-2 text-slate-800">
-          Zwischen Rafting und Schildkröten...
-        </h2>
-        <img src="img/backpack.webp" alt="Rucksack" class="w-full max-w-md rounded-lg shadow-sm my-4 object-cover mx-auto" />
-        <p class="text-slate-600 leading-relaxed mb-4">
-          Unser Urlaub in der Türkei: Wildes Rafting durch tiefe Canyons und das Beobachten von Meeresschildkröten an ruhigen Buchten. 
-          Hier halte ich alle Erlebnisse und Fotos unserer Reise fest.
-        </p>
-      </article>
+        <article class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col justify-between border border-slate-100">
+          <div>
+            <a href="posts/movie-park.html" class="block overflow-hidden">
+              <img src="img/MoviePark/Lucy.webp" alt="4th July im Movie Park 🇺🇸" class="w-full h-48 object-cover hover:scale-105 transition-transform duration-300 mx-auto" />
+            </a>
+            <div class="p-5 flex flex-col gap-2">
+              <span class="text-xs text-slate-400 uppercase tracking-wider">04.07.2026</span>
+              <h2 class="font-bold text-xl leading-snug text-slate-800 hover:text-emerald-700 transition-colors">
+                <a href="posts/movie-park.html">4th July im Movie Park 🇺🇸</a>
+              </h2>
+              <p class="line-clamp-3 text-sm text-slate-600 leading-relaxed">
+                Seit 2022 begleitet mich meine Sony A7iV durch meinen Alltag und auf Reisen. Vorher hatte ich die Sony A7iii und davor die Canon EOS 1100D. Man sieht, ich hatte immer ein Fable für große Kameras.
+              </p>
+            </div>
+          </div>
+          <div class="p-5 pt-0">
+            <a href="posts/movie-park.html" class="text-xs font-bold uppercase tracking-wider text-header hover:text-emerald-700 transition-colors">
+              Beitrag lesen →
+            </a>
+          </div>
+        </article>
+
+        <article class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col justify-between border border-slate-100">
+          <div>
+            <a href="posts/tuerkei-urlaub.html" class="block overflow-hidden">
+              <img src="img/backpack.webp" alt="Zwischen Rafting und Schildkröten..." class="w-full h-48 object-cover hover:scale-105 transition-transform duration-300 mx-auto" />
+            </a>
+            <div class="p-5 flex flex-col gap-2">
+              <span class="text-xs text-slate-400 uppercase tracking-wider">10.04.2026</span>
+              <h2 class="font-bold text-xl leading-snug text-slate-800 hover:text-emerald-700 transition-colors">
+                <a href="posts/tuerkei-urlaub.html">Zwischen Rafting und Schildkröten...</a>
+              </h2>
+              <p class="line-clamp-3 text-sm text-slate-600 leading-relaxed">
+                Unser Urlaub in der Türkei: Wildes Rafting durch tiefe Canyons und das Beobachten von Meeresschildkröten an ruhigen Buchten. Hier halte ich alle Erlebnisse und Fotos unserer Reise fest.
+              </p>
+            </div>
+          </div>
+          <div class="p-5 pt-0">
+            <a href="posts/tuerkei-urlaub.html" class="text-xs font-bold uppercase tracking-wider text-header hover:text-emerald-700 transition-colors">
+              Beitrag lesen →
+            </a>
+          </div>
+        </article>
+      </div>
+      <!-- POSTS_LIST_END -->
     </main>
 
     <footer class="bg-footer bg-gradient-to-tr from-header to-footer font-mono mx-auto px-4 py-8 w-full">

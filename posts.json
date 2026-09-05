@@ -1,11 +1,19 @@
 [
   {
+    "category": "Abenteuer",
+    "title": "4th July im Movie Park 🇺🇸",
+    "date": "04.07.2026",
+    "image": "img/MoviePark/Lucy.webp",
+    "preview": "Seit 2022 begleitet mich meine Sony A7iV durch meinen Alltag und auf Reisen. Vorher hatte ich die Sony A7iii und davor die Canon EOS 1100D. Man sieht, ich hatte immer ein Fable für große Kameras.",
+    "url": "posts/movie-park.html"
+  },
+  {
     "category": "Projekte",
     "title": "Projekt 2: Retrogaming",
     "date": "01.06.2026",
     "image": "img/Retrogaming/Röhrenfernseher.webp",
     "preview": "Als Kind hatte ich eine Super Nintendo und habe darauf pausenlos vor allem Super Mario World und Super Mario Kart gespielt. Neben Pokémon war mein Lieblingsspiel auf dem Gameboy Color definitv Looney Tunes. Wir hatten die PS1, die PS2 und die PSP. Ich bin mit Tony Hawk’s, Lego Racers, SSX und GTA aufgewachsen.",
-    "url": "projects.html#retrogaming"
+    "url": "posts/retrogaming.html"
   },
   {
     "category": "Projekte",
@@ -13,7 +21,7 @@
     "date": "09.05.2026",
     "image": "img/Agfamatic/Agfamatic-3000.webp",
     "preview": "Letzte Woche habe ich eine alte Agfamatic 3000 in einem Second-Hand-Shop in Winterswijk gefunden. Die Ritsch-Ratsch-Kameras waren Mitte der 70er sehr beliebt. Und für 5€ wollte ich sie auf jeden Fall mitnehmen!",
-    "url": "projects.html#agfamatic-3000"
+    "url": "posts/agfamatic-3000.html"
   },
   {
     "category": "Musik",
@@ -21,7 +29,7 @@
     "date": "20.04.2026",
     "image": "img/guitar.webp",
     "preview": "Ich lerne Noten lesen! Henning hat eine neue App entwickelt, mit der ich spielerisch das Notenlesen übe. Hier schreibe ich demnächst mehr über meine Fortschritte und erste Songs.",
-    "url": "music.html#hennings-app"
+    "url": "posts/hennings-app.html"
   },
   {
     "category": "Abenteuer",
@@ -29,6 +37,6 @@
     "date": "10.04.2026",
     "image": "img/backpack.webp",
     "preview": "Unser Urlaub in der Türkei: Wildes Rafting durch tiefe Canyons und das Beobachten von Meeresschildkröten an ruhigen Buchten. Hier halte ich alle Erlebnisse und Fotos unserer Reise fest.",
-    "url": "adventures.html#tuerkei-urlaub"
+    "url": "posts/tuerkei-urlaub.html"
   }
 ]

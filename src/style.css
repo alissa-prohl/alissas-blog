@@ -20,16 +20,66 @@ main section p,
   -ms-hyphens: auto;
 }
 
-/* Bilder und Bild-Galerien immer zentrieren */
+/* ============================================================== */
+/* ZENTRALES BLOGPOST-STYLING (DRY)                               */
+/* Alle Standard-Elemente im Artikel erhalten automatisch        */
+/* das einheitliche Tailwind-Design, ohne dass man Klassen        */
+/* an jeden Absatz oder jedes Bild schreiben muss.                */
+/* ============================================================== */
+
+article h1 {
+  @apply text-3xl font-bold my-3 text-slate-800;
+}
+
+article h2 {
+  @apply text-2xl font-bold my-3 text-slate-800;
+}
+
+article h3 {
+  @apply text-xl font-bold my-2 text-slate-800;
+}
+
+article p {
+  @apply text-slate-600 leading-relaxed mb-4;
+}
+
+article time,
+article .post-date {
+  @apply text-xs text-slate-400 uppercase tracking-wider block mb-1;
+}
+
+/* Bilder immer abgerundet, zentriert und mit dezentem Schatten - klickbar zum Vergrößern */
 article img {
-  display: block;
+  @apply block w-full max-w-md rounded-lg shadow-sm my-4 object-cover mx-auto cursor-zoom-in transition-all duration-200 hover:brightness-105 active:scale-95;
+}
+
+/* Bild-Galerien und Foto-Grids */
+article .grid,
+article .grid-2,
+article .grid-3,
+article .grid-4 {
   margin-left: auto;
   margin-right: auto;
 }
 
-article .grid {
-  margin-left: auto;
-  margin-right: auto;
+article .grid-2 {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-4 my-6 max-w-xl;
+}
+
+article .grid-3 {
+  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 my-6 max-w-2xl;
+}
+
+article .grid-4 {
+  @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 my-6 max-w-3xl;
+}
+
+/* In Grids füllen die Bilder ihre Spalte perfekt und haben gleiche Höhe */
+article .grid img,
+article .grid-2 img,
+article .grid-3 img,
+article .grid-4 img {
+  @apply my-0 max-w-full h-40 sm:h-48 w-full object-cover;
 }
 
 

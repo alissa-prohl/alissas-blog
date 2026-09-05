@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="./style.css" rel="stylesheet" />
-    <title>Musik</title>
+    <link href="../style.css" rel="stylesheet" />
+    <title>{{TITLE}}</title>
   </head>
   <body class="min-h-screen flex flex-col justify-between">
     <!-- Header mit Navigation und Bergen -->
@@ -12,14 +12,14 @@
       <div class="relative z-10 max-w-4xl mx-auto px-4 flex justify-center">
         <nav class="flex gap-8 text-sm font-medium tracking-wider">
           <a
-            href="projects.html"
+            href="../projects.html"
             class="group flex flex-col items-center gap-2 text-white hover:text-slate-300"
           >
             <div
               class="w-14 h-14 bg-white rounded-full p-2 flex items-center justify-center shadow-sm"
             >
-              <img id="projects"
-                src="./img/programmer.png"
+              <img
+                src="../img/programmer.png"
                 alt="Projekte"
                 class="w-full h-full object-contain"
               />
@@ -28,14 +28,14 @@
           </a>
 
           <a
-            href="music.html"
+            href="../music.html"
             class="group flex flex-col items-center gap-2 text-white hover:text-slate-300"
           >
             <div
               class="w-14 h-14 bg-white rounded-full p-2 flex items-center justify-center shadow-sm"
             >
-              <img id="music"
-                src="./img/guitar.png"
+              <img
+                src="../img/guitar.png"
                 alt="Musik"
                 class="w-full h-full object-contain"
               />
@@ -44,14 +44,14 @@
           </a>
 
           <a
-            href="adventures.html"
+            href="../adventures.html"
             class="group flex flex-col items-center gap-2 text-white hover:text-slate-300"
           >
             <div
               class="w-14 h-14 bg-white rounded-full p-2 flex items-center justify-center shadow-sm"
             >
-              <img id="adventures"
-                src="./img/backpack.png"
+              <img
+                src="../img/backpack.png"
                 alt="Abenteuer"
                 class="w-full h-full object-contain"
               />
@@ -61,69 +61,28 @@
         </nav>
       </div>
 
-      <!-- Berge am unteren Rand (3 Schichten: Dunkelgrün hinten, Mittelgrün mittig, Weiß im Vordergrund) -->
+      <!-- Berge am unteren Rand -->
       <div class="absolute bottom-0 left-0 w-full leading-none pointer-events-none">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="w-full h-28 sm:h-36 md:h-44 lg:h-52 block" preserveAspectRatio="none">
-          <!-- 1. HINTERE BERGE (Dunkles Alpingrün) -->
           <path fill="#284032" d="M0,185 L70,140 L170,75 L280,145 L400,115 L510,145 L640,95 L735,65 L780,85 L820,60 L910,130 L1030,80 L1120,115 L1180,75 L1270,155 L1360,110 L1440,135 L1440,320 L0,320 Z"></path>
-          <!-- 2. MITTLERE BERGE (Waldgrün) -->
           <path fill="#3c5c45" d="M0,230 L50,205 L125,145 L220,180 L340,135 L460,195 L610,125 L710,105 L770,110 L840,130 L930,155 L1010,115 L1100,150 L1170,130 L1260,190 L1340,160 L1440,215 L1440,320 L0,320 Z"></path>
-          <!-- 3. VORDERSTE BERGE (Weiß, nahtloser Übergang in den Bloginhalt) -->
           <path fill="#ffffff" d="M0,305 L60,260 L150,185 L270,245 L410,215 L530,255 L670,205 L760,170 L830,180 L920,230 L1040,185 L1140,215 L1200,185 L1290,265 L1370,230 L1440,250 L1440,320 L0,320 Z"></path>
         </svg>
       </div>
     </header>
 
     <main class="max-w-4xl mx-auto px-4 py-8 font-mono w-full flex-grow">
-      <nav class="mb-6">
-        <a href="index.html" class="text-sm text-slate-500 hover:text-slate-800 transition-colors">
-          ← Zurück zur Startseite
+      <!-- Zurück-Link zur passenden Kategorie -->
+      <nav class="mb-6 flex justify-between items-center">
+        <a href="../{{CATEGORY_PAGE}}" class="text-sm text-slate-500 hover:text-slate-800 transition-colors">
+          ← Zurück zu {{CATEGORY_NAME}}
+        </a>
+        <a href="../index.html" class="text-sm text-slate-500 hover:text-slate-800 transition-colors">
+          Startseite
         </a>
       </nav>
 
-      <section class="mb-10">
-        <h1 class="text-center text-4xl font-bold my-6 uppercase tracking-widest">
-          Meine Musik
-        </h1>
-        <p class="text-slate-600 leading-relaxed">
-          Ich spiele Gitarre, Klavier und vielleicht auch mal wieder Ukulele. Im
-          letzten Jahr ist auch eine E-Gitarre dazu gekommen. Hier halte ich alles
-          rund um das Thema Musik fest und es gibt bestimmt auch die ein oder andere
-          Kostprobe.
-        </p>
-      </section>
-
-      <hr class="border-slate-200 my-8" />
-
-      <!-- ============================================================== -->
-      <!-- BLOG-BEITRÄGE (Wird automatisch von build-posts.js befüllt)     -->
-      <!-- ============================================================== -->
-      <!-- POSTS_LIST_START -->
-      <div id="posts-list" class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
-
-        <article class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col justify-between border border-slate-100">
-          <div>
-            <a href="posts/hennings-app.html" class="block overflow-hidden">
-              <img src="img/guitar.webp" alt="Hennings neue App: Ich lerne Noten lesen" class="w-full h-48 object-cover hover:scale-105 transition-transform duration-300 mx-auto" />
-            </a>
-            <div class="p-5 flex flex-col gap-2">
-              <span class="text-xs text-slate-400 uppercase tracking-wider">20.04.2026</span>
-              <h2 class="font-bold text-xl leading-snug text-slate-800 hover:text-emerald-700 transition-colors">
-                <a href="posts/hennings-app.html">Hennings neue App: Ich lerne Noten lesen</a>
-              </h2>
-              <p class="line-clamp-3 text-sm text-slate-600 leading-relaxed">
-                Ich lerne Noten lesen! Henning hat eine neue App entwickelt, mit der ich spielerisch das Notenlesen übe. Hier schreibe ich demnächst mehr über meine Fortschritte und erste Songs.
-              </p>
-            </div>
-          </div>
-          <div class="p-5 pt-0">
-            <a href="posts/hennings-app.html" class="text-xs font-bold uppercase tracking-wider text-header hover:text-emerald-700 transition-colors">
-              Beitrag lesen →
-            </a>
-          </div>
-        </article>
-      </div>
-      <!-- POSTS_LIST_END -->
+{{CONTENT}}
     </main>
 
     <footer class="bg-footer bg-gradient-to-tr from-header to-footer font-mono mx-auto px-4 py-8 w-full">
@@ -141,6 +100,7 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
       </svg>
     </button>
-    <script src="./scroll-to-top.js"></script>
+    <script src="../scroll-to-top.js"></script>
+    <script src="../lightbox.js"></script>
   </body>
 </html>

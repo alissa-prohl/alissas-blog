@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../style.css" rel="stylesheet" />
+    <title>Projekt 1: Agfamatic 3000 - Alissa's Blog</title>
+  </head>
+  <body class="min-h-screen flex flex-col justify-between">
+    <!-- Header mit Navigation und Bergen -->
+    <header class="relative bg-header w-full overflow-hidden pt-6 pb-28 sm:pb-36 md:pb-44 lg:pb-52"> 
+      <div class="relative z-10 max-w-4xl mx-auto px-4 flex justify-center">
+        <nav class="flex gap-8 text-sm font-medium tracking-wider">
+          <a
+            href="../projects.html"
+            class="group flex flex-col items-center gap-2 text-white hover:text-slate-300"
+          >
+            <div
+              class="w-14 h-14 bg-white rounded-full p-2 flex items-center justify-center shadow-sm"
+            >
+              <img
+                src="../img/programmer.png"
+                alt="Projekte"
+                class="w-full h-full object-contain"
+              />
+            </div>
+            <span>PROJEKTE</span>
+          </a>
+
+          <a
+            href="../music.html"
+            class="group flex flex-col items-center gap-2 text-white hover:text-slate-300"
+          >
+            <div
+              class="w-14 h-14 bg-white rounded-full p-2 flex items-center justify-center shadow-sm"
+            >
+              <img
+                src="../img/guitar.png"
+                alt="Musik"
+                class="w-full h-full object-contain"
+              />
+            </div>
+            <span>MUSIK</span>
+          </a>
+
+          <a
+            href="../adventures.html"
+            class="group flex flex-col items-center gap-2 text-white hover:text-slate-300"
+          >
+            <div
+              class="w-14 h-14 bg-white rounded-full p-2 flex items-center justify-center shadow-sm"
+            >
+              <img
+                src="../img/backpack.png"
+                alt="Abenteuer"
+                class="w-full h-full object-contain"
+              />
+            </div>
+            <span>ABENTEUER</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Berge am unteren Rand -->
+      <div class="absolute bottom-0 left-0 w-full leading-none pointer-events-none">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="w-full h-28 sm:h-36 md:h-44 lg:h-52 block" preserveAspectRatio="none">
+          <path fill="#284032" d="M0,185 L70,140 L170,75 L280,145 L400,115 L510,145 L640,95 L735,65 L780,85 L820,60 L910,130 L1030,80 L1120,115 L1180,75 L1270,155 L1360,110 L1440,135 L1440,320 L0,320 Z"></path>
+          <path fill="#3c5c45" d="M0,230 L50,205 L125,145 L220,180 L340,135 L460,195 L610,125 L710,105 L770,110 L840,130 L930,155 L1010,115 L1100,150 L1170,130 L1260,190 L1340,160 L1440,215 L1440,320 L0,320 Z"></path>
+          <path fill="#ffffff" d="M0,305 L60,260 L150,185 L270,245 L410,215 L530,255 L670,205 L760,170 L830,180 L920,230 L1040,185 L1140,215 L1200,185 L1290,265 L1370,230 L1440,250 L1440,320 L0,320 Z"></path>
+        </svg>
+      </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 font-mono w-full flex-grow">
+      <!-- Zurück-Link zur passenden Kategorie -->
+      <nav class="mb-6 flex justify-between items-center">
+        <a href="../projects.html" class="text-sm text-slate-500 hover:text-slate-800 transition-colors">
+          ← Zurück zu Projekte
+        </a>
+        <a href="../index.html" class="text-sm text-slate-500 hover:text-slate-800 transition-colors">
+          Startseite
+        </a>
+      </nav>
+
+<article id="agfamatic-3000" data-category="Projekte" class="my-4">
+  <time>09.05.2026</time>
+  <h1>Projekt 1: Agfamatic 3000</h1>
+
+  <p>
+    Letzte Woche habe ich eine alte Agfamatic 3000 in einem Second-Hand-Shop in
+    Winterswijk gefunden. Die Ritsch-Ratsch-Kameras waren Mitte der 70er sehr
+    beliebt. Und für 5€ wollte ich sie auf jeden Fall mitnehmen!
+  </p>
+
+  <img
+    src="../img/Agfamatic/Agfamatic-3000.webp"
+    alt="Agfamatic 3000"
+  />
+
+  <p>
+    Zu meiner Überraschung stellte ich fest, dass noch ein Film eingelegt war.
+    110 Filme sind heutzutage sehr selten und lassen sich nur noch in speziellen
+    Fotolaboren entwickeln. Deshalb wollte ich es selber versuchen.
+  </p>
+
+  <p>
+    Wir haben uns kurzerhand mit Mart getroffen, der in dem Bereich ganz gut
+    ausgestattet ist und er hat mich dann angeleitet. Es war schon aufregend die
+    Chemikalien zusammenzumischen.
+  </p>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4 max-w-xl mx-auto">
+    <img
+      src="../img/Agfamatic/chemicals1.webp"
+      alt="Chemikalien anmischen"
+    />
+    <img
+      src="../img/Agfamatic/chemicals2.webp"
+      alt="Chemikalien Vorbereitung"
+    />
+  </div>
+
+  <p>
+    Noch aufregender wurde es aber, als ich dann in dem stockdüsteren Badezimmer
+    stand, die Kassette geknackt und den Film herausgezogen habe.
+  </p>
+
+  <ul class="list-disc list-inside space-y-2 mb-4 ml-2">
+    <li>
+      Den Film habe ich dann in einen Entwicklungstank gelegt und den Deckel
+      draufgeschraubt.
+    </li>
+    <li>
+      Dann konnte auch das Licht wieder angemacht werden und ich habe angefangen
+      die Chemikalienmischungen hineinzukippen.
+    </li>
+    <li>
+      Das war insgesamt ein langwieriger Prozess, weil ich den Tank jede Minute
+      kurz umdrehen und ein bisschen schütteln musste.
+    </li>
+    <li>
+      Danach musste ich die Chemikalienmischung auskippen, eine neue
+      hineinkippen, wieder umdrehen und so weiter.
+    </li>
+  </ul>
+
+  <img
+    src="../img/Agfamatic/process.webp"
+    alt="Entwicklungsprozess"
+  />
+
+  <p>
+    Und dann kam der Moment, in dem ich endlich den Deckel aufschrauben und den
+    Film herausholen konnte!
+  </p>
+
+  <p>
+    Naja und da kam leider auch die Enttäuschung. Der Filmstreifen war
+    gleichmäßig braun. Es war nicht einmal ansatzweise etwas von Fotos zu sehen.
+  </p>
+
+  <img
+    src="../img/Agfamatic/result.webp"
+    alt="Ergebnis des Filmstreifens"
+  />
+
+  <p>
+    Wahrscheinlich war der Film nach all der Zeit einfach schon kaputt. Echt
+    schade, ich hatte mich so darauf gefreut zu sehen, was noch drauf ist!
+  </p>
+
+  <p>
+    Trotzdem hat es wirklich Spaß gemacht, den Film zu entwickeln und ich habe
+    schon richtig Lust auf den nächsten Versuch.
+  </p>
+
+  <p class="italic">
+    Bedankt, Mart!
+  </p>
+
+  <img
+    src="../img/Agfamatic/mart.webp"
+    alt="Mart"
+  />
+</article>
+    </main>
+
+    <footer class="bg-footer bg-gradient-to-tr from-header to-footer font-mono mx-auto px-4 py-8 w-full">
+      <p>&copy; 2026 Alissa Prohl</p>
+    </footer>
+
+    <!-- "Nach oben" Floating Button -->
+    <button
+      id="scroll-to-top"
+      aria-label="Nach oben scrollen"
+      title="Nach oben"
+      class="fixed bottom-6 right-6 z-50 p-3 bg-header text-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 opacity-0 pointer-events-none translate-y-4 hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+      </svg>
+    </button>
+    <script src="../scroll-to-top.js"></script>
+    <script src="../lightbox.js"></script>
+  </body>
+</html>
