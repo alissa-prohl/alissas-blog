@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@theme {
+  --color-header: #8fb895;
+  --color-footer: #bfe0c4;
+}
