@@ -4,3 +4,33 @@
   --color-header: #8fb895;
   --color-footer: #bfe0c4;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Blocksatz & automatische Silbentrennung für Fließtexte */
+article p,
+article li,
+main section p,
+#latest-desc {
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+}
+
+/* Bilder und Bild-Galerien immer zentrieren */
+article img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+article .grid {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+

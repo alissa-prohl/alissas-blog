@@ -1,12 +1,12 @@
 <!doctype html>
-<html>
+<html lang="de">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="./style.css" rel="stylesheet" />
     <title>Alissas Blog</title>
   </head>
-  <body>
+  <body class="min-h-screen flex flex-col justify-between">
     <header class="relative bg-header w-full overflow-hidden pt-6 pb-28 sm:pb-36 md:pb-44 lg:pb-52"> 
       <div class="relative z-10 max-w-4xl mx-auto px-4 flex justify-center">
         <nav class="flex gap-8 text-sm font-medium tracking-wider">
@@ -73,35 +73,73 @@
       </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-4 py-8">
+    <main class="max-w-4xl mx-auto px-4 py-8 w-full flex-grow">
       <h2 class="text-center text-2xl font-bold my-6 uppercase tracking-widest">
         Alissas Blog
       </h2>
       <section class="w-11/12 mb-10 flex gap-4 flex-wrap justify-center mx-auto">
-        <section class="w-80 rounded-lg shadow-md hover:shadow-lg">
-          <picture>
-                      <source srcset="img/guitar.webp" type="image/webp" />
-                      <img
-                        class="rounded-t-lg opacity-80 hover:opacity-100 w-full h-auto"
-                        src="img/guitar.png"
-                        alt="A guitar"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </picture>
-                    <section class="p-4 flex flex-col gap-2">
-                      <section class="flex items-center justify-between">
-                            </section>
-                            <section>
-                            <h2 class="font-medium text-xl leading-snug mb-2 text-slate-600">Houseplants with Attitude: Meet the Divas of Your Living Room</h2>
-                            <p class="line-clamp-3 text-sm">
-                                If you thought your Monstera was just sitting quietly in the corner, think again! These houseplants are full of sass, drama, and demands. From diva-like Calatheas that throw a tantrum if you mist them wrong to ferns that seem to love dying for attention, we’re here to introduce you to the plant kingdom’s most dramatic members. 
-                            </p>
-                        </section>
+        <section class="w-80 rounded-lg shadow-md hover:shadow-lg bg-white overflow-hidden flex flex-col justify-between">
+          <div>
+            <picture>
+              <source id="latest-source" srcset="img/Retrogaming/Röhrenfernseher.webp" type="image/webp" />
+              <img
+                id="latest-img"
+                class="rounded-t-lg opacity-85 hover:opacity-100 w-full h-48 object-cover"
+                src="img/Retrogaming/Röhrenfernseher.webp"
+                alt="Neuester Beitrag"
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
+            <div class="p-4 flex flex-col gap-2">
+              <span id="latest-category" class="text-xs uppercase tracking-widest font-semibold text-emerald-700">Projekte</span>
+              <h3 id="latest-title" class="font-medium text-xl leading-snug text-slate-700">Projekt 2: Retrogaming</h3>
+              <p id="latest-desc" class="line-clamp-3 text-sm text-slate-600">Als Kind hatte ich eine Super Nintendo und habe darauf pausenlos vor allem Super Mario World und Super Mario Kart gespielt. Neben Pokémon war mein Lieblingsspiel auf dem Gameboy Color definitv Looney Tunes. Wir hatten die PS1, die PS2 und die PSP. Ich bin mit Tony Hawk’s, Lego Racers, SSX und GTA aufgewachsen.</p>
+            </div>
+          </div>
+          <div class="p-4 pt-0">
+            <a id="latest-link" href="projects.html#retrogaming" class="text-xs font-bold uppercase tracking-wider text-header hover:text-emerald-700">
+              Weiterlesen →
+            </a>
+          </div>
+        </section>
+      </section>
     </main>
 
-    <footer class="bg-footer bg-gradient-to-tr from-header to-footer font-mono mx-auto px-4 py-8">
+    <footer class="bg-footer bg-gradient-to-tr from-header to-footer font-mono max-w-4xl mx-auto px-4 py-8 w-full">
       <p>&copy; 2026 Alissa Prohl</p>
     </footer>
+
+    <!-- Lädt automatisch den obersten Eintrag aus posts.json -->
+    <script>
+      fetch('./posts.json')
+        .then(res => res.json())
+        .then(posts => {
+          const latest = posts[0];
+          if (!latest) return;
+          if (latest.category) document.getElementById('latest-category').textContent = latest.category;
+          if (latest.title) document.getElementById('latest-title').textContent = latest.title;
+          if (latest.preview) document.getElementById('latest-desc').textContent = latest.preview;
+          if (latest.image) {
+            document.getElementById('latest-img').src = latest.image;
+            document.getElementById('latest-source').srcset = latest.image.endsWith('.webp') ? latest.image : latest.image.replace(/\.(png|jpe?g)$/i, '.webp');
+          }
+          if (latest.url) document.getElementById('latest-link').href = latest.url;
+        })
+        .catch(err => console.error('Konnte neuesten Beitrag nicht laden:', err));
+    </script>
+
+    <!-- "Nach oben" Floating Button -->
+    <button
+      id="scroll-to-top"
+      aria-label="Nach oben scrollen"
+      title="Nach oben"
+      class="fixed bottom-6 right-6 z-50 p-3 bg-header text-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 opacity-0 pointer-events-none translate-y-4 hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+      </svg>
+    </button>
+    <script src="./scroll-to-top.js"></script>
   </body>
 </html>

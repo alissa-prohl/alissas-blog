@@ -1,0 +1,34 @@
+[
+  {
+    "category": "Projekte",
+    "title": "Projekt 2: Retrogaming",
+    "date": "01.06.2026",
+    "image": "img/Retrogaming/Röhrenfernseher.webp",
+    "preview": "Als Kind hatte ich eine Super Nintendo und habe darauf pausenlos vor allem Super Mario World und Super Mario Kart gespielt. Neben Pokémon war mein Lieblingsspiel auf dem Gameboy Color definitv Looney Tunes. Wir hatten die PS1, die PS2 und die PSP. Ich bin mit Tony Hawk’s, Lego Racers, SSX und GTA aufgewachsen.",
+    "url": "projects.html#retrogaming"
+  },
+  {
+    "category": "Projekte",
+    "title": "Projekt 1: Agfamatic 3000",
+    "date": "09.05.2026",
+    "image": "img/Agfamatic/Agfamatic-3000.webp",
+    "preview": "Letzte Woche habe ich eine alte Agfamatic 3000 in einem Second-Hand-Shop in Winterswijk gefunden. Die Ritsch-Ratsch-Kameras waren Mitte der 70er sehr beliebt. Und für 5€ wollte ich sie auf jeden Fall mitnehmen!",
+    "url": "projects.html#agfamatic-3000"
+  },
+  {
+    "category": "Musik",
+    "title": "Hennings neue App: Ich lerne Noten lesen",
+    "date": "20.04.2026",
+    "image": "img/guitar.webp",
+    "preview": "Ich lerne Noten lesen! Henning hat eine neue App entwickelt, mit der ich spielerisch das Notenlesen übe. Hier schreibe ich demnächst mehr über meine Fortschritte und erste Songs.",
+    "url": "music.html#hennings-app"
+  },
+  {
+    "category": "Abenteuer",
+    "title": "Zwischen Rafting und Schildkröten...",
+    "date": "10.04.2026",
+    "image": "img/backpack.webp",
+    "preview": "Unser Urlaub in der Türkei: Wildes Rafting durch tiefe Canyons und das Beobachten von Meeresschildkröten an ruhigen Buchten. Hier halte ich alle Erlebnisse und Fotos unserer Reise fest.",
+    "url": "adventures.html#tuerkei-urlaub"
+  }
+]

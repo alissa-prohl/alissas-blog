@@ -47,7 +47,8 @@ async function optimizeFile(filePath, isRaw = false) {
   let processedAny = false;
 
   // 1. Default WebP version (max 1200px or natural width)
-  const defaultWebpPath = path.join(OUTPUT_DIR, `${baseName}.webp`);
+  const targetDir = isRaw ? OUTPUT_DIR : path.dirname(filePath);
+  const defaultWebpPath = path.join(targetDir, `${baseName}.webp`);
   if (shouldProcess(filePath, defaultWebpPath)) {
     const pipeline = sharp(filePath);
     if (metadata.width && metadata.width > 1200) {
@@ -69,7 +70,7 @@ async function optimizeFile(filePath, isRaw = false) {
     for (const size of SIZES) {
       if (metadata.width && metadata.width < size.width * 0.8) continue;
 
-      const variantPath = path.join(OUTPUT_DIR, `${baseName}${size.suffix}.webp`);
+      const variantPath = path.join(targetDir, `${baseName}${size.suffix}.webp`);
       if (shouldProcess(filePath, variantPath)) {
         await sharp(filePath)
           .resize({ width: size.width, withoutEnlargement: true })
@@ -84,6 +85,22 @@ async function optimizeFile(filePath, isRaw = false) {
   }
 
   return processedAny;
+}
+
+function scanImagesRecursively(dir) {
+  let list = [];
+  if (!fs.existsSync(dir)) return list;
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    if (entry.name === "raw" || entry.name.startsWith(".")) continue;
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      list = list.concat(scanImagesRecursively(fullPath));
+    } else if (entry.isFile() && isImageFile(entry.name) && !entry.name.endsWith(".webp")) {
+      list.push(fullPath);
+    }
+  }
+  return list;
 }
 
 export async function optimizeAll() {
@@ -105,16 +122,11 @@ export async function optimizeAll() {
     }
   }
 
-  // Also process original png/jpg in img/ (excluding generated variants)
-  const imgFiles = fs.readdirSync(OUTPUT_DIR);
-  for (const file of imgFiles) {
-    if (isImageFile(file) && !file.endsWith(".webp") && file !== "raw") {
-      const fullPath = path.join(OUTPUT_DIR, file);
-      if (fs.statSync(fullPath).isFile()) {
-        const changed = await optimizeFile(fullPath, false);
-        if (changed) count++;
-      }
-    }
+  // Also process original png/jpg in img/ and all subdirectories
+  const imgFiles = scanImagesRecursively(OUTPUT_DIR);
+  for (const fullPath of imgFiles) {
+    const changed = await optimizeFile(fullPath, false);
+    if (changed) count++;
   }
 
   const elapsed = Date.now() - startTime;
