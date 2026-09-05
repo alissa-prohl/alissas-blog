@@ -1,0 +1,154 @@
+import fs from "node:fs";
+import path from "node:path";
+import sharp from "sharp";
+
+const SIZES = [
+  { suffix: "-400", width: 400 },
+  { suffix: "-800", width: 800 },
+  { suffix: "-1200", width: 1200 },
+];
+
+const OUTPUT_DIR = path.resolve("img");
+const RAW_DIR = path.resolve("img/raw");
+
+// Supported extensions for optimization
+const SUPPORTED_EXTS = new Set([".png", ".jpg", ".jpeg", ".webp"]);
+
+function isImageFile(filename) {
+  const ext = path.extname(filename).toLowerCase();
+  return SUPPORTED_EXTS.has(ext);
+}
+
+function shouldProcess(srcPath, destPath) {
+  if (!fs.existsSync(destPath)) return true;
+  const srcStat = fs.statSync(srcPath);
+  const destStat = fs.statSync(destPath);
+  return srcStat.mtimeMs > destStat.mtimeMs;
+}
+
+function formatBytes(bytes) {
+  if (bytes < 1024) return `${bytes} B`;
+  return `${(bytes / 1024).toFixed(1)} KB`;
+}
+
+async function optimizeFile(filePath, isRaw = false) {
+  const ext = path.extname(filePath);
+  const baseName = path.basename(filePath, ext);
+
+  // Skip already generated responsive variants
+  if (/-(\d{3,4})$/.test(baseName) && filePath.endsWith(".webp")) {
+    return false;
+  }
+
+  const srcStat = fs.statSync(filePath);
+  const image = sharp(filePath);
+  const metadata = await image.metadata();
+
+  let processedAny = false;
+
+  // 1. Default WebP version (max 1200px or natural width)
+  const defaultWebpPath = path.join(OUTPUT_DIR, `${baseName}.webp`);
+  if (shouldProcess(filePath, defaultWebpPath)) {
+    const pipeline = sharp(filePath);
+    if (metadata.width && metadata.width > 1200) {
+      pipeline.resize({ width: 1200, withoutEnlargement: true });
+    }
+    await pipeline
+      .webp({ quality: 82, effort: 4 })
+      .toFile(defaultWebpPath);
+
+    const destStat = fs.statSync(defaultWebpPath);
+    const saved = Math.round((1 - destStat.size / srcStat.size) * 100);
+    console.log(`  ✓ ${path.basename(filePath)} (${formatBytes(srcStat.size)}) -> ${baseName}.webp (${formatBytes(destStat.size)}, ${saved >= 0 ? `-${saved}%` : `+${Math.abs(saved)}%`})`);
+    processedAny = true;
+  }
+
+  // 2. Responsive sizes (400w, 800w, 1200w) for photos/cards
+  // Create variants if image is from img/raw or >= 500px wide
+  if (isRaw || (metadata.width && metadata.width >= 500)) {
+    for (const size of SIZES) {
+      if (metadata.width && metadata.width < size.width * 0.8) continue;
+
+      const variantPath = path.join(OUTPUT_DIR, `${baseName}${size.suffix}.webp`);
+      if (shouldProcess(filePath, variantPath)) {
+        await sharp(filePath)
+          .resize({ width: size.width, withoutEnlargement: true })
+          .webp({ quality: 80, effort: 4 })
+          .toFile(variantPath);
+
+        const destStat = fs.statSync(variantPath);
+        console.log(`    ↳ ${baseName}${size.suffix}.webp (${size.width}w, ${formatBytes(destStat.size)})`);
+        processedAny = true;
+      }
+    }
+  }
+
+  return processedAny;
+}
+
+export async function optimizeAll() {
+  const startTime = Date.now();
+  console.log(`[${new Date().toLocaleTimeString()}] Optimizing images...`);
+
+  // Ensure directories exist
+  if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+  if (!fs.existsSync(RAW_DIR)) fs.mkdirSync(RAW_DIR, { recursive: true });
+
+  let count = 0;
+
+  // Process img/raw/ if any files exist there
+  const rawFiles = fs.readdirSync(RAW_DIR);
+  for (const file of rawFiles) {
+    if (isImageFile(file)) {
+      const changed = await optimizeFile(path.join(RAW_DIR, file), true);
+      if (changed) count++;
+    }
+  }
+
+  // Also process original png/jpg in img/ (excluding generated variants)
+  const imgFiles = fs.readdirSync(OUTPUT_DIR);
+  for (const file of imgFiles) {
+    if (isImageFile(file) && !file.endsWith(".webp") && file !== "raw") {
+      const fullPath = path.join(OUTPUT_DIR, file);
+      if (fs.statSync(fullPath).isFile()) {
+        const changed = await optimizeFile(fullPath, false);
+        if (changed) count++;
+      }
+    }
+  }
+
+  const elapsed = Date.now() - startTime;
+  if (count === 0) {
+    console.log(`[${new Date().toLocaleTimeString()}] All images are up to date (${elapsed}ms)`);
+  } else {
+    console.log(`[${new Date().toLocaleTimeString()}] Optimized image(s) in ${elapsed}ms`);
+  }
+}
+
+async function main() {
+  await optimizeAll();
+
+  if (process.argv.includes("--watch")) {
+    console.log("Watching img/ and img/raw/ for new or modified images...");
+    let debounceTimer = null;
+    const watchHandler = (eventType, filename) => {
+      if (filename && isImageFile(filename) && !filename.endsWith(".webp")) {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          console.log(`Image change detected: ${filename}`);
+          optimizeAll().catch(console.error);
+        }, 150);
+      }
+    };
+
+    fs.watch(OUTPUT_DIR, watchHandler);
+    fs.watch(RAW_DIR, watchHandler);
+  }
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve("optimize-images.js")) {
+  main().catch((err) => {
+    console.error("Image optimization failed:", err);
+    process.exit(1);
+  });
+}

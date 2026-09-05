@@ -6,7 +6,12 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "node build-css.js",
+    "build:images": "node optimize-images.js",
+    "build:css": "node build-css.js",
+    "build": "node optimize-images.js && node build-css.js",
     "watch": "node build-css.js --watch"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.4"
   }
 }
