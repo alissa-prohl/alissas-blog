@@ -158,7 +158,7 @@ export function buildPosts() {
     // Update title
     indexHtml = indexHtml.replace(
       /<h3 id="latest-title"[^>]*>[\s\S]*?<\/h3>/i,
-      `<h3 id="latest-title" class="font-bold text-2xl sm:text-3xl leading-snug text-slate-800 dark:text-slate-100">${latest.title}</h3>`
+      `<h3 id="latest-title" class="font-bold text-2xl sm:text-3xl leading-snug uppercase tracking-widest text-slate-800 dark:text-slate-100">${latest.title}</h3>`
     );
 
     // Update desc/preview
@@ -213,7 +213,7 @@ export function buildPosts() {
             </a>
             <div class="p-5 flex flex-col gap-2">
               <span class="text-xs text-slate-400 dark:text-slate-400 uppercase tracking-wider">${art.date}</span>
-              <h2 class="font-bold text-xl leading-snug text-slate-800 dark:text-slate-100 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">
+              <h2 class="font-bold text-xl leading-snug uppercase tracking-widest text-slate-800 dark:text-slate-100 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">
                 <a href="${art.url}">${art.title}</a>
               </h2>
               <p class="line-clamp-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">

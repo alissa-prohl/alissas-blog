@@ -7,7 +7,7 @@
     <title>Abenteuer</title>
     <script src="./theme-toggle.js"></script>
   </head>
-  <body class="min-h-screen flex flex-col justify-between bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-300">
+  <body class="min-h-screen flex flex-col justify-between bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-mono transition-colors duration-300">
     <!-- Header mit Navigation und Bergen -->
     <header class="relative bg-header dark:bg-gradient-to-b dark:from-[#030712] dark:via-[#0c1e3d] dark:to-[#172e54] w-full overflow-hidden pt-6 pb-28 sm:pb-36 md:pb-44 lg:pb-52 transition-colors duration-300"> 
       <!-- Sterne am Nachthimmel (nur im Darkmode sichtbar) -->
@@ -36,8 +36,146 @@
           <circle cx="62%" cy="20%" r="0.8" fill="white" opacity="0.4" />
           <circle cx="76%" cy="26%" r="0.7" fill="white" opacity="0.35" />
           <circle cx="90%" cy="16%" r="0.8" fill="white" opacity="0.5" />
-          <circle cx="97%" cy="38%" r="0.7" fill="white" opacity="0.4" />
         </svg>
+      </div>
+
+      <!-- Sternschnuppen am Nachthimmel (im Standard Darkmode) -->
+      <div id="shooting-stars" class="pointer-events-none absolute inset-0 overflow-hidden z-0" aria-hidden="true">
+        <div class="shooting-star shooting-star-1"></div>
+        <div class="shooting-star shooting-star-2"></div>
+      </div>
+
+      <!-- Weihnachtliches Rentier- & Schlitten-Gespann am Nachthimmel (nur 01.12.–25.12. im Darkmode) -->
+      <div id="christmas-sleigh" class="pointer-events-none absolute inset-x-0 top-2 sm:top-4 overflow-hidden h-24 sm:h-32 z-0" aria-hidden="true">
+        <div class="santa-flying w-[320px] sm:w-[380px]">
+          <svg viewBox="0 0 380 70" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto overflow-visible" fill="none">
+            <!-- Sternenstaub-Schweif -->
+            <circle cx="-15" cy="42" r="1.2" fill="#fde047" opacity="0.6" />
+            <circle cx="-6" cy="48" r="1.5" fill="#ffffff" opacity="0.8" />
+            <circle cx="2" cy="38" r="1.3" fill="#fde047" opacity="0.75" />
+            <circle cx="12" cy="46" r="1.8" fill="#fef08a" opacity="0.9" />
+            <circle cx="20" cy="41" r="1.2" fill="#ffffff" opacity="0.6" />
+
+            <!-- Zügel -->
+            <path d="M 55,43 Q 95,38 135,36 Q 175,34 215,32 Q 255,30 295,28" stroke="rgba(254, 240, 138, 0.6)" stroke-width="1.2" fill="none" />
+            <path d="M 55,47 Q 95,42 135,40 Q 175,38 215,36 Q 255,34 295,32" stroke="rgba(254, 240, 138, 0.35)" stroke-width="1" fill="none" />
+
+            <!-- SCHLITTEN & WEIHNACHTSMANN -->
+            <g transform="translate(30, 18)">
+              <!-- Kufen -->
+              <path d="M -5,35 C 5,35 15,34 25,34 L 50,34 C 58,34 64,30 67,24 C 67,22 65,21 63,22 C 61,23 58,28 50,28 L 22,28 C 12,28 5,30 -4,31 C -7,31 -8,35 -5,35 Z" fill="#ffffff" opacity="0.9" />
+              <line x1="12" y1="28" x2="16" y2="20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+              <line x1="32" y1="28" x2="34" y2="20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+              <line x1="48" y1="28" x2="48" y2="20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+              <!-- Schlittenkorpus -->
+              <path d="M 5,20 C 3,14 6,8 14,8 L 46,8 C 53,8 57,12 59,18 C 55,22 48,23 40,23 L 14,23 C 9,23 6,22 5,20 Z" fill="#ffffff" opacity="0.92" />
+              <!-- Geschenkesack -->
+              <path d="M 10,9 C 9,3 17,2 22,5 C 25,7 24,10 20,10 Z" fill="#ffffff" opacity="0.85" />
+              <circle cx="16" cy="4" r="1.5" fill="#fde047" />
+              <!-- Weihnachtsmann Silhouette -->
+              <ellipse cx="32" cy="7" rx="5" ry="6" fill="#ffffff" />
+              <circle cx="34" cy="0" r="3.5" fill="#ffffff" />
+              <path d="M 33,-2 Q 28,-5 25,-1" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" />
+              <circle cx="24.5" cy="-0.5" r="1.2" fill="#ffffff" />
+              <path d="M 35,7 L 44,8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+            </g>
+
+            <!-- RENTIER 1 -->
+            <g transform="translate(125, 14)">
+              <ellipse cx="20" cy="18" rx="11" ry="5.5" fill="#ffffff" opacity="0.95" />
+              <path d="M 27,16 Q 34,9 37,5 Q 40,4 41,7 Q 38,12 33,18 Z" fill="#ffffff" opacity="0.95" />
+              <path d="M 38,5 L 38,-1 M 38,2 L 35,0 M 38,0 L 41,-1 M 39,4 L 42,1 M 42,2 L 44,1" stroke="#ffffff" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.9" />
+              <path d="M 29,20 Q 37,22 45,19 M 29,19 Q 36,24 42,25" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.95" />
+              <path d="M 12,19 Q 4,22 -2,27 M 13,18 Q 6,20 2,23" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.95" />
+              <path d="M 9,16 Q 6,13 8,11" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.85" />
+            </g>
+
+            <!-- RENTIER 2 -->
+            <g transform="translate(205, 12)">
+              <ellipse cx="20" cy="18" rx="11" ry="5.5" fill="#ffffff" opacity="0.95" />
+              <path d="M 27,16 Q 34,9 37,5 Q 40,4 41,7 Q 38,12 33,18 Z" fill="#ffffff" opacity="0.95" />
+              <path d="M 38,5 L 38,-1 M 38,2 L 35,0 M 38,0 L 41,-1 M 39,4 L 42,1 M 42,2 L 44,1" stroke="#ffffff" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.9" />
+              <path d="M 29,20 Q 37,22 45,19 M 29,19 Q 36,24 42,25" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.95" />
+              <path d="M 12,19 Q 4,22 -2,27 M 13,18 Q 6,20 2,23" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.95" />
+              <path d="M 9,16 Q 6,13 8,11" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.85" />
+            </g>
+
+            <!-- RENTIER 3 (Rudolph mit leuchtend roter Nase) -->
+            <g transform="translate(285, 9)">
+              <ellipse cx="20" cy="18" rx="11" ry="5.5" fill="#ffffff" opacity="0.98" />
+              <path d="M 27,16 Q 34,9 37,5 Q 40,4 41,7 Q 38,12 33,18 Z" fill="#ffffff" opacity="0.98" />
+              <path d="M 38,5 L 38,-2 M 38,1 L 34,-1 M 38,-1 L 41,-2 M 39,4 L 42,0 M 42,1 L 45,0" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.95" />
+              <path d="M 29,20 Q 38,22 46,18 M 29,19 Q 37,23 43,24" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.98" />
+              <path d="M 12,19 Q 4,21 -2,26 M 13,18 Q 6,19 2,22" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.98" />
+              <path d="M 9,16 Q 6,13 8,11" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.85" />
+              <!-- Rudolphs rote Nase -->
+              <circle cx="41.5" cy="6" r="3.5" fill="#ef4444" opacity="0.35" class="animate-pulse" />
+              <circle cx="41.5" cy="6" r="2.2" fill="#ef4444" opacity="0.85" />
+              <circle cx="41.5" cy="6" r="1.2" fill="#fca5a5" />
+              <circle cx="41" cy="5.5" r="0.6" fill="#ffffff" />
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Dezent fallende Herbstblätter im Lightmode (nur im Herbst) -->
+      <div id="autumn-leaves" class="pointer-events-none absolute inset-0 overflow-hidden z-0" aria-hidden="true">
+        <!-- Blatt 1: Ahorn (Amber) -->
+        <div class="absolute top-0 left-[8%] w-4 h-4 text-amber-600 drop-shadow-xs" style="animation: leafDrift1 11s linear infinite -2s;">
+          <svg viewBox="0 0 24 24" class="w-full h-full fill-current"><path d="M12,2 C12.5,4 14,5 16,4 C15.5,6.5 17,8 19,8 C17.5,9.5 17,11.5 18,13 C16,12.5 14.5,13.5 14,15 C13,13.5 11.5,13.5 10.5,15 C10,13.5 8.5,12.5 6.5,13 C7.5,11.5 7,9.5 5.5,8 C7.5,8 9,6.5 8.5,4 C10.5,5 12,4 12,2 Z M12,14 L12,18" stroke="currentColor" stroke-width="0.6" stroke-linejoin="round"/></svg>
+        </div>
+        <!-- Blatt 2: Buche (Terracotta) -->
+        <div class="absolute top-0 left-[22%] w-3.5 h-3.5 text-orange-700 drop-shadow-xs" style="animation: leafDrift2 13s linear infinite -6s;">
+          <svg viewBox="0 0 24 24" class="w-full h-full fill-current"><path d="M12,2 C17,6 18,13 12,17 C6,13 7,6 12,2 Z M12,3 L12,19" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/></svg>
+        </div>
+        <!-- Blatt 3: Ahorn (Goldgelb) -->
+        <div class="absolute top-0 left-[38%] w-4 h-4 text-amber-600 drop-shadow-xs" style="animation: leafDrift3 10s linear infinite -4s;">
+          <svg viewBox="0 0 24 24" class="w-full h-full fill-current"><path d="M12,2 C12.5,4 14,5 16,4 C15.5,6.5 17,8 19,8 C17.5,9.5 17,11.5 18,13 C16,12.5 14.5,13.5 14,15 C13,13.5 11.5,13.5 10.5,15 C10,13.5 8.5,12.5 6.5,13 C7.5,11.5 7,9.5 5.5,8 C7.5,8 9,6.5 8.5,4 C10.5,5 12,4 12,2 Z M12,14 L12,18" stroke="currentColor" stroke-width="0.6" stroke-linejoin="round"/></svg>
+        </div>
+        <!-- Blatt 4: Buche (Warmes Gold) -->
+        <div class="absolute top-0 left-[53%] w-3 h-3 text-yellow-700 drop-shadow-xs" style="animation: leafDrift1 14s linear infinite -9s;">
+          <svg viewBox="0 0 24 24" class="w-full h-full fill-current"><path d="M12,2 C17,6 18,13 12,17 C6,13 7,6 12,2 Z M12,3 L12,19" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/></svg>
+        </div>
+        <!-- Blatt 5: Ahorn (Rostrot) -->
+        <div class="absolute top-0 left-[67%] w-4.5 h-4.5 text-orange-800 drop-shadow-xs" style="animation: leafDrift2 12s linear infinite -3s;">
+          <svg viewBox="0 0 24 24" class="w-full h-full fill-current"><path d="M12,2 C12.5,4 14,5 16,4 C15.5,6.5 17,8 19,8 C17.5,9.5 17,11.5 18,13 C16,12.5 14.5,13.5 14,15 C13,13.5 11.5,13.5 10.5,15 C10,13.5 8.5,12.5 6.5,13 C7.5,11.5 7,9.5 5.5,8 C7.5,8 9,6.5 8.5,4 C10.5,5 12,4 12,2 Z M12,14 L12,18" stroke="currentColor" stroke-width="0.6" stroke-linejoin="round"/></svg>
+        </div>
+        <!-- Blatt 6: Buche (Amber) -->
+        <div class="absolute top-0 left-[81%] w-3.5 h-3.5 text-amber-700 drop-shadow-xs" style="animation: leafDrift3 11.5s linear infinite -7.5s;">
+          <svg viewBox="0 0 24 24" class="w-full h-full fill-current"><path d="M12,2 C17,6 18,13 12,17 C6,13 7,6 12,2 Z M12,3 L12,19" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/></svg>
+        </div>
+        <!-- Blatt 7: Ahorn (Kupfergold) -->
+        <div class="absolute top-0 left-[92%] w-4 h-4 text-amber-600 drop-shadow-xs" style="animation: leafDrift1 13.5s linear infinite -1s;">
+          <svg viewBox="0 0 24 24" class="w-full h-full fill-current"><path d="M12,2 C12.5,4 14,5 16,4 C15.5,6.5 17,8 19,8 C17.5,9.5 17,11.5 18,13 C16,12.5 14.5,13.5 14,15 C13,13.5 11.5,13.5 10.5,15 C10,13.5 8.5,12.5 6.5,13 C7.5,11.5 7,9.5 5.5,8 C7.5,8 9,6.5 8.5,4 C10.5,5 12,4 12,2 Z M12,14 L12,18" stroke="currentColor" stroke-width="0.6" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <!-- Dezent fallender Schnee (im Winter in Light & Dark Mode, zu Weihnachten nur im Light Mode) -->
+      <div id="winter-snow" class="pointer-events-none absolute inset-0 overflow-hidden z-0" aria-hidden="true">
+        <!-- Schneeflocke 1 -->
+        <div class="absolute top-0 left-[6%] w-2 h-2 rounded-full bg-white/90 shadow-sm" style="animation: snowFall1 7s linear infinite -1.5s;"></div>
+        <!-- Schneeflocke 2 -->
+        <div class="absolute top-0 left-[14%] w-1.5 h-1.5 rounded-full bg-white/80" style="animation: snowFall2 9s linear infinite -4s;"></div>
+        <!-- Schneeflocke 3 -->
+        <div class="absolute top-0 left-[23%] w-2.5 h-2.5 rounded-full bg-white/85 shadow-sm" style="animation: snowFall3 6.5s linear infinite -2s;"></div>
+        <!-- Schneeflocke 4 -->
+        <div class="absolute top-0 left-[33%] w-1.5 h-1.5 rounded-full bg-white/75" style="animation: snowFall1 8s linear infinite -5s;"></div>
+        <!-- Schneeflocke 5 -->
+        <div class="absolute top-0 left-[42%] w-2 h-2 rounded-full bg-white/90 shadow-sm" style="animation: snowFall2 7.5s linear infinite -0.5s;"></div>
+        <!-- Schneeflocke 6 -->
+        <div class="absolute top-0 left-[51%] w-1.5 h-1.5 rounded-full bg-white/80" style="animation: snowFall3 9.5s linear infinite -6s;"></div>
+        <!-- Schneeflocke 7 -->
+        <div class="absolute top-0 left-[60%] w-2.5 h-2.5 rounded-full bg-white/90 shadow-sm" style="animation: snowFall1 6.8s linear infinite -3.2s;"></div>
+        <!-- Schneeflocke 8 -->
+        <div class="absolute top-0 left-[69%] w-1.5 h-1.5 rounded-full bg-white/75" style="animation: snowFall2 8.2s linear infinite -1s;"></div>
+        <!-- Schneeflocke 9 -->
+        <div class="absolute top-0 left-[77%] w-2 h-2 rounded-full bg-white/85 shadow-sm" style="animation: snowFall3 7.2s linear infinite -4.8s;"></div>
+        <!-- Schneeflocke 10 -->
+        <div class="absolute top-0 left-[86%] w-1.5 h-1.5 rounded-full bg-white/80" style="animation: snowFall1 8.8s linear infinite -2.8s;"></div>
+        <!-- Schneeflocke 11 -->
+        <div class="absolute top-0 left-[93%] w-2.5 h-2.5 rounded-full bg-white/90 shadow-sm" style="animation: snowFall2 6.2s linear infinite -5.5s;"></div>
+        <!-- Schneeflocke 12 -->
+        <div class="absolute top-0 left-[97%] w-1.5 h-1.5 rounded-full bg-white/75" style="animation: snowFall3 9s linear infinite -3.8s;"></div>
       </div>
 
       <div class="relative z-10 max-w-4xl mx-auto px-4 flex justify-center items-center">
@@ -98,7 +236,7 @@
           type="button"
           aria-label="Darkmode umschalten"
           title="Darkmode umschalten"
-          class="absolute right-4 sm:right-6 top-3 text-white/80 hover:text-white dark:text-yellow-300 dark:hover:text-yellow-200 p-2 rounded-full hover:bg-white/10 dark:hover:bg-white/5 transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer"
+          class="absolute right-4 sm:right-6 top-3 text-white/80 hover:text-white dark:text-yellow-300 dark:hover:text-yellow-200 p-2 rounded-full hover:bg-white/10 dark:hover:bg-white/5 transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer z-50"
         >
           <!-- Mond-Icon (sichtbar im Lightmode, versteckt im Darkmode) -->
           <svg
@@ -106,22 +244,19 @@
             class="w-6 h-6 block dark:hidden"
             fill="currentColor"
             viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
           >
             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
           </svg>
-
           <!-- Sonnen-Icon (versteckt im Lightmode, sichtbar im Darkmode) -->
           <svg
             id="theme-toggle-light-icon"
             class="w-6 h-6 hidden dark:block"
             fill="currentColor"
             viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
               fill-rule="evenodd"
+              d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
               clip-rule="evenodd"
             ></path>
           </svg>
@@ -132,11 +267,11 @@
       <div class="absolute bottom-0 left-0 w-full leading-none pointer-events-none">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="w-full h-28 sm:h-36 md:h-44 lg:h-52 block" preserveAspectRatio="none">
           <!-- 1. HINTERE BERGE (Dunkles Alpingrün) -->
-          <path class="fill-[#284032] dark:fill-[#24385a] transition-colors duration-300" d="M0,185 L70,140 L170,75 L280,145 L400,115 L510,145 L640,95 L735,65 L780,85 L820,60 L910,130 L1030,80 L1120,115 L1180,75 L1270,155 L1360,110 L1440,135 L1440,320 L0,320 Z"></path>
+          <path id="mountain-layer-1" class="fill-[#284032] dark:fill-[#24385a] transition-colors duration-300" d="M0,185 L70,140 L170,75 L280,145 L400,115 L510,145 L640,95 L735,65 L780,85 L820,60 L910,130 L1030,80 L1120,115 L1180,75 L1270,155 L1360,110 L1440,135 L1440,320 L0,320 Z"></path>
           <!-- 2. MITTLERE BERGE (Waldgrün) -->
-          <path class="fill-[#3c5c45] dark:fill-[#19273f] transition-colors duration-300" d="M0,230 L50,205 L125,145 L220,180 L340,135 L460,195 L610,125 L710,105 L770,110 L840,130 L930,155 L1010,115 L1100,150 L1170,130 L1260,190 L1340,160 L1440,215 L1440,320 L0,320 Z"></path>
+          <path id="mountain-layer-2" class="fill-[#3c5c45] dark:fill-[#19273f] transition-colors duration-300" d="M0,230 L50,205 L125,145 L220,180 L340,135 L460,195 L610,125 L710,105 L770,110 L840,130 L930,155 L1010,115 L1100,150 L1170,130 L1260,190 L1340,160 L1440,215 L1440,320 L0,320 Z"></path>
           <!-- 3. VORDERSTE BERGE (Weiß, nahtloser Übergang in den Bloginhalt) -->
-          <path class="fill-white dark:fill-slate-900 transition-colors duration-300" d="M0,305 L60,260 L150,185 L270,245 L410,215 L530,255 L670,205 L760,170 L830,180 L920,230 L1040,185 L1140,215 L1200,185 L1290,265 L1370,230 L1440,250 L1440,320 L0,320 Z"></path>
+          <path id="mountain-layer-3" class="fill-white dark:fill-slate-900 transition-colors duration-300" d="M0,305 L60,260 L150,185 L270,245 L410,215 L530,255 L670,205 L760,170 L830,180 L920,230 L1040,185 L1140,215 L1200,185 L1290,265 L1370,230 L1440,250 L1440,320 L0,320 Z"></path>
         </svg>
       </div>
     </header>
@@ -173,7 +308,7 @@
             </a>
             <div class="p-5 flex flex-col gap-2">
               <span class="text-xs text-slate-400 dark:text-slate-400 uppercase tracking-wider">04.07.2026</span>
-              <h2 class="font-bold text-xl leading-snug text-slate-800 dark:text-slate-100 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">
+              <h2 class="font-bold text-xl leading-snug uppercase tracking-widest text-slate-800 dark:text-slate-100 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">
                 <a href="posts/movie-park.html">4th July im Movie Park 🇺🇸</a>
               </h2>
               <p class="line-clamp-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
@@ -192,7 +327,48 @@
     </main>
 
     <footer class="bg-footer bg-gradient-to-tr from-header to-footer dark:from-slate-950 dark:to-slate-900 font-mono mx-auto px-4 py-8 w-full text-slate-800 dark:text-slate-400 border-t border-transparent dark:border-slate-800 transition-colors duration-300">
-      <p>&copy; 2026 Alissa Prohl</p>
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p>&copy; 2026 Alissa Prohl</p>
+
+        <!-- Manuelle Jahreszeiten-Wahl -->
+        <div class="flex items-center gap-2 text-xs">
+          <span class="text-slate-700 dark:text-slate-300 font-medium text-[11px] sm:text-xs">Jahreszeit:</span>
+          <div class="inline-flex items-center p-0.5 sm:p-1 bg-black/10 dark:bg-slate-800/90 rounded-lg border border-black/5 dark:border-slate-700/60 shadow-inner">
+            <button
+              type="button"
+              data-season-btn="standard"
+              class="season-footer-btn px-2 sm:px-2.5 py-1 rounded-md transition-all text-[11px] sm:text-xs font-medium cursor-pointer whitespace-nowrap"
+              title="Standarddesign (Astronomischer Frühling & Sommer: 20. März – 22. September)"
+            >
+              Standard
+            </button>
+            <button
+              type="button"
+              data-season-btn="autumn"
+              class="season-footer-btn px-2 sm:px-2.5 py-1 rounded-md transition-all text-[11px] sm:text-xs font-medium cursor-pointer whitespace-nowrap"
+              title="Herbst (Astronomisch: 23. September – 30. November)"
+            >
+              🍂 Herbst
+            </button>
+            <button
+              type="button"
+              data-season-btn="christmas"
+              class="season-footer-btn px-2 sm:px-2.5 py-1 rounded-md transition-all text-[11px] sm:text-xs font-medium cursor-pointer whitespace-nowrap"
+              title="Weihnachten (1. Dezember – 25. Dezember)"
+            >
+              🎄 Weihnachten
+            </button>
+            <button
+              type="button"
+              data-season-btn="winter"
+              class="season-footer-btn px-2 sm:px-2.5 py-1 rounded-md transition-all text-[11px] sm:text-xs font-medium cursor-pointer whitespace-nowrap"
+              title="Winter (Astronomisch: 26. Dezember – 19. März)"
+            >
+              ❄️ Winter
+            </button>
+          </div>
+        </div>
+      </div>
     </footer>
 
     <!-- "Nach oben" Floating Button -->

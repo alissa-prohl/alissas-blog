@@ -4,9 +4,13 @@
 @theme {
   --color-header: #8fb895;
   --color-footer: #bfe0c4;
+  --default-font-family: var(--font-mono);
+  --font-sans: var(--font-mono);
 }
 
-html {
+html,
+body {
+  font-family: var(--font-mono);
   scroll-behavior: smooth;
 }
 
@@ -29,15 +33,15 @@ main section p,
 /* ============================================================== */
 
 article h1 {
-  @apply text-3xl font-bold my-3 text-slate-800 dark:text-slate-100;
+  @apply text-2xl sm:text-3xl font-bold my-4 uppercase tracking-widest text-slate-800 dark:text-slate-100;
 }
 
 article h2 {
-  @apply text-2xl font-bold my-3 text-slate-800 dark:text-slate-100;
+  @apply text-xl sm:text-2xl font-bold my-3 uppercase tracking-widest text-slate-800 dark:text-slate-100;
 }
 
 article h3 {
-  @apply text-xl font-bold my-2 text-slate-800 dark:text-slate-100;
+  @apply text-lg sm:text-xl font-bold my-2 uppercase tracking-wider text-slate-800 dark:text-slate-100;
 }
 
 article p {
@@ -83,5 +87,397 @@ article .grid-4 img {
   @apply my-0 max-w-full h-40 sm:h-48 w-full object-cover;
 }
 
+/* ============================================================== */
+/* SAISONALE DESIGNS (Meteorologisch & Manuell umschaltbar)       */
+/* Standard: Frühling & Sommer (Alpengrün)                       */
+/* Herbst: Warmer Kupfer- & Lärchenwald                          */
+/* Winter & Weihnachten: Kristallines Eisblau & Schieferberge    */
+/* Special: 01.12.–25.12. Rentiere & Schlitten im Dark Mode      */
+/* ============================================================== */
+
+/* -------------------------------------------------------------- */
+/* 1. HERBST (1. September – 30. November)                        */
+/* Im Light Mode: Warmer Kupfer- & Lärchenwald                     */
+/* Im Dark Mode: Standard Dark Mode Look + dezent fallende Blätter */
+/* -------------------------------------------------------------- */
+html.autumn:not(.dark) header {
+  background: linear-gradient(135deg, #c98350 0%, #dfa06c 40%, #ebd3b6 100%) !important;
+}
+html.autumn:not(.dark) footer {
+  background: linear-gradient(135deg, #c98350 0%, #ebd3b6 100%) !important;
+}
+
+/* Berge Herbst (nur Light Mode: Kastanienbraun & Kupferwald) */
+html.autumn:not(.dark) .mountain-layer-1,
+html.autumn:not(.dark) path[id="mountain-layer-1"] {
+  fill: #4a3429 !important;
+}
+html.autumn:not(.dark) .mountain-layer-2,
+html.autumn:not(.dark) path[id="mountain-layer-2"] {
+  fill: #ab5d35 !important;
+}
+
+/* Akzente Herbst (nur Light Mode: Bernstein) */
+html.autumn:not(.dark) #latest-category,
+html.autumn:not(.dark) .season-accent,
+html.autumn:not(.dark) a[id="latest-link"] {
+  color: #b45309 !important;
+}
+html.autumn:not(.dark) a[id="latest-link"]:hover {
+  color: #78350f !important;
+}
 
 
+/* -------------------------------------------------------------- */
+/* HERBST-SPECIAL: Ganz dezent fallende Blätter im Light Mode     */
+/* Nur aktiv, wenn Herbst UND Light Mode aktiv sind               */
+/* -------------------------------------------------------------- */
+#autumn-leaves {
+  display: none;
+}
+html.autumn:not(.dark) #autumn-leaves {
+  display: block;
+}
+
+@keyframes leafDrift1 {
+  0% {
+    transform: translateY(-20px) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  40% {
+    transform: translateY(80px) translateX(18px) rotate(45deg);
+  }
+  75% {
+    transform: translateY(170px) translateX(-12px) rotate(110deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(260px) translateX(15px) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+@keyframes leafDrift2 {
+  0% {
+    transform: translateY(-20px) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  45% {
+    transform: translateY(90px) translateX(-20px) rotate(-50deg);
+  }
+  70% {
+    transform: translateY(165px) translateX(14px) rotate(-100deg);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateY(260px) translateX(-15px) rotate(-170deg);
+    opacity: 0;
+  }
+}
+
+@keyframes leafDrift3 {
+  0% {
+    transform: translateY(-20px) translateX(0) rotate(25deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateY(105px) translateX(16px) rotate(-20deg);
+  }
+  80% {
+    transform: translateY(180px) translateX(-10px) rotate(65deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(260px) translateX(12px) rotate(140deg);
+    opacity: 0;
+  }
+}
+
+
+/* -------------------------------------------------------------- */
+/* 2. WINTER & WEIHNACHTEN (Gleiches Design: 01. Dez – Ende Feb)   */
+/* -------------------------------------------------------------- */
+html.winter header,
+html.christmas header {
+  background: linear-gradient(135deg, #638ba8 0%, #8faec5 45%, #deecf6 100%) !important;
+}
+html.winter.dark header,
+html.christmas.dark header {
+  background: linear-gradient(to bottom, #030814 0%, #0a182f 50%, #142d50 100%) !important;
+}
+html.winter footer,
+html.christmas footer {
+  background: linear-gradient(135deg, #638ba8 0%, #deecf6 100%) !important;
+}
+html.winter.dark footer,
+html.christmas.dark footer {
+  background: linear-gradient(to top right, #020409 0%, #0a182f 100%) !important;
+}
+
+/* Berge Winter & Weihnachten: Frostige Schieferfelsen & Eisblau */
+html.winter .mountain-layer-1,
+html.winter path[id="mountain-layer-1"],
+html.christmas .mountain-layer-1,
+html.christmas path[id="mountain-layer-1"] {
+  fill: #3a4f63 !important;
+}
+html.winter .mountain-layer-2,
+html.winter path[id="mountain-layer-2"],
+html.christmas .mountain-layer-2,
+html.christmas path[id="mountain-layer-2"] {
+  fill: #6d8ba1 !important;
+}
+html.winter.dark .mountain-layer-1,
+html.winter.dark path[id="mountain-layer-1"],
+html.christmas.dark .mountain-layer-1,
+html.christmas.dark path[id="mountain-layer-1"] {
+  fill: #264366 !important;
+}
+html.winter.dark .mountain-layer-2,
+html.winter.dark path[id="mountain-layer-2"],
+html.christmas.dark .mountain-layer-2,
+html.christmas.dark path[id="mountain-layer-2"] {
+  fill: #14273e !important;
+}
+
+/* Akzente Winter & Weihnachten: Eisblau & Gletscher-Cyan */
+html.winter #latest-category,
+html.winter .season-accent,
+html.winter a[id="latest-link"],
+html.christmas #latest-category,
+html.christmas .season-accent,
+html.christmas a[id="latest-link"] {
+  color: #0284c7 !important;
+}
+html.winter.dark #latest-category,
+html.winter.dark .season-accent,
+html.winter.dark a[id="latest-link"],
+html.christmas.dark #latest-category,
+html.christmas.dark .season-accent,
+html.christmas.dark a[id="latest-link"] {
+  color: #38bdf8 !important;
+}
+html.winter a[id="latest-link"]:hover,
+html.christmas a[id="latest-link"]:hover {
+  color: #0369a1 !important;
+}
+html.winter.dark a[id="latest-link"]:hover,
+html.christmas.dark a[id="latest-link"]:hover {
+  color: #7dd3fc !important;
+}
+
+
+/* -------------------------------------------------------------- */
+/* 2b. SCHNEE-EFFEKT (Winter & Weihnachten)                       */
+/* Winter: Schneit in Light Mode UND Dark Mode                    */
+/* Weihnachten: Schneit NUR im Light Mode                         */
+/* -------------------------------------------------------------- */
+#winter-snow {
+  display: none;
+}
+html.winter #winter-snow {
+  display: block;
+}
+html.christmas:not(.dark) #winter-snow {
+  display: block;
+}
+
+@keyframes snowFall1 {
+  0% {
+    transform: translateY(-12px) translateX(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(270px) translateX(20px);
+    opacity: 0;
+  }
+}
+
+@keyframes snowFall2 {
+  0% {
+    transform: translateY(-12px) translateX(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateY(270px) translateX(-18px);
+    opacity: 0;
+  }
+}
+
+@keyframes snowFall3 {
+  0% {
+    transform: translateY(-12px) translateX(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.95;
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(270px) translateX(12px);
+    opacity: 0;
+  }
+}
+
+
+/* -------------------------------------------------------------- */
+/* 3. WEIHNACHTS-SPECIAL: Rentiere & Schlitten am Nachthimmel       */
+/* Nur aktiv, wenn Weihnachten (01.12.–25.12.) & Dark Mode aktiv  */
+/* -------------------------------------------------------------- */
+#christmas-sleigh {
+  display: none;
+}
+html.christmas.dark #christmas-sleigh {
+  display: block;
+}
+
+@keyframes santaFlight {
+  0% {
+    transform: translateX(-400px) translateY(12px);
+    opacity: 0;
+  }
+  4% {
+    opacity: 0.95;
+  }
+  48% {
+    transform: translateX(calc(50vw - 160px)) translateY(0px);
+    opacity: 0.95;
+  }
+  96% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateX(calc(100vw + 60px)) translateY(-15px);
+    opacity: 0;
+  }
+}
+
+.santa-flying {
+  animation: santaFlight 22s linear infinite;
+  animation-delay: -3s;
+  will-change: transform;
+}
+
+
+/* -------------------------------------------------------------- */
+/* 4. STERNSCHNUPPEN IM STANDARD DARKMODE                         */
+/* Nur aktiv im Dark Mode, wenn nicht Winter oder Weihnachten     */
+/* -------------------------------------------------------------- */
+#shooting-stars {
+  display: none;
+}
+html.dark:not(.winter):not(.christmas) #shooting-stars {
+  display: block;
+}
+
+.shooting-star {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  height: 2px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 40%, rgba(255, 255, 255, 1) 100%);
+  border-radius: 9999px;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.9));
+  will-change: transform, opacity;
+}
+
+.shooting-star::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: -1.5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 6px 2px #ffffff, 0 0 12px 4px rgba(147, 197, 253, 0.8);
+}
+
+.shooting-star-1 {
+  top: 14%;
+  left: 12%;
+  width: 110px;
+  animation: shootingStar1 14s ease-in infinite;
+  animation-delay: 2s;
+}
+
+.shooting-star-2 {
+  top: 8%;
+  left: 55%;
+  width: 90px;
+  animation: shootingStar2 20s ease-in infinite;
+  animation-delay: 8s;
+}
+
+@keyframes shootingStar1 {
+  0% {
+    transform: translate(0, 0) rotate(26deg);
+    opacity: 0;
+  }
+  1.5% {
+    opacity: 1;
+  }
+  8% {
+    opacity: 1;
+  }
+  11% {
+    transform: translate(290px, 141px) rotate(26deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(290px, 141px) rotate(26deg);
+    opacity: 0;
+  }
+}
+
+@keyframes shootingStar2 {
+  0% {
+    transform: translate(0, 0) rotate(30deg);
+    opacity: 0;
+  }
+  1.5% {
+    opacity: 1;
+  }
+  6% {
+    opacity: 1;
+  }
+  9% {
+    transform: translate(240px, 138px) rotate(30deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(240px, 138px) rotate(30deg);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shooting-star,
+  .santa-flying {
+    animation: none !important;
+    display: none !important;
+  }
+}
