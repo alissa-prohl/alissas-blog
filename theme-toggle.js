@@ -120,9 +120,13 @@ function initToggles() {
   function updateSeasonUI(currentSeason) {
     const meta = seasonMeta[currentSeason] || seasonMeta.standard;
 
-    // Trigger Button im Footer aktualisieren
+    // Trigger Button im Inhaltsbereich aktualisieren
     if (seasonIcon) seasonIcon.textContent = meta.icon;
     if (seasonLabel) seasonLabel.textContent = meta.label;
+    if (seasonMenuBtn) {
+      seasonMenuBtn.setAttribute("title", `Jahreszeit auswählen (Aktuell: ${meta.label})`);
+      seasonMenuBtn.setAttribute("aria-label", `Jahreszeit auswählen (Aktuell: ${meta.label})`);
+    }
 
     // Optionen im Modal hervorheben
     document.querySelectorAll("[data-season-btn]").forEach((btn) => {
@@ -155,25 +159,13 @@ function initToggles() {
     seasonModal.classList.remove("hidden");
     if (seasonMenuBtn) seasonMenuBtn.setAttribute("aria-expanded", "true");
     if (seasonArrow) seasonArrow.classList.add("rotate-180");
-    requestAnimationFrame(() => {
-      if (seasonModalCard) {
-        seasonModalCard.classList.remove("scale-95", "opacity-0");
-        seasonModalCard.classList.add("scale-100", "opacity-100");
-      }
-    });
   }
 
   function closeSeasonModal() {
     if (!seasonModal) return;
+    seasonModal.classList.add("hidden");
     if (seasonMenuBtn) seasonMenuBtn.setAttribute("aria-expanded", "false");
     if (seasonArrow) seasonArrow.classList.remove("rotate-180");
-    if (seasonModalCard) {
-      seasonModalCard.classList.remove("scale-100", "opacity-100");
-      seasonModalCard.classList.add("scale-95", "opacity-0");
-    }
-    setTimeout(() => {
-      seasonModal.classList.add("hidden");
-    }, 150);
   }
 
   if (seasonMenuBtn) {
