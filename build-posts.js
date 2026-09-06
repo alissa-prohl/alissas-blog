@@ -206,15 +206,15 @@ export function buildPosts() {
         ? categoryArticles
             .map(
               (art) => `
-        <article class="bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col justify-between border border-slate-100 dark:border-slate-700/60">
+        <a href="${art.url}" class="group block bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col justify-between border border-slate-100 dark:border-slate-700/60 cursor-pointer">
           <div>
-            <a href="${art.url}" class="block overflow-hidden">
-              <img src="${art.image}" alt="${art.title}" class="w-full h-48 object-cover hover:scale-105 transition-transform duration-300 mx-auto" />
-            </a>
+            <div class="block overflow-hidden">
+              <img src="${art.image}" alt="${art.title}" class="w-full h-48 object-cover opacity-95 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 mx-auto" />
+            </div>
             <div class="p-5 flex flex-col gap-2">
               <span class="text-xs text-slate-400 dark:text-slate-400 uppercase tracking-wider">${art.date}</span>
-              <h2 class="font-bold text-xl leading-snug uppercase tracking-widest text-slate-800 dark:text-slate-100 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">
-                <a href="${art.url}">${art.title}</a>
+              <h2 class="font-bold text-xl leading-snug uppercase tracking-widest text-slate-800 dark:text-slate-100 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
+                ${art.title}
               </h2>
               <p class="line-clamp-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                 ${art.preview}
@@ -222,11 +222,11 @@ export function buildPosts() {
             </div>
           </div>
           <div class="p-5 pt-0">
-            <a href="${art.url}" class="text-xs font-bold uppercase tracking-wider text-header dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors">
+            <span class="text-xs font-bold uppercase tracking-wider text-header dark:text-emerald-400 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors">
               Beitrag lesen →
-            </a>
+            </span>
           </div>
-        </article>`
+        </a>`
             )
             .join("\n")
         : `        <p class="text-slate-500 dark:text-slate-400 italic col-span-full py-8 text-center">Noch keine Beiträge in dieser Kategorie vorhanden.</p>`;
