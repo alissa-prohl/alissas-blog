@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="./style.css" rel="stylesheet" />
     <title>Alissas Blog</title>
-    <script src="./theme-toggle.js"></script>
+    <script src="./theme-toggle.js?v=20260906-3"></script>
   </head>
   <body class="min-h-screen flex flex-col justify-between bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-mono transition-colors duration-300">
     <header class="relative bg-header dark:bg-gradient-to-b dark:from-[#030712] dark:via-[#0c1e3d] dark:to-[#172e54] w-full overflow-hidden pt-6 pb-28 sm:pb-36 md:pb-44 lg:pb-52 transition-colors duration-300"> 
@@ -280,13 +280,15 @@
       <button
         id="season-menu-btn"
         type="button"
+        onclick="openSeasonModal(event)"
+        ontouchend="openSeasonModal(event)"
         aria-haspopup="dialog"
         aria-expanded="false"
         aria-label="Jahreszeit auswählen"
         title="Jahreszeit auswählen"
         class="absolute right-4 sm:right-6 top-4 sm:top-6 w-11 h-11 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer text-xl touch-manipulation z-20"
       >
-        <span id="season-menu-icon" class="select-none leading-none">🌱</span>
+        <span id="season-menu-icon" class="pointer-events-none select-none leading-none">🌱</span>
       </button>
 
       <h2 class="text-center text-2xl font-bold my-6 uppercase tracking-widest text-slate-900 dark:text-white transition-colors duration-300 px-12 sm:px-0">
@@ -331,6 +333,7 @@
     <!-- Jahreszeiten Auswahl-Modal (mobil & desktop perfekt zentriert, ohne Bar-Konflikte) -->
     <div
       id="season-modal"
+      onclick="handleBackdropClick(event)"
       class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs cursor-pointer"
       role="dialog"
       aria-modal="true"
@@ -348,8 +351,9 @@
           <button
             id="season-modal-close"
             type="button"
+            onclick="closeSeasonModal(event)"
             aria-label="Schließen"
-            class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-sm font-bold cursor-pointer"
+            class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-base font-bold cursor-pointer touch-manipulation"
           >
             ✕
           </button>
@@ -358,38 +362,102 @@
           <button
             type="button"
             data-season-btn="standard"
-            class="season-option-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-colors cursor-pointer text-left text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/60 active:bg-slate-200 dark:active:bg-slate-700"
+            onclick="selectSeason('standard', event)"
+            class="season-option-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-colors cursor-pointer touch-manipulation text-left text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/60 active:bg-slate-200 dark:active:bg-slate-700"
           >
-            <span class="flex items-center gap-2.5"><span class="text-base">🌱</span> Standard (Frühling/Sommer)</span>
-            <span class="season-check hidden text-emerald-600 dark:text-emerald-400 font-bold">✓</span>
+            <span class="pointer-events-none flex items-center gap-2.5"><span class="text-base">🌱</span> Standard (Frühling/Sommer)</span>
+            <span class="season-check pointer-events-none hidden text-emerald-600 dark:text-emerald-400 font-bold">✓</span>
           </button>
           <button
             type="button"
             data-season-btn="autumn"
-            class="season-option-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-colors cursor-pointer text-left text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/60 active:bg-slate-200 dark:active:bg-slate-700"
+            onclick="selectSeason('autumn', event)"
+            class="season-option-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-colors cursor-pointer touch-manipulation text-left text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/60 active:bg-slate-200 dark:active:bg-slate-700"
           >
-            <span class="flex items-center gap-2.5"><span class="text-base">🍂</span> Herbst</span>
-            <span class="season-check hidden text-amber-600 dark:text-amber-400 font-bold">✓</span>
+            <span class="pointer-events-none flex items-center gap-2.5"><span class="text-base">🍂</span> Herbst</span>
+            <span class="season-check pointer-events-none hidden text-amber-600 dark:text-amber-400 font-bold">✓</span>
           </button>
           <button
             type="button"
             data-season-btn="christmas"
-            class="season-option-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-colors cursor-pointer text-left text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/60 active:bg-slate-200 dark:active:bg-slate-700"
+            onclick="selectSeason('christmas', event)"
+            class="season-option-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-colors cursor-pointer touch-manipulation text-left text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/60 active:bg-slate-200 dark:active:bg-slate-700"
           >
-            <span class="flex items-center gap-2.5"><span class="text-base">🎄</span> Weihnachten</span>
-            <span class="season-check hidden text-red-500 dark:text-red-400 font-bold">✓</span>
+            <span class="pointer-events-none flex items-center gap-2.5"><span class="text-base">🎄</span> Weihnachten</span>
+            <span class="season-check pointer-events-none hidden text-red-500 dark:text-red-400 font-bold">✓</span>
           </button>
           <button
             type="button"
             data-season-btn="winter"
-            class="season-option-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-colors cursor-pointer text-left text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/60 active:bg-slate-200 dark:active:bg-slate-700"
+            onclick="selectSeason('winter', event)"
+            class="season-option-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-colors cursor-pointer touch-manipulation text-left text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/60 active:bg-slate-200 dark:active:bg-slate-700"
           >
-            <span class="flex items-center gap-2.5"><span class="text-base">❄️</span> Winter</span>
-            <span class="season-check hidden text-sky-500 dark:text-sky-400 font-bold">✓</span>
+            <span class="pointer-events-none flex items-center gap-2.5"><span class="text-base">❄️</span> Winter</span>
+            <span class="season-check pointer-events-none hidden text-sky-500 dark:text-sky-400 font-bold">✓</span>
           </button>
         </div>
       </div>
     </div>
+
+    <!-- Inline Jahreszeiten-Controller (100% verlässlich auf Mobilgeräten) -->
+    <script>
+      window.modalOpenedAt = 0;
+
+      function openSeasonModal(e) {
+        if (e) {
+          if (e.preventDefault) e.preventDefault();
+          if (e.stopPropagation) e.stopPropagation();
+        }
+        const modal = document.getElementById("season-modal");
+        if (!modal) return;
+        window.modalOpenedAt = Date.now();
+        modal.classList.remove("hidden");
+        const btn = document.getElementById("season-menu-btn");
+        if (btn) btn.setAttribute("aria-expanded", "true");
+      }
+
+      function closeSeasonModal(e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        const modal = document.getElementById("season-modal");
+        if (!modal) return;
+        modal.classList.add("hidden");
+        const btn = document.getElementById("season-menu-btn");
+        if (btn) btn.setAttribute("aria-expanded", "false");
+      }
+
+      function handleBackdropClick(e) {
+        // Ghost-Click auf Touchscreens ignorieren (innerhalb 500ms nach dem Öffnen)
+        if (Date.now() - (window.modalOpenedAt || 0) < 500) {
+          return;
+        }
+        const card = document.getElementById("season-modal-card");
+        if (card && !card.contains(e.target)) {
+          closeSeasonModal(e);
+        }
+      }
+
+      function selectSeason(season, e) {
+        if (e) {
+          if (e.preventDefault) e.preventDefault();
+          if (e.stopPropagation) e.stopPropagation();
+        }
+        if (window.setSeason) {
+          window.setSeason(season);
+        } else {
+          document.documentElement.classList.remove("spring", "summer", "autumn", "christmas", "winter", "standard");
+          if (season === "autumn" || season === "winter" || season === "christmas") {
+            document.documentElement.classList.add(season);
+          }
+          try { sessionStorage.setItem("season", season); } catch(err){}
+          closeSeasonModal();
+        }
+      }
+
+      window.openSeasonModal = openSeasonModal;
+      window.closeSeasonModal = closeSeasonModal;
+      window.handleBackdropClick = handleBackdropClick;
+      window.selectSeason = selectSeason;
+    </script>
 
     <!-- Lädt automatisch den obersten Eintrag aus posts.json -->
     <script>

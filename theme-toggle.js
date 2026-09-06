@@ -29,10 +29,24 @@ const getMeteorologicalSeason = getAstronomicalSeason;
 
 // 1. Frühe Prüfung beim Seitenladen: Verhindert jegliches Aufflackern
 (function () {
+  function safeLocalGet(key) {
+    try {
+      return window.localStorage ? localStorage.getItem(key) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+  function safeLocalSet(key, val) {
+    try {
+      if (window.localStorage) localStorage.setItem(key, val);
+    } catch (e) {}
+  }
+
   // --- Dark Mode ---
+  const savedTheme = safeLocalGet("theme");
   if (
-    localStorage.getItem("theme") === "dark" ||
-    (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
+    savedTheme === "dark" ||
+    (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)
   ) {
     document.documentElement.classList.add("dark");
   } else {
@@ -88,6 +102,12 @@ function initToggles() {
     } catch (e) {}
   }
 
+  function safeLocalSet(key, val) {
+    try {
+      if (window.localStorage) localStorage.setItem(key, val);
+    } catch (e) {}
+  }
+
   // --- Dark Mode Button ---
   const themeBtns = document.querySelectorAll("#theme-toggle");
   themeBtns.forEach((btn) => {
@@ -97,7 +117,7 @@ function initToggles() {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       const isDark = document.documentElement.classList.toggle("dark");
-      localStorage.setItem("theme", isDark ? "dark" : "light");
+      safeLocalSet("theme", isDark ? "dark" : "light");
     });
   });
 
@@ -121,11 +141,13 @@ function initToggles() {
     const meta = seasonMeta[currentSeason] || seasonMeta.standard;
 
     // Trigger Button im Inhaltsbereich aktualisieren
-    if (seasonIcon) seasonIcon.textContent = meta.icon;
+    const sIcon = document.getElementById("season-menu-icon");
+    const sBtn = document.getElementById("season-menu-btn");
+    if (sIcon) sIcon.textContent = meta.icon;
     if (seasonLabel) seasonLabel.textContent = meta.label;
-    if (seasonMenuBtn) {
-      seasonMenuBtn.setAttribute("title", `Jahreszeit auswählen (Aktuell: ${meta.label})`);
-      seasonMenuBtn.setAttribute("aria-label", `Jahreszeit auswählen (Aktuell: ${meta.label})`);
+    if (sBtn) {
+      sBtn.setAttribute("title", `Jahreszeit auswählen (Aktuell: ${meta.label})`);
+      sBtn.setAttribute("aria-label", `Jahreszeit auswählen (Aktuell: ${meta.label})`);
     }
 
     // Optionen im Modal hervorheben
@@ -156,6 +178,7 @@ function initToggles() {
 
   function openSeasonModal() {
     if (!seasonModal) return;
+    window.modalOpenedAt = Date.now();
     seasonModal.classList.remove("hidden");
     if (seasonMenuBtn) seasonMenuBtn.setAttribute("aria-expanded", "true");
     if (seasonArrow) seasonArrow.classList.add("rotate-180");
@@ -168,7 +191,13 @@ function initToggles() {
     if (seasonArrow) seasonArrow.classList.remove("rotate-180");
   }
 
-  if (seasonMenuBtn) {
+  window.setSeason = setSeason;
+  window.updateSeasonUI = updateSeasonUI;
+  window.openSeasonModal = openSeasonModal;
+  window.closeSeasonModal = closeSeasonModal;
+
+  if (seasonMenuBtn && !seasonMenuBtn.dataset.bound) {
+    seasonMenuBtn.dataset.bound = "true";
     seasonMenuBtn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -176,17 +205,23 @@ function initToggles() {
     });
   }
 
-
-  if (seasonModalClose) {
+  if (seasonModalClose && !seasonModalClose.dataset.bound) {
+    seasonModalClose.dataset.bound = "true";
     seasonModalClose.addEventListener("click", (e) => {
       e.preventDefault();
+      e.stopPropagation();
       closeSeasonModal();
     });
   }
 
-  if (seasonModal) {
+  if (seasonModal && !seasonModal.dataset.bound) {
+    seasonModal.dataset.bound = "true";
     seasonModal.addEventListener("click", (e) => {
-      if (e.target === seasonModal) {
+      // Ignoriere Ghost-Clicks innerhalb 500ms nach dem Öffnen auf Touchscreens
+      if (Date.now() - (window.modalOpenedAt || 0) < 500) {
+        return;
+      }
+      if (e.target === seasonModal || (seasonModalCard && !seasonModalCard.contains(e.target))) {
         closeSeasonModal();
       }
     });
