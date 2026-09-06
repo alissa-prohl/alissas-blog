@@ -1,5 +1,5 @@
-// Theme & Seasons Controller (Dark Mode & Astronomische Jahreszeiten)
-// ====================================================================
+// Theme & Seasons Controller (Dark Mode & Automatische Astronomische Jahreszeiten)
+// ==============================================================================
 
 function getAstronomicalSeason(date = new Date()) {
   const month = date.getMonth() + 1; // 1 - 12
@@ -24,7 +24,7 @@ function getAstronomicalSeason(date = new Date()) {
   return "standard";
 }
 
-// Abwärtskompatibilität falls woanders referenziert
+// Abwärtskompatibilität
 const getMeteorologicalSeason = getAstronomicalSeason;
 
 // 1. Frühe Prüfung beim Seitenladen: Verhindert jegliches Aufflackern
@@ -35,11 +35,6 @@ const getMeteorologicalSeason = getAstronomicalSeason;
     } catch (e) {
       return null;
     }
-  }
-  function safeLocalSet(key, val) {
-    try {
-      if (window.localStorage) localStorage.setItem(key, val);
-    } catch (e) {}
   }
 
   // --- Dark Mode ---
@@ -53,55 +48,16 @@ const getMeteorologicalSeason = getAstronomicalSeason;
     document.documentElement.classList.remove("dark");
   }
 
-  // --- Jahreszeit: Bei Reload auf astronomisch zurücksetzen, in der Session merken ---
-  function safeSessionGet(key) {
-    try {
-      return window.sessionStorage ? sessionStorage.getItem(key) : null;
-    } catch (e) {
-      return null;
-    }
-  }
-  function safeSessionSet(key, val) {
-    try {
-      if (window.sessionStorage) sessionStorage.setItem(key, val);
-    } catch (e) {}
-  }
-  function safeSessionRemove(key) {
-    try {
-      if (window.sessionStorage) sessionStorage.removeItem(key);
-    } catch (e) {}
-  }
-
-  try {
-    const navEntry = window.performance && window.performance.getEntriesByType && window.performance.getEntriesByType("navigation")[0];
-    if (navEntry && navEntry.type === "reload") {
-      safeSessionRemove("season");
-    }
-  } catch (e) {}
-
-  const activeSeason = safeSessionGet("season") || getAstronomicalSeason();
-
+  // --- Automatische Astronomische Jahreszeit (ohne manuelle Buttons) ---
+  const activeSeason = getAstronomicalSeason();
   document.documentElement.classList.remove("spring", "summer", "autumn", "christmas", "winter", "standard");
   if (activeSeason === "autumn" || activeSeason === "winter" || activeSeason === "christmas") {
     document.documentElement.classList.add(activeSeason);
   }
 })();
 
-// 2. Toggles & Menüs aktivieren, sobald DOM bereit ist
+// 2. Toggles aktivieren, sobald DOM bereit ist
 function initToggles() {
-  function safeSessionGet(key) {
-    try {
-      return window.sessionStorage ? sessionStorage.getItem(key) : null;
-    } catch (e) {
-      return null;
-    }
-  }
-  function safeSessionSet(key, val) {
-    try {
-      if (window.sessionStorage) sessionStorage.setItem(key, val);
-    } catch (e) {}
-  }
-
   function safeLocalSet(key, val) {
     try {
       if (window.localStorage) localStorage.setItem(key, val);
@@ -120,133 +76,6 @@ function initToggles() {
       safeLocalSet("theme", isDark ? "dark" : "light");
     });
   });
-
-  // --- Jahreszeiten-Auswahl (Modal / Popup für mobile & desktop) ---
-  const seasonMenuBtn = document.getElementById("season-menu-btn");
-  const seasonModal = document.getElementById("season-modal");
-  const seasonModalCard = document.getElementById("season-modal-card");
-  const seasonModalClose = document.getElementById("season-modal-close");
-  const seasonIcon = document.getElementById("season-menu-icon");
-  const seasonLabel = document.getElementById("season-menu-label");
-  const seasonArrow = document.getElementById("season-menu-arrow");
-
-  const seasonMeta = {
-    standard: { icon: "🌱", label: "Standard" },
-    autumn: { icon: "🍂", label: "Herbst" },
-    christmas: { icon: "🎄", label: "Weihnachten" },
-    winter: { icon: "❄️", label: "Winter" }
-  };
-
-  function updateSeasonUI(currentSeason) {
-    const meta = seasonMeta[currentSeason] || seasonMeta.standard;
-
-    // Trigger Button im Inhaltsbereich aktualisieren
-    const sIcon = document.getElementById("season-menu-icon");
-    const sBtn = document.getElementById("season-menu-btn");
-    if (sIcon) sIcon.textContent = meta.icon;
-    if (seasonLabel) seasonLabel.textContent = meta.label;
-    if (sBtn) {
-      sBtn.setAttribute("title", `Jahreszeit auswählen (Aktuell: ${meta.label})`);
-      sBtn.setAttribute("aria-label", `Jahreszeit auswählen (Aktuell: ${meta.label})`);
-    }
-
-    // Optionen im Modal hervorheben
-    document.querySelectorAll("[data-season-btn]").forEach((btn) => {
-      const s = btn.getAttribute("data-season-btn");
-      const isSelected = s === currentSeason;
-      const checkEl = btn.querySelector(".season-check");
-
-      if (isSelected) {
-        btn.classList.add("bg-slate-100", "dark:bg-slate-700/80", "font-semibold");
-        if (checkEl) checkEl.classList.remove("hidden");
-      } else {
-        btn.classList.remove("bg-slate-100", "dark:bg-slate-700/80", "font-semibold");
-        if (checkEl) checkEl.classList.add("hidden");
-      }
-    });
-  }
-
-  function setSeason(season) {
-    document.documentElement.classList.remove("spring", "summer", "autumn", "christmas", "winter", "standard");
-    if (season === "autumn" || season === "winter" || season === "christmas") {
-      document.documentElement.classList.add(season);
-    }
-    safeSessionSet("season", season);
-    updateSeasonUI(season);
-    closeSeasonModal();
-  }
-
-  function openSeasonModal() {
-    if (!seasonModal) return;
-    window.modalOpenedAt = Date.now();
-    seasonModal.classList.remove("hidden");
-    if (seasonMenuBtn) seasonMenuBtn.setAttribute("aria-expanded", "true");
-    if (seasonArrow) seasonArrow.classList.add("rotate-180");
-  }
-
-  function closeSeasonModal() {
-    if (!seasonModal) return;
-    seasonModal.classList.add("hidden");
-    if (seasonMenuBtn) seasonMenuBtn.setAttribute("aria-expanded", "false");
-    if (seasonArrow) seasonArrow.classList.remove("rotate-180");
-  }
-
-  window.setSeason = setSeason;
-  window.updateSeasonUI = updateSeasonUI;
-  window.openSeasonModal = openSeasonModal;
-  window.closeSeasonModal = closeSeasonModal;
-
-  if (seasonMenuBtn && !seasonMenuBtn.dataset.bound) {
-    seasonMenuBtn.dataset.bound = "true";
-    seasonMenuBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      openSeasonModal();
-    });
-  }
-
-  if (seasonModalClose && !seasonModalClose.dataset.bound) {
-    seasonModalClose.dataset.bound = "true";
-    seasonModalClose.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      closeSeasonModal();
-    });
-  }
-
-  if (seasonModal && !seasonModal.dataset.bound) {
-    seasonModal.dataset.bound = "true";
-    seasonModal.addEventListener("click", (e) => {
-      // Ignoriere Ghost-Clicks innerhalb 500ms nach dem Öffnen auf Touchscreens
-      if (Date.now() - (window.modalOpenedAt || 0) < 500) {
-        return;
-      }
-      if (e.target === seasonModal || (seasonModalCard && !seasonModalCard.contains(e.target))) {
-        closeSeasonModal();
-      }
-    });
-  }
-
-  // Klick auf eine Jahreszeit
-  document.querySelectorAll("[data-season-btn]").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const s = btn.getAttribute("data-season-btn");
-      setSeason(s);
-    });
-  });
-
-  // ESC schließt das Modal
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      closeSeasonModal();
-    }
-  });
-
-  // Initiale Markierung
-  const initialSeason = safeSessionGet("season") || getAstronomicalSeason();
-  updateSeasonUI(initialSeason);
 }
 
 if (document.readyState === "loading") {
