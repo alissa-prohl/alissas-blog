@@ -51,6 +51,15 @@ export function buildPosts() {
     (f) => f.endsWith(".html") && f !== "template.html" && f !== "_template.html"
   );
 
+  // Remove any obsolete post files in posts/ that no longer exist in content/
+  const validFiles = new Set(files);
+  for (const existingFile of fs.readdirSync(POSTS_DIR)) {
+    if (existingFile.endsWith(".html") && !validFiles.has(existingFile)) {
+      fs.unlinkSync(path.join(POSTS_DIR, existingFile));
+      console.log(`[${new Date().toLocaleTimeString()}] Removed obsolete post: posts/${existingFile}`);
+    }
+  }
+
   const articles = [];
 
   for (const filename of files) {
@@ -85,9 +94,15 @@ export function buildPosts() {
     const titleMatch = content.match(/<h[12][^>]*>([\s\S]*?)<\/h[12]>/i);
     const title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, "").trim() : filename.replace(".html", "");
 
-    // First image in article
-    const imgMatch = content.match(/<img[^>]+src=["\x27]([^"\x27]+)["\x27]/i);
-    let image = imgMatch ? imgMatch[1].trim() : "";
+    // Image: explicit data-image on <article>, or first <img> in article
+    const dataImgMatch = attrs.match(/data-image=["\x27]([^"\x27]+)["\x27]/i);
+    let image = "";
+    if (dataImgMatch) {
+      image = dataImgMatch[1].trim();
+    } else {
+      const imgMatch = content.match(/<img[^>]+src=["\x27]([^"\x27]+)["\x27]/i);
+      image = imgMatch ? imgMatch[1].trim() : "";
+    }
     // If relative from posts/ (e.g. "../img/..."), strip leading "../"
     if (image.startsWith("../")) {
       image = image.slice(3);
@@ -137,19 +152,19 @@ export function buildPosts() {
     // Update category
     indexHtml = indexHtml.replace(
       /<span id="latest-category"[^>]*>[\s\S]*?<\/span>/i,
-      `<span id="latest-category" class="text-xs uppercase tracking-widest font-semibold text-emerald-700">${latest.category}</span>`
+      `<span id="latest-category" class="text-xs uppercase tracking-widest font-semibold text-emerald-700 dark:text-emerald-400">${latest.category}</span>`
     );
 
     // Update title
     indexHtml = indexHtml.replace(
       /<h3 id="latest-title"[^>]*>[\s\S]*?<\/h3>/i,
-      `<h3 id="latest-title" class="font-medium text-xl leading-snug text-slate-700">${latest.title}</h3>`
+      `<h3 id="latest-title" class="font-bold text-2xl sm:text-3xl leading-snug text-slate-800 dark:text-slate-100">${latest.title}</h3>`
     );
 
     // Update desc/preview
     indexHtml = indexHtml.replace(
       /<p id="latest-desc"[^>]*>[\s\S]*?<\/p>/i,
-      `<p id="latest-desc" class="line-clamp-3 text-sm text-slate-600">${latest.preview}</p>`
+      `<p id="latest-desc" class="line-clamp-4 text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">${latest.preview}</p>`
     );
 
     // Update link
@@ -191,30 +206,30 @@ export function buildPosts() {
         ? categoryArticles
             .map(
               (art) => `
-        <article class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col justify-between border border-slate-100">
+        <article class="bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col justify-between border border-slate-100 dark:border-slate-700/60">
           <div>
             <a href="${art.url}" class="block overflow-hidden">
               <img src="${art.image}" alt="${art.title}" class="w-full h-48 object-cover hover:scale-105 transition-transform duration-300 mx-auto" />
             </a>
             <div class="p-5 flex flex-col gap-2">
-              <span class="text-xs text-slate-400 uppercase tracking-wider">${art.date}</span>
-              <h2 class="font-bold text-xl leading-snug text-slate-800 hover:text-emerald-700 transition-colors">
+              <span class="text-xs text-slate-400 dark:text-slate-400 uppercase tracking-wider">${art.date}</span>
+              <h2 class="font-bold text-xl leading-snug text-slate-800 dark:text-slate-100 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">
                 <a href="${art.url}">${art.title}</a>
               </h2>
-              <p class="line-clamp-3 text-sm text-slate-600 leading-relaxed">
+              <p class="line-clamp-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                 ${art.preview}
               </p>
             </div>
           </div>
           <div class="p-5 pt-0">
-            <a href="${art.url}" class="text-xs font-bold uppercase tracking-wider text-header hover:text-emerald-700 transition-colors">
+            <a href="${art.url}" class="text-xs font-bold uppercase tracking-wider text-header dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors">
               Beitrag lesen →
             </a>
           </div>
         </article>`
             )
             .join("\n")
-        : `        <p class="text-slate-500 italic col-span-full py-8 text-center">Noch keine Beiträge in dieser Kategorie vorhanden.</p>`;
+        : `        <p class="text-slate-500 dark:text-slate-400 italic col-span-full py-8 text-center">Noch keine Beiträge in dieser Kategorie vorhanden.</p>`;
 
     // Replace posts-list using robust markers to avoid nested div matching issues
     const markerStart = "<!-- POSTS_LIST_START -->";

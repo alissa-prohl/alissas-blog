@@ -2,12 +2,6 @@ import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
 
-const SIZES = [
-  { suffix: "-400", width: 400 },
-  { suffix: "-800", width: 800 },
-  { suffix: "-1200", width: 1200 },
-];
-
 const OUTPUT_DIR = path.resolve("img");
 const RAW_DIR = path.resolve("img/raw");
 
@@ -35,18 +29,13 @@ async function optimizeFile(filePath, isRaw = false) {
   const ext = path.extname(filePath);
   const baseName = path.basename(filePath, ext);
 
-  // Skip already generated responsive variants
-  if (/-(\d{3,4})$/.test(baseName) && filePath.endsWith(".webp")) {
-    return false;
-  }
-
   const srcStat = fs.statSync(filePath);
   const image = sharp(filePath);
   const metadata = await image.metadata();
 
   let processedAny = false;
 
-  // 1. Default WebP version (max 1200px or natural width)
+  // Single clean WebP version (max 1200px width, high quality compression)
   const targetDir = isRaw ? OUTPUT_DIR : path.dirname(filePath);
   const defaultWebpPath = path.join(targetDir, `${baseName}.webp`);
   if (shouldProcess(filePath, defaultWebpPath)) {
@@ -62,26 +51,6 @@ async function optimizeFile(filePath, isRaw = false) {
     const saved = Math.round((1 - destStat.size / srcStat.size) * 100);
     console.log(`  ✓ ${path.basename(filePath)} (${formatBytes(srcStat.size)}) -> ${baseName}.webp (${formatBytes(destStat.size)}, ${saved >= 0 ? `-${saved}%` : `+${Math.abs(saved)}%`})`);
     processedAny = true;
-  }
-
-  // 2. Responsive sizes (400w, 800w, 1200w) for photos/cards
-  // Create variants if image is from img/raw or >= 500px wide
-  if (isRaw || (metadata.width && metadata.width >= 500)) {
-    for (const size of SIZES) {
-      if (metadata.width && metadata.width < size.width * 0.8) continue;
-
-      const variantPath = path.join(targetDir, `${baseName}${size.suffix}.webp`);
-      if (shouldProcess(filePath, variantPath)) {
-        await sharp(filePath)
-          .resize({ width: size.width, withoutEnlargement: true })
-          .webp({ quality: 80, effort: 4 })
-          .toFile(variantPath);
-
-        const destStat = fs.statSync(variantPath);
-        console.log(`    ↳ ${baseName}${size.suffix}.webp (${size.width}w, ${formatBytes(destStat.size)})`);
-        processedAny = true;
-      }
-    }
   }
 
   return processedAny;
