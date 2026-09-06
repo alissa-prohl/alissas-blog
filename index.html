@@ -291,20 +291,24 @@
         <span id="season-menu-icon" class="pointer-events-none select-none leading-none">🌱</span>
       </button>
 
-      <h2 class="text-center text-2xl font-bold my-6 uppercase tracking-widest text-slate-900 dark:text-white transition-colors duration-300 px-12 sm:px-0">
+      <h2 class="text-center text-3xl font-bold my-6 uppercase tracking-widest text-slate-900 dark:text-white transition-colors duration-300 px-12 sm:px-0">
         Alissas Blog
       </h2>
       <h3 class="text-center text-lg font-mono font-medium my-2 text-slate-700 dark:text-slate-300 transition-colors duration-300">
         Aktuellster Beitrag:
       </h3>
       <section class="w-full max-w-2xl mb-12 mx-auto px-2">
-        <section class="rounded-xl shadow-md hover:shadow-lg bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700/60 overflow-hidden flex flex-col justify-between transition-all duration-300">
+        <a
+          id="latest-link"
+          href="posts/movie-park.html"
+          class="group block rounded-xl shadow-md hover:shadow-lg bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700/60 overflow-hidden flex flex-col justify-between transition-all duration-300 cursor-pointer"
+        >
           <div>
             <picture>
               <source id="latest-source" srcset="img/MoviePark/M1.webp" type="image/webp" />
               <img
                 id="latest-img"
-                class="rounded-t-xl opacity-90 hover:opacity-100 w-full h-64 sm:h-80 object-cover transition-opacity duration-200"
+                class="rounded-t-xl opacity-90 group-hover:opacity-100 w-full h-64 sm:h-80 object-cover transition-opacity duration-200"
                 src="img/MoviePark/M1.webp"
                 alt="Neuester Beitrag"
                 loading="lazy"
@@ -318,11 +322,11 @@
             </div>
           </div>
           <div class="p-6 sm:p-7 pt-0">
-            <a id="latest-link" href="posts/movie-park.html" class="inline-flex items-center gap-1 text-sm font-bold uppercase tracking-wider text-header dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors">
+            <span class="inline-flex items-center gap-1 text-sm font-bold uppercase tracking-wider text-header dark:text-emerald-400 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors">
               Weiterlesen →
-            </a>
+            </span>
           </div>
-        </section>
+        </a>
       </section>
     </main>
 
