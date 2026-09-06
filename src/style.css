@@ -481,3 +481,39 @@ html.dark:not(.winter):not(.christmas) #shooting-stars {
     display: none !important;
   }
 }
+
+/* -------------------------------------------------------------- */
+/* 5. SCROLL-TO-TOP BUTTON FARBANPASSUNGEN PRO JAHRESZEIT        */
+/* -------------------------------------------------------------- */
+html.autumn:not(.dark) #scroll-to-top {
+  background-color: #c98350 !important;
+  color: #ffffff !important;
+}
+html.autumn:not(.dark) #scroll-to-top:hover {
+  background-color: #b45309 !important;
+}
+html.autumn.dark #scroll-to-top {
+  background-color: #1e293b !important;
+  border-color: #475569 !important;
+}
+
+html.winter:not(.dark) #scroll-to-top,
+html.christmas:not(.dark) #scroll-to-top {
+  background-color: #5b84a3 !important;
+  color: #ffffff !important;
+}
+html.winter:not(.dark) #scroll-to-top:hover,
+html.christmas:not(.dark) #scroll-to-top:hover {
+  background-color: #436986 !important;
+}
+html.winter.dark #scroll-to-top,
+html.christmas.dark #scroll-to-top {
+  background-color: #1e3a5f !important;
+  border-color: #38bdf8 !important;
+  color: #e0f2fe !important;
+}
+html.winter.dark #scroll-to-top:hover,
+html.christmas.dark #scroll-to-top:hover {
+  background-color: #264a78 !important;
+}
+

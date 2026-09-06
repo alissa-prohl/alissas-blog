@@ -39,9 +39,15 @@ const getMeteorologicalSeason = getAstronomicalSeason;
     document.documentElement.classList.remove("dark");
   }
 
-  // --- Jahreszeit: Immer astronomisch starten (Neuladen setzt auf aktuell zurück) ---
-  localStorage.removeItem("season");
-  const activeSeason = getAstronomicalSeason();
+  // --- Jahreszeit: Bei Reload auf astronomisch zurücksetzen, in der Session merken ---
+  try {
+    const navEntry = window.performance && window.performance.getEntriesByType && window.performance.getEntriesByType("navigation")[0];
+    if (navEntry && navEntry.type === "reload") {
+      sessionStorage.removeItem("season");
+    }
+  } catch (e) {}
+
+  const activeSeason = sessionStorage.getItem("season") || getAstronomicalSeason();
 
   document.documentElement.classList.remove("spring", "summer", "autumn", "christmas", "winter", "standard");
   if (activeSeason === "autumn" || activeSeason === "winter" || activeSeason === "christmas") {
@@ -49,7 +55,7 @@ const getMeteorologicalSeason = getAstronomicalSeason;
   }
 })();
 
-// 2. Buttons aktivieren, sobald DOM bereit ist
+// 2. Toggles & Menüs aktivieren, sobald DOM bereit ist
 function initToggles() {
   // --- Dark Mode Button ---
   const themeBtns = document.querySelectorAll("#theme-toggle");
@@ -63,42 +69,111 @@ function initToggles() {
     });
   });
 
-  // --- Jahreszeiten-Buttons UI (im Footer) ---
-  function updateSeasonButtonsUI(selectedSeason) {
+  // --- Jahreszeiten-Auswahl (Dropup Menü im Footer der Startseite) ---
+  const seasonMenuBtn = document.getElementById("season-menu-btn");
+  const seasonDropdown = document.getElementById("season-menu-dropdown");
+  const seasonPickerContainer = document.getElementById("season-picker-container");
+  const seasonIcon = document.getElementById("season-menu-icon");
+  const seasonLabel = document.getElementById("season-menu-label");
+  const seasonArrow = document.getElementById("season-menu-arrow");
+
+  const seasonMeta = {
+    standard: { icon: "🌱", label: "Standard" },
+    autumn: { icon: "🍂", label: "Herbst" },
+    christmas: { icon: "🎄", label: "Weihnachten" },
+    winter: { icon: "❄️", label: "Winter" }
+  };
+
+  function updateSeasonUI(currentSeason) {
+    const meta = seasonMeta[currentSeason] || seasonMeta.standard;
+
+    // Trigger Button aktualisieren
+    if (seasonIcon) seasonIcon.textContent = meta.icon;
+    if (seasonLabel) seasonLabel.textContent = meta.label;
+
+    // Optionen im Dropdown hervorheben
     document.querySelectorAll("[data-season-btn]").forEach((btn) => {
       const s = btn.getAttribute("data-season-btn");
-      const isSelected = s === selectedSeason;
+      const isSelected = s === currentSeason;
+      const checkEl = btn.querySelector(".season-check");
 
       if (isSelected) {
-        btn.className = "season-footer-btn px-2 sm:px-2.5 py-1 rounded-md transition-all text-[11px] sm:text-xs font-semibold cursor-pointer whitespace-nowrap bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm ring-1 ring-black/5 dark:ring-white/10";
+        btn.classList.add("bg-slate-100", "dark:bg-slate-700/80", "font-semibold");
+        if (checkEl) checkEl.classList.remove("hidden");
       } else {
-        btn.className = "season-footer-btn px-2 sm:px-2.5 py-1 rounded-md transition-all text-[11px] sm:text-xs font-medium cursor-pointer whitespace-nowrap text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/40 dark:hover:bg-slate-700/40";
+        btn.classList.remove("bg-slate-100", "dark:bg-slate-700/80", "font-semibold");
+        if (checkEl) checkEl.classList.add("hidden");
       }
     });
   }
 
-  // Manuelle Umschaltung durch den Nutzer (ohne Speichern im localStorage, damit Reload zurücksetzt)
   function setSeason(season) {
     document.documentElement.classList.remove("spring", "summer", "autumn", "christmas", "winter", "standard");
     if (season === "autumn" || season === "winter" || season === "christmas") {
       document.documentElement.classList.add(season);
     }
-    updateSeasonButtonsUI(season);
+    sessionStorage.setItem("season", season);
+    updateSeasonUI(season);
+    closeDropdown();
   }
 
-  // Beim Laden aktuellen Zustand (astronomisch) im Button markieren
-  updateSeasonButtonsUI(getAstronomicalSeason());
+  function toggleDropdown() {
+    if (!seasonDropdown) return;
+    const isHidden = seasonDropdown.classList.contains("hidden");
+    if (isHidden) {
+      openDropdown();
+    } else {
+      closeDropdown();
+    }
+  }
 
-  // Klick-Events binden
+  function openDropdown() {
+    if (!seasonDropdown) return;
+    seasonDropdown.classList.remove("hidden");
+    if (seasonMenuBtn) seasonMenuBtn.setAttribute("aria-expanded", "true");
+    if (seasonArrow) seasonArrow.classList.add("rotate-180");
+  }
+
+  function closeDropdown() {
+    if (!seasonDropdown) return;
+    seasonDropdown.classList.add("hidden");
+    if (seasonMenuBtn) seasonMenuBtn.setAttribute("aria-expanded", "false");
+    if (seasonArrow) seasonArrow.classList.remove("rotate-180");
+  }
+
+  if (seasonMenuBtn) {
+    seasonMenuBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleDropdown();
+    });
+  }
+
+  // Klick auf eine Jahreszeit
   document.querySelectorAll("[data-season-btn]").forEach((btn) => {
-    if (btn.dataset.seasonBound) return;
-    btn.dataset.seasonBound = "true";
-
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
       const s = btn.getAttribute("data-season-btn");
       setSeason(s);
     });
   });
+
+  // Klick außerhalb schließt das Dropdown
+  document.addEventListener("click", (e) => {
+    if (seasonPickerContainer && !seasonPickerContainer.contains(e.target)) {
+      closeDropdown();
+    }
+  });
+
+  // ESC schließt das Dropdown
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeDropdown();
+    }
+  });
+
+  // Initiale Markierung
+  const initialSeason = sessionStorage.getItem("season") || getAstronomicalSeason();
+  updateSeasonUI(initialSeason);
 }
 
 if (document.readyState === "loading") {
