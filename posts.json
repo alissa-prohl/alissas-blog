@@ -8,6 +8,14 @@
     "url": "posts/movie-park.html"
   },
   {
+    "category": "Abenteuer",
+    "title": "Fjordwind & Wikingermünzen",
+    "date": "21.06.2026",
+    "image": "img/Denmark2026/Ringköbing.webp",
+    "preview": "Eine einsame Hütte, ein großer Garten, wenige Meter vom Fjord entfernt, Softeis und 8 Tage die Seele baumeln lassen. Genauso hatten wir uns unseren Dänemark-Urlaub vorgestellt.",
+    "url": "posts/denmark2026.html"
+  },
+  {
     "category": "Projekte",
     "title": "Projekt 2: Retrogaming",
     "date": "01.06.2026",

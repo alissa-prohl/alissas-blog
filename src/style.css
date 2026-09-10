@@ -86,10 +86,14 @@ article .grid-4 {
   @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 my-6 max-w-3xl;
 }
 
-/* In Grids füllen die Bilder ihre Spalte perfekt und haben gleiche Höhe */
+/* In 2er- und 3er-Grids behalten Bilder ihr volles natürliches Seitenverhältnis ohne Beschneidung */
 article .grid img,
 article .grid-2 img,
-article .grid-3 img,
+article .grid-3 img {
+  @apply my-0 max-w-full h-auto w-full object-cover rounded-lg;
+}
+
+/* In dichten 4er-Thumbnail-Grids (wie Movie Park) einheitliche Kachelhöhe */
 article .grid-4 img {
   @apply my-0 max-w-full h-40 sm:h-48 w-full object-cover;
 }

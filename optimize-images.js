@@ -39,10 +39,8 @@ async function optimizeFile(filePath, isRaw = false) {
   const targetDir = isRaw ? OUTPUT_DIR : path.dirname(filePath);
   const defaultWebpPath = path.join(targetDir, `${baseName}.webp`);
   if (shouldProcess(filePath, defaultWebpPath)) {
-    const pipeline = sharp(filePath);
-    if (metadata.width && metadata.width > 1200) {
-      pipeline.resize({ width: 1200, withoutEnlargement: true });
-    }
+    const pipeline = sharp(filePath).rotate();
+    pipeline.resize({ width: 1200, withoutEnlargement: true });
     await pipeline
       .webp({ quality: 82, effort: 4 })
       .toFile(defaultWebpPath);

@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="./style.css" rel="stylesheet" />
-    <title>Abenteuer</title>
-    <script src="./theme-toggle.js"></script>
+    <link href="../style.css" rel="stylesheet" />
+    <title>Fjordwind & Wikingermünzen - Alissa's Blog</title>
+    <script src="../theme-toggle.js"></script>
   </head>
   <body class="min-h-screen flex flex-col justify-between bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-mono transition-colors duration-300">
     <!-- Header mit Navigation und Bergen -->
@@ -182,14 +182,14 @@
         <!-- Zentrierte Hauptnavigation -->
         <nav class="flex gap-8 text-sm font-medium tracking-wider">
           <a
-            href="projects.html"
+            href="../projects.html"
             class="group flex flex-col items-center gap-2 text-white hover:text-slate-300"
           >
             <div
               class="w-14 h-14 bg-white rounded-full p-2 flex items-center justify-center shadow-sm"
             >
-              <img id="projects"
-                src="./img/programmer.png"
+              <img
+                src="../img/programmer.png"
                 alt="Projekte"
                 class="w-full h-full object-contain"
               />
@@ -198,14 +198,14 @@
           </a>
 
           <a
-            href="music.html"
+            href="../music.html"
             class="group flex flex-col items-center gap-2 text-white hover:text-slate-300"
           >
             <div
               class="w-14 h-14 bg-white rounded-full p-2 flex items-center justify-center shadow-sm"
             >
-              <img id="music"
-                src="./img/guitar.png"
+              <img
+                src="../img/guitar.png"
                 alt="Musik"
                 class="w-full h-full object-contain"
               />
@@ -214,14 +214,14 @@
           </a>
 
           <a
-            href="adventures.html"
+            href="../adventures.html"
             class="group flex flex-col items-center gap-2 text-white hover:text-slate-300"
           >
             <div
               class="w-14 h-14 bg-white rounded-full p-2 flex items-center justify-center shadow-sm"
             >
-              <img id="adventures"
-                src="./img/backpack.png"
+              <img
+                src="../img/backpack.png"
                 alt="Abenteuer"
                 class="w-full h-full object-contain"
               />
@@ -263,92 +263,250 @@
         </button>
       </div>
 
-      <!-- Berge am unteren Rand (3 Schichten: Dunkelgrün hinten, Mittelgrün mittig, Weiß im Vordergrund) -->
+      <!-- Berge am unteren Rand -->
       <div class="absolute bottom-0 left-0 w-full leading-none pointer-events-none">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="w-full h-28 sm:h-36 md:h-44 lg:h-52 block" preserveAspectRatio="none">
-          <!-- 1. HINTERE BERGE (Dunkles Alpingrün) -->
+          <!-- 1. HINTERE BERGE -->
           <path id="mountain-layer-1" class="fill-[#284032] dark:fill-[#24385a] transition-colors duration-300" d="M0,185 L70,140 L170,75 L280,145 L400,115 L510,145 L640,95 L735,65 L780,85 L820,60 L910,130 L1030,80 L1120,115 L1180,75 L1270,155 L1360,110 L1440,135 L1440,320 L0,320 Z"></path>
-          <!-- 2. MITTLERE BERGE (Waldgrün) -->
+          <!-- 2. MITTLERE BERGE -->
           <path id="mountain-layer-2" class="fill-[#3c5c45] dark:fill-[#19273f] transition-colors duration-300" d="M0,230 L50,205 L125,145 L220,180 L340,135 L460,195 L610,125 L710,105 L770,110 L840,130 L930,155 L1010,115 L1100,150 L1170,130 L1260,190 L1340,160 L1440,215 L1440,320 L0,320 Z"></path>
-          <!-- 3. VORDERSTE BERGE (Weiß, nahtloser Übergang in den Bloginhalt) -->
+          <!-- 3. VORDERSTE BERGE -->
           <path id="mountain-layer-3" class="fill-white dark:fill-slate-900 transition-colors duration-300" d="M0,305 L60,260 L150,185 L270,245 L410,215 L530,255 L670,205 L760,170 L830,180 L920,230 L1040,185 L1140,215 L1200,185 L1290,265 L1370,230 L1440,250 L1440,320 L0,320 Z"></path>
         </svg>
       </div>
     </header>
 
     <main class="max-w-4xl mx-auto px-4 py-8 font-mono w-full flex-grow">
-      <nav class="mb-6">
-        <a href="index.html" class="text-sm text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors">
-          ← Zurück zur Startseite
+      <!-- Zurück-Link zur passenden Kategorie -->
+      <nav class="mb-6 flex justify-between items-center">
+        <a href="../adventures.html" class="text-sm text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors">
+          ← Zurück zu Abenteuer
+        </a>
+        <a href="../index.html" class="text-sm text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors">
+          Startseite
         </a>
       </nav>
 
-      <section class="mb-10">
-        <h1 class="text-center text-4xl font-bold my-6 uppercase tracking-widest text-slate-900 dark:text-white transition-colors duration-300">
-          Unsere Abenteuer
-        </h1>
-        <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
-          Hier nehme ich dich mit auf unsere Ausflüge und Reisen. Ich halte die
-          Momente fest, die uns besonders in Erinnerung geblieben sind.
-        </p>
-      </section>
+<article data-category="Abenteuer" data-image="../img/Denmark2026/Ringköbing.webp"  class="my-4">
+  <time>21.06.2026</time>
+  <h1>Fjordwind & Wikingermünzen</h1>
 
-      <hr class="border-slate-200 dark:border-slate-700 my-8" />
+  <p>
+    Eine einsame Hütte, ein großer Garten, wenige Meter vom Fjord entfernt,
+    Softeis und 8 Tage die Seele baumeln lassen. Genauso hatten wir uns
+    unseren Dänemark-Urlaub vorgestellt.
+  </p>
 
-      <!-- ============================================================== -->
-      <!-- BLOG-BEITRÄGE (Wird automatisch von build-posts.js befüllt)     -->
-      <!-- ============================================================== -->
-      <!-- POSTS_LIST_START -->
-      <div id="posts-list" class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+    <img src="../img/Denmark2026/Hütte.webp" alt="Unsere Hütte in Dänemark" />
+  
+  <p>
+    Auch wenn die Hinreise eher frustrierend war und wir am nächsten Morgen
+    mit viel zu vielen Ameisen im Wintergarten aufgewacht sind, waren wir guter Dinge.
+  </p>
 
-        <a href="posts/movie-park.html" class="group block bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col justify-between border border-slate-100 dark:border-slate-700/60 cursor-pointer">
-          <div>
-            <div class="block overflow-hidden">
-              <img src="img/MoviePark/M1.webp" alt="4th July im Movie Park 🇺🇸" class="w-full h-48 object-cover opacity-95 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 mx-auto" />
-            </div>
-            <div class="p-5 flex flex-col gap-2">
-              <span class="text-xs text-slate-400 dark:text-slate-400 uppercase tracking-wider">04.07.2026</span>
-              <h2 class="font-bold text-xl leading-snug uppercase tracking-widest text-slate-800 dark:text-slate-100 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
-                4th July im Movie Park 🇺🇸
-              </h2>
-              <p class="line-clamp-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                Seit 2022 begleitet mich meine Sony A7iV durch meinen Alltag und auf Reisen. Vorher hatte ich die Sony A7iii und davor die Canon EOS 1100D. Man sieht, ich hatte immer ein Fable für große Kameras.
-              </p>
-            </div>
-          </div>
-          <div class="p-5 pt-0">
-            <span class="text-xs font-bold uppercase tracking-wider text-header dark:text-emerald-400 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors">
-              Beitrag lesen →
-            </span>
-          </div>
-        </a>
+  <p>
+    So machten wir uns am ersten Tag direkt auf eine 5km Wanderung vom Sandalenweg
+    zum Bork Havn. Wir liefen am Fjord entlang und das war richtig schön. Wenige
+    Menschen, viel Natur. Der Hafen hat uns auch sehr gut gefallen und es gab dort
+    auch zufällig noch einen großen Flohmarkt. Das ist ja was für mich!
+  </p>
 
-        <a href="posts/denmark2026.html" class="group block bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col justify-between border border-slate-100 dark:border-slate-700/60 cursor-pointer">
-          <div>
-            <div class="block overflow-hidden">
-              <img src="img/Denmark2026/Ringköbing.webp" alt="Fjordwind & Wikingermünzen" class="w-full h-48 object-cover opacity-95 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 mx-auto" />
-            </div>
-            <div class="p-5 flex flex-col gap-2">
-              <span class="text-xs text-slate-400 dark:text-slate-400 uppercase tracking-wider">21.06.2026</span>
-              <h2 class="font-bold text-xl leading-snug uppercase tracking-widest text-slate-800 dark:text-slate-100 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
-                Fjordwind & Wikingermünzen
-              </h2>
-              <p class="line-clamp-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                Eine einsame Hütte, ein großer Garten, wenige Meter vom Fjord entfernt, Softeis und 8 Tage die Seele baumeln lassen. Genauso hatten wir uns unseren Dänemark-Urlaub vorgestellt.
-              </p>
-            </div>
-          </div>
-          <div class="p-5 pt-0">
-            <span class="text-xs font-bold uppercase tracking-wider text-header dark:text-emerald-400 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors">
-              Beitrag lesen →
-            </span>
-          </div>
-        </a>
-      </div>
-      <!-- POSTS_LIST_END -->
+  <div class="grid-2">
+    <img src="../img/Denmark2026/Wanderung.webp" alt="Wanderung zum Bork Havn" />
+    <img src="../img/Denmark2026/Bork.webp" alt="Bork Havn" />
+  </div>
+  
+
+  <p>
+    Nach der langen Autofahrt am Vortag waren wir danach allerdings ziemlich platt
+    und dann fing es auch noch an zu regnen. Der Rückweg war dementsprechend
+    nicht mehr ganz so angenehm.
+  </p>
+
+  <p>
+    Der Regen ließ Gott sei Dank schnell nach und wir konnten den Grill anschmeißen.
+    Darauf hatten wir uns schließlich ganz besonders gefreut. Allerdings haben wir
+    auch zum ersten Mal einen Grill angeschmissen und waren damit nur so semi-erfolgreich.
+  </p>
+
+  <img src="../img/Denmark2026/Grill.webp" alt="Grillen im Garten" />
+
+  <p>
+    Das Fleisch war am Ende aber essbar und wir hatten Backkartoffeln für die ganze
+    Woche übrig. An den nächsten Tagen haben wir auch gegrillt und wir wurden uns,
+    bis uns am letzten Tag die Grillkohle ausging, stetig besser. Im lokalen
+    Supermarkt hatten wir im Laufe der Woche noch Grillfleisch besorgt, das zum
+    Highlight des Urlaubs wurde.
+  </p>
+
+  <p>
+    Besonders in Erinnerung geblieben ist mir der Tag in Ringkøbing, einer kleinen
+    Hafenstadt am Ringkøbing Fjord. Dort sind wir durch die kleinen Gassen geschlendert.
+  </p>
+
+  <div class="grid-3">
+    <img src="../img/Denmark2026/Ringköbing.webp" alt="Gassen in Ringkøbing" />
+    <img src="../img/Denmark2026/Ringköbing2.webp" alt="Ringkøbing Impressionen" />
+    <img src="../img/Denmark2026/Ringköbing3.webp" alt="Am Hafen von Ringkøbing" />
+  </div>
+
+  <p>
+    Wir hatten außerdem einen Tisch im "Hos Dodo" reserviert, einem kleinen
+    Ein-Mann-Laden in einem Hinterhof. Das Restaurant war gemütlich und rustikal,
+    wahrscheinlich ganz in rumänischem Stil, eingerichtet und man wurde, glaube ich,
+    direkt vom Inhaber bedient. Und der war total herzlich und hat sich noch mit
+    allen Gästen nett unterhalten. Und sowohl meine Fish & Chips als auch Hennings
+    Burger waren sehr zu empfehlen!
+  </p>
+
+  <div class="grid-2">
+    <img src="../img/Denmark2026/DosHoto.webp" alt="Fish & Chips bei Hos Dodo" />
+    <img src="../img/Denmark2026/Burger.webp" alt="Hennings Burger bei Hos Dodo" />
+  </div>
+
+  <p>
+    Dort habe ich auch zum ersten Mal Faxe Kondi Appelsin getrunken und darin mein
+    neues Lieblingsgetränk entdeckt. Zufällig waren die Dosen dort auch bei Netto
+    im Angebot und ich hatte den ganzen Urlaub was davon.
+  </p>
+
+  <img src="../img/Denmark2026/FaxeKondi.webp" alt="Faxe Kondi Appelsin" />
+
+  <p>
+    An einem Tag waren wir am Leuchtturm Lyngvig Fyr. Die Autofahrt dahin war
+    schon ein Erlebnis an sich. Wir haben zum Beispiel einen kleinen Fuchs über
+    die Straße laufen sehen.
+  </p>
+
+  <img src="../img/Denmark2026/Fuchs.webp" alt="Kleiner Fuchs am Straßenrand" />
+
+  <p>
+    Den Leuchtturm haben wir uns nur von außen angesehen
+    und sind dann durch die Dünen zum Strand gelaufen. Wir hatten eine Decke
+    mitgenommen und genossen an diesem riesigen weißen (und vor allem zumindest
+    anfangs sehr leeren) Strand das Meeresrauschen.
+  </p>
+
+  <div class="grid-2">
+    <img src="../img/Denmark2026/Leuchtturm.webp" alt="Leuchtturm Lyngvig Fyr" />
+    <img src="../img/Denmark2026/Leuchtturm2.webp" alt="Lyngvig Fyr in den Dünen" />
+  </div>
+
+  <p>
+    Und wo wir schon so nah am Bork Havn wohnten, mussten wir uns natürlich auch
+    unbedingt den Vikingehavn anschauen, ein kleines Wikinger Freilichtmuseum.
+    Es war dort nicht besonders viel los und wir denken, dass es in der Hochsaison
+    noch ein bisschen mehr zu sehen gibt, aber so konnte man sich alles in Ruhe
+    angucken. Wir haben uns außerdem Münzen für verschiedene Aktivitäten gekauft.
+    Als erstes haben wir damit Fladenbrot gebacken. Das war gar nicht so einfach,
+    weil wir keinen Pfannenwender gefunden haben. Bis wir herausgefunden hatten,
+    wie das funktionieren sollte, hatte ich den Teig schon so lange in der Hand,
+    dass die Hälfte an meinen Fingern kleben blieb. Dann klappte es aber endlich
+    und das Fladenbrot war wirklich sehr lecker. Später haben wir dann noch unsere
+    Namen in Form von Runen in Armbänder eingraviert.
+  </p>
+
+  <div class="grid-2">
+    <img src="../img/Denmark2026/Vikingmuseum.webp" alt="Bork Vikingehavn" />
+    <img src="../img/Denmark2026/Vikingemuseum2.webp" alt="Wikinger Freilichtmuseum" />
+  </div>
+
+  <img src="../img/Denmark2026/Münzen.webp" alt="Wikingermünzen" />
+
+  <img src="../img/Denmark2026/Fladenbrot.webp" alt="Fladenbrot backen" />
+
+
+    <img src="../img/Denmark2026/Armbänder.webp" alt="Runen in Armbänder gravieren" />
+
+  <p>
+    Das Softeis haben wir an zwei Stellen getestet: Einmal am Bork Havn und
+    einmal in einem kleinen Café, das wir zufällig gefunden hatten. Dort hatte ich
+    eine belgische Waffel mit Softeis drauf und das war sooooooooo lecker.
+  </p>
+
+  <div class="grid-2">
+    <img src="../img/Denmark2026/Softeis.webp" alt="Softeis am Bork Havn" />
+    <img src="../img/Denmark2026/Softeiswaffel.webp" alt="Belgische Waffel mit Softeis" />
+  </div>
+
+  <p>
+    Ansonsten haben wir auch viel Zeit in Hemmet verbracht. In ungefähr 5 Minuten
+    waren wir am Fjord und dort haben wir dann an einem Abend einen Steg für uns
+    beansprucht (es war sowieso niemand dort) und ein bisschen die Seele baumeln
+    lassen und Kalaha gespielt. An einem anderen Tag saßen wir auf einer Bank
+    und haben einfach nur lange auf den Fjord geschaut und überlegt, was für
+    besondere Tiere wohl darin herumschwimmen (auch wenn es wahrscheinlich gar
+    keine Tiere, sondern Bojen waren). 
+  </p>
+
+  <div class="grid-2">
+    <img src="../img/Denmark2026/Steg.webp" alt="Steg am Fjord" />
+    <img src="../img/Denmark2026/Kalaha.webp" alt="Kalaha auf dem Steg am Fjord" />
+  </div>
+
+
+  <p>
+    In unserem Garten haben wir fast jeden
+    Abend Federball gespielt. In der Nachbareinfahrt sahen wir mal einen riesigen
+    Feldhasen sitzen und hofften jedes Mal darauf, ihn noch einmal zu sehen.
+    Das ist aber leider nicht passiert.
+  </p>
+
+  <p>
+    Am letzten Tag war es richtig warm und sonnig und wir machten uns auf eine
+    Wanderung irgendwo durch die Dünen. Dort entdeckten wir neben zahlreichen
+    Insekten auch viele Wildpferde. Wir kamen an einem riesigen, leeren Strand
+    aus und machten es uns auch da erst mal gemütlich. 
+    </p>
+
+
+    <div class="grid-2">
+    <img src="../img/Denmark2026/Strand.webp" alt="Weiter Strand" />
+    <img src="../img/Denmark2026/Strand2.webp" alt="Strand in Henne Strand" />
+  </div>
+    
+    <p>
+    Als wir weiterliefen,
+    stellten wir fest, dass sich an einem Strandabschnitt in der Nähe sehr viele
+    Menschen tummelten. Das haben wir nicht verstanden, weil doch 100 Meter weiter
+    alles so leer war. Aber manche Menschen mögen es vielleicht so. Der
+    Strandabschnitt grenzte an ein kleines Örtchen, Henne Strand, wo wir die
+    leckersten Zimtschnecken gekauft haben, die ich je gegessen habe.
+    </p> 
+
+    <img src="../img/Denmark2026/Zimtschnecke.webp" alt="Zimtschnecken aus Henne Strand" />
+    
+    <p>
+    Insgesamt
+    waren wir knapp 8,51 km unterwegs und das war bei dem Wetter doch relativ
+    anstrengend. Aber wir haben es genauso genossen, wie unseren letzten Abend
+    am Strand, an dem wir uns den Sonnenuntergang angeschaut haben.
+  </p>
+
+    <img src="../img/Denmark2026/Sonnenuntergang2.webp" alt="Sonnenuntergang am Meer" />
+
+  <p>
+    Aber obwohl ich bei unserer Wanderung die ganze Zeit eine Kappe getragen und
+    wir uns mehrfach eingecremt haben, merkte ich in der Nacht dann doch einen
+    Sonnenstich. Das Tierreich in unserer Hütte nahm auch so langsam Überhand und
+    die Spinne hinter meinem Kissen gab mir den letzten Rest. Es war Zeit nach
+    Hause zu fahren.
+  </p>
+
+  <p>
+    Und so schalteten wir am Samstag noch ein letztes Mal Radio Klitholm ein,
+    genossen die leckeren Brötchen von Dagli'Brugsen und beobachteten die Schnecken
+    an den Bäumen, die zum ersten Mal in der Woche aus ihren Häusern kamen.
+  </p>
+
+  <div class="grid-2">
+    <img src="../img/Denmark2026/Schnecke1.webp" alt="Schnecke am Baum 1" />
+    <img src="../img/Denmark2026/Schnecke2.webp" alt="Schnecke am Baum 2" />
+  </div>
+</article>
     </main>
 
-    <footer class="bg-footer bg-gradient-to-tr from-header to-footer dark:from-slate-950 dark:to-slate-900 font-mono mx-auto px-4 py-8 w-full text-slate-800 dark:text-slate-400 border-t border-transparent dark:border-slate-800 transition-colors duration-300">
+    <footer class="bg-footer bg-gradient-to-tr from-header to-footer dark:from-slate-950 dark:to-slate-900 font-mono max-w-4xl mx-auto px-4 py-8 w-full text-slate-800 dark:text-slate-400 border-t border-transparent dark:border-slate-800 transition-colors duration-300">
       <p>&copy; 2026 Alissa Prohl</p>
     </footer>
 
@@ -363,6 +521,7 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
       </svg>
     </button>
-    <script src="./scroll-to-top.js"></script>
+    <script src="../scroll-to-top.js"></script>
+    <script src="../lightbox.js"></script>
   </body>
 </html>

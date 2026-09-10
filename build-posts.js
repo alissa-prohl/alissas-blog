@@ -107,6 +107,10 @@ export function buildPosts() {
     if (image.startsWith("../")) {
       image = image.slice(3);
     }
+    const webpCandidate = image.replace(/\.(?:jpe?g|png)$/i, ".webp");
+    if (fs.existsSync(path.resolve(webpCandidate))) {
+      image = webpCandidate;
+    }
 
     if (!image || image.includes("dein-bild") || !fs.existsSync(path.resolve(image))) {
       image = catConfig.fallbackImage;
@@ -126,12 +130,26 @@ export function buildPosts() {
       url: `posts/${filename}`,
     });
 
+    // Automatically convert any image reference to .webp in the post content if .webp exists
+    const processedArticleHtml = articleHtml.replace(
+      /(<img[^>]+src=["'])([^"']+\.(?:jpe?g|png))(["'][^>]*>)/gi,
+      (match, prefix, src, suffix) => {
+        const cleanPath = src.startsWith("../") ? src.slice(3) : src;
+        const webpPath = cleanPath.replace(/\.(?:jpe?g|png)$/i, ".webp");
+        if (fs.existsSync(path.resolve(webpPath))) {
+          const newSrc = (src.startsWith("../") ? "../" : "") + webpPath;
+          return `${prefix}${newSrc}${suffix}`;
+        }
+        return match;
+      }
+    );
+
     // Generate standalone post file in posts/
     const renderedPost = layoutTemplate
       .replace(/{{TITLE}}/g, `${title} - Alissa's Blog`)
       .replace(/{{CATEGORY_PAGE}}/g, catConfig.file)
       .replace(/{{CATEGORY_NAME}}/g, catConfig.name)
-      .replace(/{{CONTENT}}/g, articleHtml);
+      .replace(/{{CONTENT}}/g, processedArticleHtml);
 
     fs.writeFileSync(path.join(POSTS_DIR, filename), renderedPost, "utf-8");
   }
