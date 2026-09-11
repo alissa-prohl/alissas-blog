@@ -65,25 +65,26 @@ article img {
   @apply block w-full max-w-md rounded-lg shadow-sm my-4 object-cover mx-auto cursor-zoom-in transition-all duration-200 hover:brightness-105 active:scale-95;
 }
 
-/* Bild-Galerien und Foto-Grids */
+/* Bild-Galerien und Foto-Grids: Gehen immer über die volle Textbreite (bis zu den Rändern) */
 article .grid,
 article .grid-2,
 article .grid-3,
 article .grid-4 {
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
 
 article .grid-2 {
-  @apply grid grid-cols-1 sm:grid-cols-2 gap-4 my-6 max-w-xl;
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-4 my-6 w-full;
 }
 
 article .grid-3 {
-  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 my-6 max-w-2xl;
+  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 my-6 w-full;
 }
 
 article .grid-4 {
-  @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 my-6 max-w-3xl;
+  @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 my-6 w-full;
 }
 
 /* In 2er- und 3er-Grids behalten Bilder ihr volles natürliches Seitenverhältnis ohne Beschneidung */

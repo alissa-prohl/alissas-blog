@@ -149,7 +149,8 @@ export function buildPosts() {
       .replace(/{{TITLE}}/g, `${title} - Alissa's Blog`)
       .replace(/{{CATEGORY_PAGE}}/g, catConfig.file)
       .replace(/{{CATEGORY_NAME}}/g, catConfig.name)
-      .replace(/{{CONTENT}}/g, processedArticleHtml);
+      .replace(/{{CONTENT}}/g, processedArticleHtml)
+      .replace(/{{BUILD_TIME}}/g, Date.now());
 
     fs.writeFileSync(path.join(POSTS_DIR, filename), renderedPost, "utf-8");
   }
