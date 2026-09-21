@@ -1,6 +1,14 @@
 [
   {
     "category": "Abenteuer",
+    "title": "Von Rafting und Schildkröten...",
+    "date": "05.09.2026",
+    "image": "img/backpack.webp",
+    "preview": "Im August haben wir endlich mal wieder einen All-Inclusive-Urlaub gemacht. Wir waren in der Türkei, genauer gesagt in Side, genauer gesagt in Evrenseki. Das liegt hier:",
+    "url": "posts/türkei-2026.html"
+  },
+  {
+    "category": "Abenteuer",
     "title": "4th July im Movie Park 🇺🇸",
     "date": "04.07.2026",
     "image": "img/MoviePark/M1.webp",
@@ -30,5 +38,13 @@
     "image": "img/Agfamatic/Agfamatic-3000.webp",
     "preview": "Letzte Woche habe ich eine alte Agfamatic 3000 in einem Second-Hand-Shop in Winterswijk gefunden. Die Ritsch-Ratsch-Kameras waren Mitte der 70er sehr beliebt. Und für 5€ wollte ich sie auf jeden Fall mitnehmen!",
     "url": "posts/agfamatic-3000.html"
+  },
+  {
+    "category": "Abenteuer",
+    "title": "Wintertraum im Phantasialand & Hotel Matamba",
+    "date": "02.12.2025",
+    "image": "img/backpack.webp",
+    "preview": "Dieses Jahr buchten wir neben unseren Phantasialand Wintertraum Tickets auch eine Übernachtung im Hotel Matamba. Und das erwies sich als die beste Entscheidung, die wir hätten treffen können. Unser Video dazu kannst du dir übrigens hier anschauen:",
+    "url": "posts/phantasialand2025.html"
   }
 ]

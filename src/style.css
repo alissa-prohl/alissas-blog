@@ -99,6 +99,55 @@ article .grid-4 img {
   @apply my-0 max-w-full h-40 sm:h-48 w-full object-cover;
 }
 
+/* Landkarten-Container mit animiertem Marker / Pfeil */
+article .map-container {
+  @apply relative w-full max-w-2xl mx-auto my-6 rounded-lg overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800;
+}
+
+article .map-container img {
+  @apply my-0 max-w-full w-full h-auto block rounded-none;
+}
+
+/* Sanft hüpfender Positions-Pfeil */
+@keyframes mapPinBounce {
+  0%, 100% {
+    transform: translate(-50%, -100%) translateY(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translate(-50%, -100%) translateY(-10px);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.map-arrow-bounce {
+  animation: mapPinBounce 1.5s infinite;
+}
+
+/* Responsive YouTube Video Embed */
+article .video-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-block: calc(var(--spacing) * 6);
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+:where(.dark, .dark *) article .video-container {
+  border-color: rgba(51, 65, 85, 0.6);
+}
+
+article .video-container iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 /* ============================================================== */
 /* SAISONALE DESIGNS (Meteorologisch & Manuell umschaltbar)       */
 /* Standard: Frühling & Sommer (Alpengrün)                       */
@@ -488,7 +537,8 @@ html.dark:not(.winter):not(.christmas) #shooting-stars {
 
 @media (prefers-reduced-motion: reduce) {
   .shooting-star,
-  .santa-flying {
+  .santa-flying,
+  .map-arrow-bounce {
     animation: none !important;
     display: none !important;
   }
