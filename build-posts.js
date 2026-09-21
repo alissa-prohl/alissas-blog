@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import sharp from "sharp";
 
 const CONTENT_DIR = path.resolve("content");
 const POSTS_DIR = path.resolve("posts");
@@ -30,7 +31,78 @@ function parseDate(dateStr) {
   return 0;
 }
 
-export function buildPosts() {
+/**
+ * Optimiert Bilder-Raster bei gemischten Seitenverhältnissen (z. B. Hoch- und Querformat nebeneinander).
+ * Berechnet automatisch die Spaltenverhältnisse über sharp Metadata, sodass alle Bilder im Raster
+ * exakt dieselbe Höhe erhalten, ohne verzerrt oder beschnitten zu werden.
+ */
+async function autoAdjustMixedGrids(html) {
+  const gridRegex = /(<div[^>]*class=["']([^"']*\b(?:grid|grid-2|grid-3)\b[^"']*)["'][^>]*>)([\s\S]*?)(<\/div>)/gi;
+  const matches = [...html.matchAll(gridRegex)];
+  if (matches.length === 0) return html;
+
+  let result = html;
+
+  for (const match of matches) {
+    const [fullBlock, openTag, classNames, innerHtml, closeTag] = match;
+
+    if (
+      /\b(?:grid-pl|grid-lp|grid-plp|grid-lpl|grid-4)\b/.test(classNames) ||
+      /grid-template-columns/i.test(openTag)
+    ) {
+      continue;
+    }
+
+    const imgMatches = [...innerHtml.matchAll(/<img[^>]+src=["']([^"']+)["'][^>]*>/gi)];
+    if (imgMatches.length < 2 || imgMatches.length > 4) continue;
+
+    const ratios = [];
+    for (const m of imgMatches) {
+      let src = m[1].trim();
+      if (src.startsWith("../")) src = src.slice(3);
+      const webpPath = src.replace(/\.(?:jpe?g|png)$/i, ".webp");
+      const resolved = fs.existsSync(path.resolve(webpPath))
+        ? path.resolve(webpPath)
+        : (fs.existsSync(path.resolve(src)) ? path.resolve(src) : null);
+      if (resolved) {
+        try {
+          const meta = await sharp(resolved).metadata();
+          if (meta.width && meta.height) {
+            ratios.push(+(meta.width / meta.height).toFixed(3));
+          }
+        } catch (e) {
+          // ignore
+        }
+      }
+    }
+
+    if (ratios.length === imgMatches.length) {
+      const maxR = Math.max(...ratios);
+      const minR = Math.min(...ratios);
+      if (maxR / minR > 1.15) {
+        const cols = ratios.map((r) => `${r}fr`).join(" ");
+        const count = ratios.length;
+
+        let newOpenTag = openTag;
+        if (/style=["']/i.test(newOpenTag)) {
+          newOpenTag = newOpenTag.replace(
+            /style=["']([^"']*)["']/i,
+            `style="$1; --grid-cols: ${cols};" data-cols="${count}"`
+          );
+        } else {
+          newOpenTag = newOpenTag.replace(/>$/, ` style="--grid-cols: ${cols};" data-cols="${count}">`);
+        }
+
+        const newBlock = `${newOpenTag}${innerHtml}${closeTag}`;
+        result = result.replace(fullBlock, newBlock);
+      }
+    }
+  }
+
+  return result;
+}
+
+export async function buildPosts() {
   const startTime = Date.now();
   console.log(`[${new Date().toLocaleTimeString()}] Scanning content directory...`);
 
@@ -94,6 +166,11 @@ export function buildPosts() {
     const titleMatch = content.match(/<h[12][^>]*>([\s\S]*?)<\/h[12]>/i);
     const title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, "").trim() : filename.replace(".html", "");
 
+    if (title === "Dein Beitragstitel hier") {
+      console.log(`[${new Date().toLocaleTimeString()}] Skipping unedited draft: content/${filename}`);
+      continue;
+    }
+
     // Image: explicit data-image on <article>, or first <img> in article
     const dataImgMatch = attrs.match(/data-image=["\x27]([^"\x27]+)["\x27]/i);
     let image = "";
@@ -131,7 +208,7 @@ export function buildPosts() {
     });
 
     // Automatically convert any image reference to .webp in the post content if .webp exists
-    const processedArticleHtml = articleHtml.replace(
+    let processedArticleHtml = articleHtml.replace(
       /(<img[^>]+src=["'])([^"']+\.(?:jpe?g|png))(["'][^>]*>)/gi,
       (match, prefix, src, suffix) => {
         const cleanPath = src.startsWith("../") ? src.slice(3) : src;
@@ -143,6 +220,9 @@ export function buildPosts() {
         return match;
       }
     );
+
+    // Automatically optimize mixed aspect ratio image grids so images share the exact same height
+    processedArticleHtml = await autoAdjustMixedGrids(processedArticleHtml);
 
     // Generate standalone post file in posts/
     const renderedPost = layoutTemplate
@@ -275,10 +355,8 @@ export function buildPosts() {
 
 // Run directly if invoked from CLI
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve("build-posts.js")) {
-  try {
-    buildPosts();
-  } catch (err) {
+  buildPosts().catch((err) => {
     console.error("build-posts failed:", err);
     process.exit(1);
-  }
+  });
 }

@@ -40,6 +40,14 @@
     "url": "posts/agfamatic-3000.html"
   },
   {
+    "category": "Projekte",
+    "title": "Movie Park Christmas",
+    "date": "03.01.2026",
+    "image": "img/MovieParkChristmas2026/weihnachtskugel.webp",
+    "preview": "Schreibe hier deinen Text. Durch das zentrale Design werden Überschriften, Absätze und Bilder automatisch einheitlich formatiert (im Blocksatz, mit Silbentrennung und passenden Abständen) – du musst keine Tailwind-Klassen angeben!",
+    "url": "posts/movie-park-christmas2026.html"
+  },
+  {
     "category": "Abenteuer",
     "title": "Wintertraum im Phantasialand",
     "date": "02.12.2025",

@@ -87,10 +87,55 @@ article .grid-4 {
   @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 my-6 w-full;
 }
 
-/* In 2er- und 3er-Grids behalten Bilder ihr volles natürliches Seitenverhältnis ohne Beschneidung */
+/* Grids für gemischte Bildformate (Hochformat & Querformat nebeneinander bei gleicher Höhe) */
+article .grid-pl,
+article .grid-portrait-landscape {
+  @apply grid grid-cols-1 sm:grid-cols-[1fr_2.45fr] gap-4 my-6 w-full items-stretch;
+}
+
+article .grid-lp,
+article .grid-landscape-portrait {
+  @apply grid grid-cols-1 sm:grid-cols-[2.45fr_1fr] gap-4 my-6 w-full items-stretch;
+}
+
+article .grid-plp,
+article .grid-portrait-landscape-portrait {
+  @apply grid grid-cols-1 md:grid-cols-[1fr_2.68fr_1.13fr] gap-4 my-6 w-full items-stretch;
+}
+
+article .grid-lpl {
+  @apply grid grid-cols-1 md:grid-cols-[1.8fr_1fr_1.8fr] gap-4 my-6 w-full items-stretch;
+}
+
+/* Dynamische Spaltenverteilung für gemischte Grids über CSS-Variable --grid-cols */
+@media (min-width: 640px) {
+  article .grid-2[style*="--grid-cols"],
+  article .grid[style*="--grid-cols-2"],
+  article [data-cols="2"][style*="--grid-cols"] {
+    grid-template-columns: var(--grid-cols) !important;
+  }
+}
+
+@media (min-width: 768px) {
+  article .grid-3[style*="--grid-cols"],
+  article .grid[style*="--grid-cols-3"],
+  article [data-cols="3"][style*="--grid-cols"] {
+    grid-template-columns: var(--grid-cols) !important;
+  }
+}
+
+/* In 2er-, 3er- und gemischten Grids behalten Bilder ihr volles natürliches Seitenverhältnis ohne Beschneidung */
 article .grid img,
 article .grid-2 img,
-article .grid-3 img {
+article .grid-3 img,
+article .grid-pl img,
+article .grid-portrait-landscape img,
+article .grid-lp img,
+article .grid-landscape-portrait img,
+article .grid-plp img,
+article .grid-portrait-landscape-portrait img,
+article .grid-lpl img,
+article [data-cols] img {
   @apply my-0 max-w-full h-auto w-full object-cover rounded-lg;
 }
 

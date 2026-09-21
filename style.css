@@ -1300,7 +1300,61 @@ article .grid-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
-article .grid img, article .grid-2 img, article .grid-3 img {
+article .grid-pl, article .grid-portrait-landscape {
+  margin-block: calc(var(--spacing) * 6);
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  align-items: stretch;
+  gap: calc(var(--spacing) * 4);
+  @media (width >= 40rem) {
+    grid-template-columns: 1fr 2.45fr;
+  }
+}
+article .grid-lp, article .grid-landscape-portrait {
+  margin-block: calc(var(--spacing) * 6);
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  align-items: stretch;
+  gap: calc(var(--spacing) * 4);
+  @media (width >= 40rem) {
+    grid-template-columns: 2.45fr 1fr;
+  }
+}
+article .grid-plp, article .grid-portrait-landscape-portrait {
+  margin-block: calc(var(--spacing) * 6);
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  align-items: stretch;
+  gap: calc(var(--spacing) * 4);
+  @media (width >= 48rem) {
+    grid-template-columns: 1fr 2.68fr 1.13fr;
+  }
+}
+article .grid-lpl {
+  margin-block: calc(var(--spacing) * 6);
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  align-items: stretch;
+  gap: calc(var(--spacing) * 4);
+  @media (width >= 48rem) {
+    grid-template-columns: 1.8fr 1fr 1.8fr;
+  }
+}
+@media (min-width: 640px) {
+  article .grid-2[style*="--grid-cols"], article .grid[style*="--grid-cols-2"], article [data-cols="2"][style*="--grid-cols"] {
+    grid-template-columns: var(--grid-cols) !important;
+  }
+}
+@media (min-width: 768px) {
+  article .grid-3[style*="--grid-cols"], article .grid[style*="--grid-cols-3"], article [data-cols="3"][style*="--grid-cols"] {
+    grid-template-columns: var(--grid-cols) !important;
+  }
+}
+article .grid img, article .grid-2 img, article .grid-3 img, article .grid-pl img, article .grid-portrait-landscape img, article .grid-lp img, article .grid-landscape-portrait img, article .grid-plp img, article .grid-portrait-landscape-portrait img, article .grid-lpl img, article [data-cols] img {
   margin-block: 0px;
   height: auto;
   width: 100%;
