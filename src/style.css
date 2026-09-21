@@ -60,9 +60,9 @@ article .post-date {
   @apply text-xs text-slate-400 uppercase tracking-wider block mb-1;
 }
 
-/* Bilder immer abgerundet, zentriert und mit dezentem Schatten - klickbar zum Vergrößern */
+/* Bilder immer abgerundet, volle Textbreite und mit dezentem Schatten - klickbar zum Vergrößern */
 article img {
-  @apply block w-full max-w-md rounded-lg shadow-sm my-4 object-cover mx-auto cursor-zoom-in transition-all duration-200 hover:brightness-105 active:scale-95;
+  @apply block w-full max-w-full h-auto rounded-lg shadow-sm my-6 object-cover mx-auto cursor-zoom-in transition-all duration-200 hover:brightness-105 active:scale-95;
 }
 
 /* Bild-Galerien und Foto-Grids: Gehen immer über die volle Textbreite (bis zu den Rändern) */

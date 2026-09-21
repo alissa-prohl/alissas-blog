@@ -1232,10 +1232,11 @@ article time, article .post-date {
 }
 article img {
   margin-inline: auto;
-  margin-block: calc(var(--spacing) * 4);
+  margin-block: calc(var(--spacing) * 6);
   display: block;
+  height: auto;
   width: 100%;
-  max-width: var(--container-md);
+  max-width: 100%;
   cursor: zoom-in;
   border-radius: var(--radius-lg);
   object-fit: cover;
