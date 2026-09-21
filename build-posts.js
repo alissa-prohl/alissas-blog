@@ -224,6 +224,12 @@ export async function buildPosts() {
     // Automatically optimize mixed aspect ratio image grids so images share the exact same height
     processedArticleHtml = await autoAdjustMixedGrids(processedArticleHtml);
 
+    // Automatically convert any YouTube watch or short links inside iframes to embed URLs
+    processedArticleHtml = processedArticleHtml.replace(
+      /(<iframe[^>]+src=["'])https?:\/\/(?:www\.)?(?:youtube\.com\/watch\?(?:[^"']*&)?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})([^"']*["'][^>]*>)/gi,
+      "$1https://www.youtube-nocookie.com/embed/$2$3"
+    );
+
     // Generate standalone post file in posts/
     const renderedPost = layoutTemplate
       .replace(/{{TITLE}}/g, `${title} - Alissa's Blog`)
