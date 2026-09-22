@@ -5,6 +5,7 @@ import sharp from "sharp";
 const CONTENT_DIR = path.resolve("content");
 const POSTS_DIR = path.resolve("posts");
 const LAYOUT_PATH = path.resolve("post-layout.html");
+const SITE_URL = "https://alissa-prohl.github.io/alissas-blog";
 
 const CATEGORY_CONFIG = {
   projekte: { file: "projects.html", name: "Projekte", fallbackImage: "img/programmer.webp" },
@@ -230,9 +231,36 @@ export async function buildPosts() {
       "$1https://www.youtube-nocookie.com/embed/$2$3"
     );
 
+    // Prepare Open Graph metadata
+    const ogTitle = `${title} - Alissa's Blog`;
+    const cleanDescription = (preview || title)
+      .slice(0, 220)
+      .replace(/"/g, "&quot;");
+    const ogUrl = `${SITE_URL}/posts/${filename}`;
+    const cleanImage = image.startsWith("../") ? image.slice(3) : image;
+    const ogImage = `${SITE_URL}/${cleanImage}`;
+
+    let ogImageMeta = "";
+    try {
+      const imgDiskPath = path.resolve(cleanImage);
+      if (fs.existsSync(imgDiskPath)) {
+        const meta = await sharp(imgDiskPath).metadata();
+        if (meta && meta.width && meta.height) {
+          const mimeType = meta.format === "jpg" ? "image/jpeg" : `image/${meta.format}`;
+          ogImageMeta = `\n    <meta property="og:image:width" content="${meta.width}" />\n    <meta property="og:image:height" content="${meta.height}" />\n    <meta property="og:image:type" content="${mimeType}" />`;
+        }
+      }
+    } catch {
+      // Ignore if metadata extraction fails
+    }
+
     // Generate standalone post file in posts/
     const renderedPost = layoutTemplate
-      .replace(/{{TITLE}}/g, `${title} - Alissa's Blog`)
+      .replace(/{{TITLE}}/g, ogTitle)
+      .replace(/{{DESCRIPTION}}/g, cleanDescription)
+      .replace(/{{OG_URL}}/g, ogUrl)
+      .replace(/{{OG_IMAGE}}/g, ogImage)
+      .replace(/{{OG_IMAGE_META}}/g, ogImageMeta)
       .replace(/{{CATEGORY_PAGE}}/g, catConfig.file)
       .replace(/{{CATEGORY_NAME}}/g, catConfig.name)
       .replace(/{{CONTENT}}/g, processedArticleHtml)

@@ -3,8 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="../style.css?v={{BUILD_TIME}}" rel="stylesheet" />
     <title>{{TITLE}}</title>
+    <meta name="description" content="{{DESCRIPTION}}" />
+
+    <!-- Open Graph / WhatsApp / Facebook -->
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Alissa's Blog" />
+    <meta property="og:title" content="{{TITLE}}" />
+    <meta property="og:description" content="{{DESCRIPTION}}" />
+    <meta property="og:url" content="{{OG_URL}}" />
+    <meta property="og:image" content="{{OG_IMAGE}}" />
+    <meta property="og:image:secure_url" content="{{OG_IMAGE}}" />{{OG_IMAGE_META}}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{TITLE}}" />
+    <meta name="twitter:description" content="{{DESCRIPTION}}" />
+    <meta name="twitter:image" content="{{OG_IMAGE}}" />
+
+    <link href="../style.css?v={{BUILD_TIME}}" rel="stylesheet" />
     <script src="../theme-toggle.js"></script>
   </head>
   <body class="min-h-screen flex flex-col justify-between bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-mono transition-colors duration-300">
