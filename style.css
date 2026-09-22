@@ -502,6 +502,9 @@
   .max-w-\[90vw\] {
     max-width: 90vw;
   }
+  .max-w-\[280px\] {
+    max-width: 280px;
+  }
   .max-w-md {
     max-width: var(--container-md);
   }
