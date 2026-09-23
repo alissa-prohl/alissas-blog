@@ -1,5 +1,13 @@
 [
   {
+    "category": "Musik",
+    "title": "Neuanfang...",
+    "date": "15.09.2026",
+    "image": "img/youtube/andrew1.webp",
+    "preview": "Ich habe 2011 angefangen Gitarre zu spielen. Alles begann mit meiner Yamaha F370 und dem wöchentlichen Gitarrenunterricht in der Musikschule Kiekenbeck. Mich hat das Gitarrespielen so begeistert, dass ich es jeden Tag kaum erwarten konnte, von der Schule nach Hause zu kommen und endlich wieder zu spielen.",
+    "url": "posts/youtube.html"
+  },
+  {
     "category": "Abenteuer",
     "title": "Von Rafting und Schildkröten...",
     "date": "05.09.2026",
