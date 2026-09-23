@@ -222,6 +222,16 @@ export async function buildPosts() {
       }
     );
 
+    // Automatically normalize legacy / manual grid classes so they use standard full-width grids (grid-2, grid-3)
+    processedArticleHtml = processedArticleHtml.replace(
+      /<div[^>]*class=["'][^"']*\bgrid\b[^"']*\b(?:sm:grid-cols-2|grid-cols-2)\b[^"']*\b(?:md:grid-cols-3|grid-cols-3)\b[^"']*["'][^>]*>/gi,
+      '<div class="grid-3">'
+    );
+    processedArticleHtml = processedArticleHtml.replace(
+      /<div[^>]*class=["'][^"']*\bgrid\b[^"']*\b(?:sm:grid-cols-2|grid-cols-2)\b[^"']*["'][^>]*>/gi,
+      '<div class="grid-2">'
+    );
+
     // Automatically optimize mixed aspect ratio image grids so images share the exact same height
     processedArticleHtml = await autoAdjustMixedGrids(processedArticleHtml);
 
