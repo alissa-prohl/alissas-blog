@@ -127,7 +127,9 @@ async function processArticleImages(html) {
       const beforeHtml = result.slice(0, tagIndex);
       const lastGridOpen = Math.max(
         beforeHtml.lastIndexOf('<div class="grid'),
-        beforeHtml.lastIndexOf("<div class='grid")
+        beforeHtml.lastIndexOf("<div class='grid"),
+        beforeHtml.lastIndexOf('<div class="map-container'),
+        beforeHtml.lastIndexOf("<div class='map-container")
       );
       const lastGridClose = beforeHtml.lastIndexOf("</div>");
       if (lastGridOpen > lastGridClose) {

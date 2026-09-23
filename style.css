@@ -255,8 +255,8 @@
   .top-4 {
     top: calc(var(--spacing) * 4);
   }
-  .top-\[81\%\] {
-    top: 81%;
+  .top-\[82\.5\%\] {
+    top: 82.5%;
   }
   .right-0 {
     right: 0px;
@@ -297,11 +297,11 @@
   .left-\[38\%\] {
     left: 38%;
   }
-  .left-\[41\.3\%\] {
-    left: 41.3%;
-  }
   .left-\[42\%\] {
     left: 42%;
+  }
+  .left-\[42\.4\%\] {
+    left: 42.4%;
   }
   .left-\[51\%\] {
     left: 51%;
@@ -515,9 +515,6 @@
   }
   .max-w-\[90vw\] {
     max-width: 90vw;
-  }
-  .max-w-\[280px\] {
-    max-width: 280px;
   }
   .max-w-md {
     max-width: var(--container-md);
@@ -1582,28 +1579,24 @@ article .grid-4 img {
 }
 article .map-container {
   position: relative;
-  margin-inline: auto;
   margin-block: calc(var(--spacing) * 6);
   width: 100%;
-  max-width: var(--container-2xl);
   overflow: hidden;
   border-radius: var(--radius-lg);
-  border-style: var(--tw-border-style);
-  border-width: 1px;
-  border-color: var(--color-slate-100);
-  --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
-  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-  &:where(.dark, .dark *) {
-    border-color: var(--color-slate-800);
-  }
 }
 article .map-container img {
+  margin: 0 !important;
+  margin-block: 0 !important;
+  margin-inline: 0 !important;
+  margin-inline: 0px;
   margin-block: 0px;
   display: block;
   height: auto;
   width: 100%;
   max-width: 100%;
-  border-radius: 0;
+  border-radius: var(--radius-lg);
+  --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
 }
 @keyframes mapPinBounce {
   0%, 100% {

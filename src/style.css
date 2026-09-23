@@ -198,13 +198,16 @@ article .grid-4 img {
   @apply h-40 sm:h-48 w-full object-cover;
 }
 
-/* Landkarten-Container mit animiertem Marker / Pfeil */
+/* Landkarten-Container mit animiertem Marker / Pfeil (schließt bündig mit dem Text ab, ohne Kasten/Rahmen) */
 article .map-container {
-  @apply relative w-full max-w-2xl mx-auto my-6 rounded-lg overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800;
+  @apply relative w-full my-6 rounded-lg overflow-hidden;
 }
 
 article .map-container img {
-  @apply my-0 max-w-full w-full h-auto block rounded-none;
+  margin: 0 !important;
+  margin-block: 0 !important;
+  margin-inline: 0 !important;
+  @apply my-0 mx-0 max-w-full w-full h-auto block rounded-lg shadow-sm;
 }
 
 /* Sanft hüpfender Positions-Pfeil */
