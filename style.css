@@ -1221,11 +1221,7 @@ article time, article .post-date {
   text-transform: uppercase;
 }
 article img {
-  margin-inline: auto;
-  margin-block: calc(var(--spacing) * 6);
   display: block;
-  height: auto;
-  max-width: 100%;
   cursor: zoom-in;
   border-radius: var(--radius-lg);
   object-fit: cover;
@@ -1249,10 +1245,66 @@ article img {
     scale: var(--tw-scale-x) var(--tw-scale-y);
   }
 }
-article > img, article > p > img {
-  max-height: min(500px, 70vh);
-  width: auto;
+article img.img-landscape, article img:not(.links):not(.rechts):not(.left):not(.right):not(.portrait):not(.img-portrait):not(.mitte):not(.center):not([class*="max-w-"]) {
+  margin-inline: auto;
+  margin-block: calc(var(--spacing) * 6);
+  display: block;
+  height: auto;
+  width: 100%;
   max-width: 100%;
+}
+article img.img-portrait, article img.portrait, article img.mitte, article img.center {
+  clear: both;
+  margin-inline: auto;
+  margin-block: calc(var(--spacing) * 6);
+  display: block;
+  height: auto;
+  max-height: 520px;
+  width: auto;
+  max-width: 300px;
+  @media (width >= 40rem) {
+    max-width: 340px;
+  }
+}
+article img.rechts, article img.right, article img.float-right {
+  float: right;
+  margin-top: calc(var(--spacing) * 2);
+  margin-bottom: calc(var(--spacing) * 4);
+  margin-left: calc(var(--spacing) * 4);
+  display: block;
+  height: auto;
+  width: 220px;
+  max-width: 45%;
+  @media (width >= 40rem) {
+    margin-left: calc(var(--spacing) * 6);
+  }
+  @media (width >= 40rem) {
+    width: 280px;
+  }
+}
+article img.links, article img.left, article img.float-left {
+  float: left;
+  margin-top: calc(var(--spacing) * 2);
+  margin-right: calc(var(--spacing) * 4);
+  margin-bottom: calc(var(--spacing) * 4);
+  display: block;
+  height: auto;
+  width: 220px;
+  max-width: 45%;
+  @media (width >= 40rem) {
+    margin-right: calc(var(--spacing) * 6);
+  }
+  @media (width >= 40rem) {
+    width: 280px;
+  }
+}
+article h1, article h2, article h3, article .grid, article .grid-2, article .grid-3, article .grid-4, article .video-container, article .map-container, article .clear {
+  clear: both;
+}
+article::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 article .grid, article .grid-2, article .grid-3, article .grid-4 {
   width: 100%;

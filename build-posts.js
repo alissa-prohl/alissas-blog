@@ -103,6 +103,92 @@ async function autoAdjustMixedGrids(html) {
   return result;
 }
 
+/**
+ * Erkennt automatisch Querformat vs. Hochformat bei Einzelbildern:
+ * - Querformatfotos erhalten automatisch die Klasse 'img-landscape' (schließen bündig mit Text ab).
+ * - Hochformatfotos ohne Float-Klasse erhalten 'img-portrait' (kompakt zentriert zwischen Texten).
+ * - Hochformatfotos mit 'rechts' / 'links' (oder 'right' / 'left') floaten sauber im Text.
+ */
+async function processArticleImages(html) {
+  const imgRegex = /<img\b([^>]*?)>/gi;
+  const matches = [...html.matchAll(imgRegex)];
+  if (matches.length === 0) return html;
+
+  let result = html;
+
+  for (const match of matches) {
+    const [fullTag, attrs] = match;
+
+    // Ignoriere Bilder innerhalb von Grids oder speziellen Containern (Map etc.)
+    const tagIndex = result.indexOf(fullTag);
+    if (tagIndex !== -1) {
+      const beforeHtml = result.slice(0, tagIndex);
+      const lastGridOpen = Math.max(
+        beforeHtml.lastIndexOf('<div class="grid'),
+        beforeHtml.lastIndexOf("<div class='grid")
+      );
+      const lastGridClose = beforeHtml.lastIndexOf("</div>");
+      if (lastGridOpen > lastGridClose) {
+        continue;
+      }
+    }
+
+    const srcMatch = attrs.match(/src=["']([^"']+)["']/i);
+    if (!srcMatch) continue;
+
+    let src = srcMatch[1].trim();
+    if (src.startsWith("../")) src = src.slice(3);
+    const webpPath = src.replace(/\.(?:jpe?g|png)$/i, ".webp");
+    const resolved = fs.existsSync(path.resolve(webpPath))
+      ? path.resolve(webpPath)
+      : (fs.existsSync(path.resolve(src)) ? path.resolve(src) : null);
+
+    if (resolved) {
+      try {
+        const meta = await sharp(resolved).metadata();
+        if (meta.width && meta.height) {
+          const isPortrait = meta.height > meta.width;
+          const isSelfClosing = attrs.trimEnd().endsWith("/");
+          const cleanAttrs = attrs.replace(/\/+\s*$/, "").trim();
+          const hasClass = /class=["']([^"']*)["']/i.exec(cleanAttrs);
+          const currentClasses = hasClass ? hasClass[1] : "";
+          const hasFloat = /\b(?:rechts|right|float-right|links|left|float-left)\b/.test(currentClasses);
+
+          if (isPortrait) {
+            // Hochformat:
+            if (!hasFloat && !/\b(?:img-portrait|portrait|mitte|center)\b/.test(currentClasses)) {
+              let newAttrs;
+              if (hasClass) {
+                newAttrs = cleanAttrs.replace(/class=["']([^"']*)["']/i, 'class="$1 img-portrait"');
+              } else {
+                newAttrs = `${cleanAttrs} class="img-portrait"`;
+              }
+              const closeStr = isSelfClosing ? " />" : ">";
+              result = result.replace(fullTag, `<img ${newAttrs}${closeStr}`);
+            }
+          } else {
+            // Querformat:
+            if (!hasFloat && !/\b(?:img-landscape|w-full)\b/.test(currentClasses)) {
+              let newAttrs;
+              if (hasClass) {
+                newAttrs = cleanAttrs.replace(/class=["']([^"']*)["']/i, 'class="$1 img-landscape"');
+              } else {
+                newAttrs = `${cleanAttrs} class="img-landscape"`;
+              }
+              const closeStr = isSelfClosing ? " />" : ">";
+              result = result.replace(fullTag, `<img ${newAttrs}${closeStr}`);
+            }
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+  }
+
+  return result;
+}
+
 export async function buildPosts() {
   const startTime = Date.now();
   console.log(`[${new Date().toLocaleTimeString()}] Scanning content directory...`);
@@ -234,6 +320,9 @@ export async function buildPosts() {
 
     // Automatically optimize mixed aspect ratio image grids so images share the exact same height
     processedArticleHtml = await autoAdjustMixedGrids(processedArticleHtml);
+
+    // Automatically style standalone landscape vs portrait images
+    processedArticleHtml = await processArticleImages(processedArticleHtml);
 
     // Automatically convert any YouTube watch or short links inside iframes to embed URLs
     processedArticleHtml = processedArticleHtml.replace(

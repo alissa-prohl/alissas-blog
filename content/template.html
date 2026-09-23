@@ -10,14 +10,23 @@
     und passenden Abständen) – du musst keine Tailwind-Klassen angeben!
   </p>
 
-  <!-- Einzelne Bilder: Werden automatisch harmonisch zentriert & skaliert (nie riesig) -->
-  <img src="../img/backpack.webp" alt="Bildbeschreibung" />
+  <!-- 1. Querformat-Foto: Schließt automatisch bündig links & rechts mit dem Text ab -->
+  <img src="../img/foto-querformat.webp" alt="Querformat Foto" />
 
   <p>
     Weiterer Text nach dem Bild...
   </p>
 
-  <!-- Beispiel: 2 Fotos nebeneinander (schließen bündig mit dem Text ab, gleiche Höhe wird automatisch berechnet!) -->
+  <!-- 2. Hochformat-Foto:
+       - Ohne Klasse: Steht kompakt zentriert unter / über dem Text
+       - class="rechts": Steht rechts im Text (vom Text umflossen)
+       - class="links": Steht links im Text (vom Text umflossen)
+  -->
+  <!--
+  <img src="../img/foto-hochformat.webp" class="rechts" alt="Rechts im Text" />
+  -->
+
+  <!-- 3. Fotos nebeneinander (schließen bündig mit dem Text ab, gleiche Höhe automatisch!) -->
   <!--
   <div class="grid-2">
     <img src="../img/foto1.webp" alt="Erstes Foto" />
@@ -25,7 +34,6 @@
   </div>
   -->
 
-  <!-- Beispiel: 3 Fotos nebeneinander -->
   <!--
   <div class="grid-3">
     <img src="../img/foto1.webp" alt="Erstes Foto" />

@@ -62,18 +62,55 @@ article .post-date {
 
 /* Basis-Styling für alle Bilder im Artikel: Abgerundet, dezenter Schatten, klickbar für Lightbox */
 article img {
-  @apply block max-w-full h-auto rounded-lg shadow-sm my-6 object-cover mx-auto cursor-zoom-in transition-all duration-200 hover:brightness-105 active:scale-95;
+  @apply block rounded-lg shadow-sm object-cover cursor-zoom-in transition-all duration-200 hover:brightness-105 active:scale-95;
 }
 
-/* Einzelne Bilder im Textfluss (nicht in Grids):
-   - Begrenzte Maximalhöhe (500px bzw. 70vh), damit Hochformat- oder Detailfotos nicht riesig werden
-   - Bleiben harmonisch zentriert und proportional
-*/
-article > img,
-article > p > img {
-  max-height: min(500px, 70vh);
-  width: auto;
-  max-width: 100%;
+/* 1. Querformat-Bilder & Standard-Bilder: Schließen IMMER bündig mit dem Text ab (100% Textbreite) */
+article img.img-landscape,
+article img:not(.links):not(.rechts):not(.left):not(.right):not(.portrait):not(.img-portrait):not(.mitte):not(.center):not([class*="max-w-"]) {
+  @apply w-full max-w-full h-auto my-6 mx-auto block;
+}
+
+/* 2. Einzelne Hochformat-Bilder: Über oder unter dem Text (zentrierter kompakter Block) */
+article img.img-portrait,
+article img.portrait,
+article img.mitte,
+article img.center {
+  @apply w-auto max-w-[300px] sm:max-w-[340px] max-h-[520px] h-auto my-6 mx-auto block clear-both;
+}
+
+/* 3. Einzelne Hochformat-Bilder: Rechts im Text umflossen (class="rechts" oder class="right") */
+article img.rechts,
+article img.right,
+article img.float-right {
+  @apply float-right ml-4 sm:ml-6 mb-4 mt-2 w-[220px] sm:w-[280px] max-w-[45%] h-auto block;
+}
+
+/* 4. Einzelne Hochformat-Bilder: Links im Text umflossen (class="links" oder class="left") */
+article img.links,
+article img.left,
+article img.float-left {
+  @apply float-left mr-4 sm:mr-6 mb-4 mt-2 w-[220px] sm:w-[280px] max-w-[45%] h-auto block;
+}
+
+/* Float-Clearing für Überschriften, Grids, Videos und Absätze */
+article h1,
+article h2,
+article h3,
+article .grid,
+article .grid-2,
+article .grid-3,
+article .grid-4,
+article .video-container,
+article .map-container,
+article .clear {
+  clear: both;
+}
+
+article::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 /* Bild-Galerien und Foto-Grids: Gehen immer über die volle Textbreite (schließen bündig mit dem Text ab) */
