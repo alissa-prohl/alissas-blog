@@ -56,6 +56,8 @@ async function autoAdjustMixedGrids(html) {
 
     const imgMatches = [...innerHtml.matchAll(/<img[^>]+src=["']([^"']+)["'][^>]*>/gi)];
     if (imgMatches.length < 2 || imgMatches.length > 4) continue;
+    if (/\bgrid-2\b/.test(classNames) && imgMatches.length !== 2) continue;
+    if (/\bgrid-3\b/.test(classNames) && imgMatches.length !== 3) continue;
 
     const ratios = [];
     for (const m of imgMatches) {
@@ -80,7 +82,7 @@ async function autoAdjustMixedGrids(html) {
     if (ratios.length === imgMatches.length) {
       const maxR = Math.max(...ratios);
       const minR = Math.min(...ratios);
-      if (maxR / minR > 1.15) {
+      if (minR > 0 && maxR / minR > 1.01) {
         const cols = ratios.map((r) => `${r}fr`).join(" ");
         const count = ratios.length;
 
