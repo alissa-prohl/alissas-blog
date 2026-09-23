@@ -9,11 +9,11 @@
   },
   {
     "category": "Abenteuer",
-    "title": "30 Jahre Movie Park 🎬",
+    "title": "30-jähriges Jubiläum im Movie Park",
     "date": "04.07.2026",
     "image": "img/MoviePark/M1.webp",
     "preview": "Am Samstag hat der Movie Park sein 30-jähriges Jubiläum gefeiert. Das wollten wir uns natürlich nicht entgehen lassen.",
-    "url": "posts/movie-park.html"
+    "url": "posts/movie-park-2026.html"
   },
   {
     "category": "Abenteuer",
@@ -21,7 +21,7 @@
     "date": "21.06.2026",
     "image": "img/Denmark2026/Ringköbing.webp",
     "preview": "Eine einsame Hütte, ein großer Garten, wenige Meter vom Fjord entfernt, Softeis und 8 Tage die Seele baumeln lassen. Genauso hatten wir uns unseren Dänemark-Urlaub vorgestellt.",
-    "url": "posts/denmark2026.html"
+    "url": "posts/denmark-2026.html"
   },
   {
     "category": "Projekte",
@@ -53,6 +53,6 @@
     "date": "02.12.2025",
     "image": "img/Phantasialand2025/titelbild.webp",
     "preview": "Dieses Jahr buchten wir neben unseren Phantasialand Wintertraum Tickets auch eine Übernachtung im Hotel Matamba. Und das erwies sich als die beste Entscheidung, die wir hätten treffen können. Unser Video dazu kannst du dir übrigens hier anschauen:",
-    "url": "posts/phantasialand2025.html"
+    "url": "posts/phantasialand-2025.html"
   }
 ]
