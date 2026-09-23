@@ -436,9 +436,13 @@ export async function buildPosts() {
     const cardsHtml =
       categoryArticles.length > 0
         ? categoryArticles
-            .map(
-              (art) => `
-        <a href="${art.url}" class="group block bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col justify-between border border-slate-100 dark:border-slate-700/60 cursor-pointer">
+            .map((art) => {
+              const dateMatch = art.date ? art.date.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/) : null;
+              const month = dateMatch ? parseInt(dateMatch[2], 10) : "";
+              const year = dateMatch ? dateMatch[3] : "";
+              const cleanTitle = art.title.replace(/"/g, "&quot;");
+              return `
+        <a href="${art.url}" data-title="${cleanTitle}" data-date="${art.date}" data-year="${year}" data-month="${month}" class="post-card group block bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col justify-between border border-slate-100 dark:border-slate-700/60 cursor-pointer">
           <div>
             <div class="block overflow-hidden">
               <img src="${art.image}" alt="${art.title}" class="w-full h-48 object-cover opacity-95 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 mx-auto" />
@@ -458,8 +462,8 @@ export async function buildPosts() {
               Beitrag lesen →
             </span>
           </div>
-        </a>`
-            )
+        </a>`;
+            })
             .join("\n")
         : `        <p class="text-slate-500 dark:text-slate-400 italic col-span-full py-8 text-center">Noch keine Beiträge in dieser Kategorie vorhanden.</p>`;
 
@@ -472,14 +476,19 @@ export async function buildPosts() {
       const startIdx = pageHtml.indexOf(markerStart);
       const endIdx = pageHtml.indexOf(markerEnd) + markerEnd.length;
       pageHtml = pageHtml.slice(0, startIdx) + newPostsBlock + pageHtml.slice(endIdx);
-      fs.writeFileSync(pagePath, pageHtml, "utf-8");
     } else if (pageHtml.includes('id="posts-list"') || pageHtml.includes("<!-- BLOG-BEITRÄGE")) {
       pageHtml = pageHtml.replace(
         /(?:<!-- =+ -->[\s\S]*?<!-- BLOG-BEITRÄGE[\s\S]*?-->[\s\S]*?<!-- =+ -->|<div id="posts-list")[\s\S]*?(?=\s*<\/main>)/i,
         `<!-- ============================================================== -->\n      <!-- BLOG-BEITRÄGE (Wird automatisch von build-posts.js befüllt)     -->\n      <!-- ============================================================== -->\n      ${newPostsBlock}`
       );
-      fs.writeFileSync(pagePath, pageHtml, "utf-8");
     }
+
+    // Ensure filter-posts.js is included before closing </body>
+    if (!pageHtml.includes("filter-posts.js")) {
+      pageHtml = pageHtml.replace("</body>", '    <script src="filter-posts.js"></script>\n  </body>');
+    }
+
+    fs.writeFileSync(pagePath, pageHtml, "utf-8");
   }
 
   const elapsed = Date.now() - startTime;
