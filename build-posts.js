@@ -320,6 +320,20 @@ export async function buildPosts() {
       }
     );
 
+    // Automatically convert any .mov video reference to .mp4 in the post content if .mp4 exists
+    processedArticleHtml = processedArticleHtml.replace(
+      /(<source[^>]+src=["'])([^"']+\.mov)(["'][^>]*>)/gi,
+      (match, prefix, src, suffix) => {
+        const cleanPath = src.startsWith("../") ? src.slice(3) : src;
+        const mp4Path = cleanPath.replace(/\.mov$/i, ".mp4");
+        if (fs.existsSync(path.resolve(mp4Path))) {
+          const newSrc = (src.startsWith("../") ? "../" : "") + mp4Path;
+          return `${prefix}${newSrc}${suffix}`;
+        }
+        return match;
+      }
+    );
+
     // Automatically normalize legacy / manual grid classes so they use standard full-width grids (grid-2, grid-3)
     processedArticleHtml = processedArticleHtml.replace(
       /<div[^>]*class=["'][^"']*\bgrid\b[^"']*\b(?:sm:grid-cols-2|grid-cols-2)\b[^"']*\b(?:md:grid-cols-3|grid-cols-3)\b[^"']*["'][^>]*>/gi,
