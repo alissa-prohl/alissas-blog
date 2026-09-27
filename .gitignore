@@ -1,0 +1,12 @@
+node_modules/
+.DS_Store
+Thumbs.db
+
+# Rohdateien von Kameras & Smartphones
+*.heic
+*.HEIC
+*.mov
+*.MOV
+*.raw
+*.RAW
+img/raw/

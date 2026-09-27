@@ -1,0 +1,74 @@
+[
+  {
+    "category": "Abenteuer",
+    "title": "Mammutmarsch Hannover",
+    "date": "27.09.2026",
+    "image": "img/mammutmarsch-hannover/IMG_3250.webp",
+    "preview": "Anfang des Jahres haben wir uns für den Mammutmarsch in Hannover angemeldet, und am Samstag war es endlich so weit.",
+    "url": "posts/mammutmarsch-hannover.html"
+  },
+  {
+    "category": "Musik",
+    "title": "Ein neues Kapitel für meine Musik",
+    "date": "15.09.2026",
+    "image": "img/youtube/andrew1.webp",
+    "preview": "Ich habe 2011 angefangen Gitarre zu spielen. Alles begann mit meiner Yamaha F370 und dem wöchentlichen Gitarrenunterricht in der Musikschule Kiekenbeck. Mich hat das Gitarrespielen so begeistert, dass ich es jeden Tag kaum erwarten konnte, von der Schule nach Hause zu kommen und endlich wieder zu spielen.",
+    "url": "posts/youtube.html"
+  },
+  {
+    "category": "Abenteuer",
+    "title": "Von Rafting und Schildkröten...",
+    "date": "05.09.2026",
+    "image": "img/backpack.webp",
+    "preview": "Im August haben wir endlich mal wieder einen All-Inclusive-Urlaub gemacht. Wir waren in der Türkei, genauer gesagt in Side, genauer gesagt in Evrenseki. Das liegt hier:",
+    "url": "posts/türkei-2026.html"
+  },
+  {
+    "category": "Abenteuer",
+    "title": "30-jähriges Jubiläum im Movie Park",
+    "date": "04.07.2026",
+    "image": "img/MoviePark/M1.webp",
+    "preview": "Am Samstag hat der Movie Park sein 30-jähriges Jubiläum gefeiert. Das wollten wir uns natürlich nicht entgehen lassen.",
+    "url": "posts/movie-park-2026.html"
+  },
+  {
+    "category": "Abenteuer",
+    "title": "Fjordwind & Wikingermünzen",
+    "date": "21.06.2026",
+    "image": "img/Denmark2026/Ringköbing.webp",
+    "preview": "Eine einsame Hütte, ein großer Garten, wenige Meter vom Fjord entfernt, Softeis und 8 Tage die Seele baumeln lassen. Genauso hatten wir uns unseren Dänemark-Urlaub vorgestellt.",
+    "url": "posts/denmark-2026.html"
+  },
+  {
+    "category": "Projekte",
+    "title": "Projekt 2: Retrogaming",
+    "date": "01.06.2026",
+    "image": "img/Retrogaming/Röhrenfernseher.webp",
+    "preview": "Als Kind hatte ich eine Super Nintendo und habe darauf pausenlos vor allem Super Mario World und Super Mario Kart gespielt. Neben Pokémon war mein Lieblingsspiel auf dem Gameboy Color definitv Looney Tunes. Wir hatten die PS1, die PS2 und die PSP. Ich bin mit Tony Hawk’s, Lego Racers, SSX und GTA aufgewachsen.",
+    "url": "posts/retrogaming.html"
+  },
+  {
+    "category": "Projekte",
+    "title": "Projekt 1: Agfamatic 3000",
+    "date": "09.05.2026",
+    "image": "img/Agfamatic/Agfamatic-3000.webp",
+    "preview": "Letzte Woche habe ich eine alte Agfamatic 3000 in einem Second-Hand-Shop in Winterswijk gefunden. Die Ritsch-Ratsch-Kameras waren Mitte der 70er sehr beliebt. Und für 5€ wollte ich sie auf jeden Fall mitnehmen!",
+    "url": "posts/agfamatic-3000.html"
+  },
+  {
+    "category": "Abenteuer",
+    "title": "Movie Park's Hollywood Christmas",
+    "date": "03.01.2026",
+    "image": "img/MovieParkChristmas2026/weihnachtskugel.webp",
+    "preview": "Anfang des Jahres ging es zum Hollywood Christmas in den Movie Park. Das hat uns letztes Jahr schon richtig gut gefallen! Und diesmal war es so richtig winterlich mit ganz viel Schnee.",
+    "url": "posts/movie-park-christmas2026.html"
+  },
+  {
+    "category": "Abenteuer",
+    "title": "Wintertraum im Phantasialand",
+    "date": "02.12.2025",
+    "image": "img/Phantasialand2025/titelbild.webp",
+    "preview": "Dieses Jahr buchten wir neben unseren Phantasialand Wintertraum Tickets auch eine Übernachtung im Hotel Matamba. Und das erwies sich als die beste Entscheidung, die wir hätten treffen können. Unser Video dazu kannst du dir übrigens hier anschauen:",
+    "url": "posts/phantasialand-2025.html"
+  }
+]

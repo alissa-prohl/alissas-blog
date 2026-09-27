@@ -1,0 +1,683 @@
+@import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-header: #8fb895;
+  --color-footer: #bfe0c4;
+  --default-font-family: var(--font-mono);
+  --font-sans: var(--font-mono);
+}
+
+html,
+body {
+  font-family: var(--font-mono);
+  scroll-behavior: smooth;
+}
+
+button,
+a,
+[role="button"] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Blocksatz & automatische Silbentrennung für Fließtexte */
+article p,
+article li,
+main section p,
+#latest-desc {
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+}
+
+/* ============================================================== */
+/* ZENTRALES BLOGPOST-STYLING (DRY)                               */
+/* Alle Standard-Elemente im Artikel erhalten automatisch        */
+/* das einheitliche Tailwind-Design, ohne dass man Klassen        */
+/* an jeden Absatz oder jedes Bild schreiben muss.                */
+/* ============================================================== */
+
+article h1 {
+  @apply text-2xl sm:text-3xl font-bold my-4 uppercase tracking-widest text-slate-800 dark:text-slate-100;
+}
+
+article h2 {
+  @apply text-xl sm:text-2xl font-bold my-3 uppercase tracking-widest text-slate-800 dark:text-slate-100;
+}
+
+article h3 {
+  @apply text-lg sm:text-xl font-bold my-2 uppercase tracking-wider text-slate-800 dark:text-slate-100;
+}
+
+article p {
+  @apply text-slate-600 dark:text-slate-300 leading-relaxed mb-4;
+}
+
+article time,
+article .post-date {
+  @apply text-xs text-slate-400 uppercase tracking-wider block mb-1;
+}
+
+/* Basis-Styling für alle Bilder im Artikel: Abgerundet, dezenter Schatten, klickbar für Lightbox */
+article img {
+  @apply block rounded-lg shadow-sm object-cover cursor-zoom-in transition-all duration-200 hover:brightness-105 active:scale-95;
+}
+
+/* 1. Querformat-Bilder & Standard-Bilder (außerhalb von Grids): Schließen IMMER bündig mit dem Text ab (100% Textbreite) */
+article > img.img-landscape,
+article > p > img.img-landscape,
+article > img:not(.links):not(.rechts):not(.left):not(.right):not(.portrait):not(.img-portrait):not(.mitte):not(.center):not([class*="max-w-"]),
+article > p > img:not(.links):not(.rechts):not(.left):not(.right):not(.portrait):not(.img-portrait):not(.mitte):not(.center):not([class*="max-w-"]) {
+  @apply w-full max-w-full h-auto my-6 mx-auto block;
+}
+
+/* 2. Einzelne Hochformat-Bilder: Über oder unter dem Text (zentrierter kompakter Block) */
+article img.img-portrait,
+article img.portrait,
+article img.mitte,
+article img.center {
+  @apply w-auto max-w-[300px] sm:max-w-[340px] max-h-[520px] h-auto my-6 mx-auto block clear-both;
+}
+
+/* 3. Einzelne Hochformat-Bilder: Rechts im Text umflossen (class="rechts" oder class="right") */
+article img.rechts,
+article img.right,
+article img.float-right {
+  @apply float-right ml-4 sm:ml-6 mb-4 mt-2 w-[220px] sm:w-[280px] max-w-[45%] h-auto block;
+}
+
+/* 4. Einzelne Hochformat-Bilder: Links im Text umflossen (class="links" oder class="left") */
+article img.links,
+article img.left,
+article img.float-left {
+  @apply float-left mr-4 sm:mr-6 mb-4 mt-2 w-[220px] sm:w-[280px] max-w-[45%] h-auto block;
+}
+
+/* Float-Clearing für Überschriften, Grids, Videos und Absätze */
+article h1,
+article h2,
+article h3,
+article .grid,
+article .grid-2,
+article .grid-3,
+article .grid-4,
+article .video-container,
+article .map-container,
+article .clear {
+  clear: both;
+}
+
+article::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Bild-Galerien und Foto-Grids: Gehen immer über die volle Textbreite (schließen bündig mit dem Text ab) */
+article .grid,
+article .grid-2,
+article .grid-3,
+article .grid-4 {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+article .grid-2 {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-4 my-6 w-full;
+}
+
+article .grid-3 {
+  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 my-6 w-full;
+}
+
+article .grid-4 {
+  @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 my-6 w-full;
+}
+
+/* Grids für gemischte Bildformate (Hochformat & Querformat nebeneinander bei gleicher Höhe) */
+article .grid-pl,
+article .grid-portrait-landscape {
+  @apply grid grid-cols-1 sm:grid-cols-[1fr_2.45fr] gap-4 my-6 w-full items-stretch;
+}
+
+article .grid-lp,
+article .grid-landscape-portrait {
+  @apply grid grid-cols-1 sm:grid-cols-[2.45fr_1fr] gap-4 my-6 w-full items-stretch;
+}
+
+article .grid-plp,
+article .grid-portrait-landscape-portrait {
+  @apply grid grid-cols-1 md:grid-cols-[1fr_2.68fr_1.13fr] gap-4 my-6 w-full items-stretch;
+}
+
+article .grid-lpl {
+  @apply grid grid-cols-1 md:grid-cols-[1.8fr_1fr_1.8fr] gap-4 my-6 w-full items-stretch;
+}
+
+/* Dynamische Spaltenverteilung für gemischte Grids über CSS-Variable --grid-cols */
+@media (min-width: 640px) {
+  article .grid-2[style*="--grid-cols"],
+  article .grid[style*="--grid-cols-2"],
+  article [data-cols="2"][style*="--grid-cols"] {
+    grid-template-columns: var(--grid-cols) !important;
+  }
+}
+
+@media (min-width: 768px) {
+  article .grid-3[style*="--grid-cols"],
+  article .grid[style*="--grid-cols-3"],
+  article [data-cols="3"][style*="--grid-cols"] {
+    grid-template-columns: var(--grid-cols) !important;
+  }
+}
+
+/* In 2er-, 3er- und gemischten Grids behalten Bilder ihr volles natürliches Seitenverhältnis ohne Beschneidung */
+article .grid img,
+article .grid-2 img,
+article .grid-3 img,
+article .grid-4 img,
+article .grid-pl img,
+article .grid-portrait-landscape img,
+article .grid-lp img,
+article .grid-landscape-portrait img,
+article .grid-plp img,
+article .grid-portrait-landscape-portrait img,
+article .grid-lpl img,
+article [data-cols] img {
+  margin: 0 !important;
+  margin-block: 0 !important;
+  margin-inline: 0 !important;
+  @apply my-0 mx-0 max-w-full h-auto w-full object-cover rounded-lg;
+}
+
+/* In dichten 4er-Thumbnail-Grids (wie Movie Park) einheitliche Kachelhöhe */
+article .grid-4 img {
+  @apply h-40 sm:h-48 w-full object-cover;
+}
+
+/* Landkarten-Container mit animiertem Marker / Pfeil (schließt bündig mit dem Text ab, ohne Kasten/Rahmen) */
+article .map-container {
+  @apply relative w-full my-6 rounded-lg overflow-hidden;
+}
+
+article .map-container img {
+  margin: 0 !important;
+  margin-block: 0 !important;
+  margin-inline: 0 !important;
+  @apply my-0 mx-0 max-w-full w-full h-auto block rounded-lg shadow-sm;
+}
+
+/* Sanft hüpfender Positions-Pfeil */
+@keyframes mapPinBounce {
+  0%, 100% {
+    transform: translate(-50%, -100%) translateY(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translate(-50%, -100%) translateY(-10px);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.map-arrow-bounce {
+  animation: mapPinBounce 1.5s infinite;
+}
+
+/* Responsive YouTube Video Embed */
+article .video-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-block: calc(var(--spacing) * 6);
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+:where(.dark, .dark *) article .video-container {
+  border-color: rgba(51, 65, 85, 0.6);
+}
+
+article .video-container iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ============================================================== */
+/* SAISONALE DESIGNS (Meteorologisch & Manuell umschaltbar)       */
+/* Standard: Frühling & Sommer (Alpengrün)                       */
+/* Herbst: Warmer Kupfer- & Lärchenwald                          */
+/* Winter & Weihnachten: Kristallines Eisblau & Schieferberge    */
+/* Special: 01.12.–25.12. Rentiere & Schlitten im Dark Mode      */
+/* ============================================================== */
+
+/* -------------------------------------------------------------- */
+/* 1. HERBST (1. September – 30. November)                        */
+/* Im Light Mode: Warmer Kupfer- & Lärchenwald                     */
+/* Im Dark Mode: Standard Dark Mode Look + dezent fallende Blätter */
+/* -------------------------------------------------------------- */
+html.autumn:not(.dark) header {
+  background: linear-gradient(135deg, #c98350 0%, #dfa06c 40%, #ebd3b6 100%) !important;
+}
+html.autumn:not(.dark) footer {
+  background: linear-gradient(135deg, #c98350 0%, #ebd3b6 100%) !important;
+}
+
+/* Berge Herbst (nur Light Mode: Kastanienbraun & Kupferwald) */
+html.autumn:not(.dark) .mountain-layer-1,
+html.autumn:not(.dark) path[id="mountain-layer-1"] {
+  fill: #4a3429 !important;
+}
+html.autumn:not(.dark) .mountain-layer-2,
+html.autumn:not(.dark) path[id="mountain-layer-2"] {
+  fill: #ab5d35 !important;
+}
+
+/* Akzente Herbst (nur Light Mode: Bernstein) */
+html.autumn:not(.dark) #latest-category,
+html.autumn:not(.dark) .season-accent,
+html.autumn:not(.dark) a[id="latest-link"] {
+  color: #b45309 !important;
+}
+html.autumn:not(.dark) a[id="latest-link"]:hover {
+  color: #78350f !important;
+}
+
+
+/* -------------------------------------------------------------- */
+/* HERBST-SPECIAL: Ganz dezent fallende Blätter im Light Mode     */
+/* Nur aktiv, wenn Herbst UND Light Mode aktiv sind               */
+/* -------------------------------------------------------------- */
+#autumn-leaves {
+  display: none;
+}
+html.autumn:not(.dark) #autumn-leaves {
+  display: block;
+}
+
+@keyframes leafDrift1 {
+  0% {
+    transform: translateY(-20px) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  40% {
+    transform: translateY(80px) translateX(18px) rotate(45deg);
+  }
+  75% {
+    transform: translateY(170px) translateX(-12px) rotate(110deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(260px) translateX(15px) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+@keyframes leafDrift2 {
+  0% {
+    transform: translateY(-20px) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  45% {
+    transform: translateY(90px) translateX(-20px) rotate(-50deg);
+  }
+  70% {
+    transform: translateY(165px) translateX(14px) rotate(-100deg);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateY(260px) translateX(-15px) rotate(-170deg);
+    opacity: 0;
+  }
+}
+
+@keyframes leafDrift3 {
+  0% {
+    transform: translateY(-20px) translateX(0) rotate(25deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateY(105px) translateX(16px) rotate(-20deg);
+  }
+  80% {
+    transform: translateY(180px) translateX(-10px) rotate(65deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(260px) translateX(12px) rotate(140deg);
+    opacity: 0;
+  }
+}
+
+
+/* -------------------------------------------------------------- */
+/* 2. WINTER & WEIHNACHTEN (Gleiches Design: 01. Dez – Ende Feb)   */
+/* -------------------------------------------------------------- */
+html.winter header,
+html.christmas header {
+  background: linear-gradient(135deg, #638ba8 0%, #8faec5 45%, #deecf6 100%) !important;
+}
+html.winter.dark header,
+html.christmas.dark header {
+  background: linear-gradient(to bottom, #030814 0%, #0a182f 50%, #142d50 100%) !important;
+}
+html.winter footer,
+html.christmas footer {
+  background: linear-gradient(135deg, #638ba8 0%, #deecf6 100%) !important;
+}
+html.winter.dark footer,
+html.christmas.dark footer {
+  background: linear-gradient(to top right, #020409 0%, #0a182f 100%) !important;
+}
+
+/* Berge Winter & Weihnachten: Frostige Schieferfelsen & Eisblau */
+html.winter .mountain-layer-1,
+html.winter path[id="mountain-layer-1"],
+html.christmas .mountain-layer-1,
+html.christmas path[id="mountain-layer-1"] {
+  fill: #3a4f63 !important;
+}
+html.winter .mountain-layer-2,
+html.winter path[id="mountain-layer-2"],
+html.christmas .mountain-layer-2,
+html.christmas path[id="mountain-layer-2"] {
+  fill: #6d8ba1 !important;
+}
+html.winter.dark .mountain-layer-1,
+html.winter.dark path[id="mountain-layer-1"],
+html.christmas.dark .mountain-layer-1,
+html.christmas.dark path[id="mountain-layer-1"] {
+  fill: #264366 !important;
+}
+html.winter.dark .mountain-layer-2,
+html.winter.dark path[id="mountain-layer-2"],
+html.christmas.dark .mountain-layer-2,
+html.christmas.dark path[id="mountain-layer-2"] {
+  fill: #14273e !important;
+}
+
+/* Akzente Winter & Weihnachten: Eisblau & Gletscher-Cyan */
+html.winter #latest-category,
+html.winter .season-accent,
+html.winter a[id="latest-link"],
+html.christmas #latest-category,
+html.christmas .season-accent,
+html.christmas a[id="latest-link"] {
+  color: #0284c7 !important;
+}
+html.winter.dark #latest-category,
+html.winter.dark .season-accent,
+html.winter.dark a[id="latest-link"],
+html.christmas.dark #latest-category,
+html.christmas.dark .season-accent,
+html.christmas.dark a[id="latest-link"] {
+  color: #38bdf8 !important;
+}
+html.winter a[id="latest-link"]:hover,
+html.christmas a[id="latest-link"]:hover {
+  color: #0369a1 !important;
+}
+html.winter.dark a[id="latest-link"]:hover,
+html.christmas.dark a[id="latest-link"]:hover {
+  color: #7dd3fc !important;
+}
+
+
+/* -------------------------------------------------------------- */
+/* 2b. SCHNEE-EFFEKT (Winter & Weihnachten)                       */
+/* Winter: Schneit in Light Mode UND Dark Mode                    */
+/* Weihnachten: Schneit NUR im Light Mode                         */
+/* -------------------------------------------------------------- */
+#winter-snow {
+  display: none;
+}
+html.winter #winter-snow {
+  display: block;
+}
+html.christmas:not(.dark) #winter-snow {
+  display: block;
+}
+
+@keyframes snowFall1 {
+  0% {
+    transform: translateY(-12px) translateX(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(270px) translateX(20px);
+    opacity: 0;
+  }
+}
+
+@keyframes snowFall2 {
+  0% {
+    transform: translateY(-12px) translateX(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateY(270px) translateX(-18px);
+    opacity: 0;
+  }
+}
+
+@keyframes snowFall3 {
+  0% {
+    transform: translateY(-12px) translateX(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.95;
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(270px) translateX(12px);
+    opacity: 0;
+  }
+}
+
+
+/* -------------------------------------------------------------- */
+/* 3. WEIHNACHTS-SPECIAL: Rentiere & Schlitten am Nachthimmel       */
+/* Nur aktiv, wenn Weihnachten (01.12.–25.12.) & Dark Mode aktiv  */
+/* -------------------------------------------------------------- */
+#christmas-sleigh {
+  display: none;
+}
+html.christmas.dark #christmas-sleigh {
+  display: block;
+}
+
+@keyframes santaFlight {
+  0% {
+    transform: translateX(-400px) translateY(12px);
+    opacity: 0;
+  }
+  4% {
+    opacity: 0.95;
+  }
+  48% {
+    transform: translateX(calc(50vw - 160px)) translateY(0px);
+    opacity: 0.95;
+  }
+  96% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateX(calc(100vw + 60px)) translateY(-15px);
+    opacity: 0;
+  }
+}
+
+.santa-flying {
+  animation: santaFlight 22s linear infinite;
+  animation-delay: -3s;
+  will-change: transform;
+}
+
+
+/* -------------------------------------------------------------- */
+/* 4. STERNSCHNUPPEN IM STANDARD DARKMODE                         */
+/* Nur aktiv im Dark Mode, wenn nicht Winter oder Weihnachten     */
+/* -------------------------------------------------------------- */
+#shooting-stars {
+  display: none;
+}
+html.dark:not(.winter):not(.christmas) #shooting-stars {
+  display: block;
+}
+
+.shooting-star {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  height: 2px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 40%, rgba(255, 255, 255, 1) 100%);
+  border-radius: 9999px;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.9));
+  will-change: transform, opacity;
+}
+
+.shooting-star::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: -1.5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 6px 2px #ffffff, 0 0 12px 4px rgba(147, 197, 253, 0.8);
+}
+
+.shooting-star-1 {
+  top: 14%;
+  left: 12%;
+  width: 110px;
+  animation: shootingStar1 14s ease-in infinite;
+  animation-delay: 2s;
+}
+
+.shooting-star-2 {
+  top: 8%;
+  left: 55%;
+  width: 90px;
+  animation: shootingStar2 20s ease-in infinite;
+  animation-delay: 8s;
+}
+
+@keyframes shootingStar1 {
+  0% {
+    transform: translate(0, 0) rotate(26deg);
+    opacity: 0;
+  }
+  1.5% {
+    opacity: 1;
+  }
+  8% {
+    opacity: 1;
+  }
+  11% {
+    transform: translate(290px, 141px) rotate(26deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(290px, 141px) rotate(26deg);
+    opacity: 0;
+  }
+}
+
+@keyframes shootingStar2 {
+  0% {
+    transform: translate(0, 0) rotate(30deg);
+    opacity: 0;
+  }
+  1.5% {
+    opacity: 1;
+  }
+  6% {
+    opacity: 1;
+  }
+  9% {
+    transform: translate(240px, 138px) rotate(30deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(240px, 138px) rotate(30deg);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shooting-star,
+  .santa-flying,
+  .map-arrow-bounce {
+    animation: none !important;
+    display: none !important;
+  }
+}
+
+/* -------------------------------------------------------------- */
+/* 5. SCROLL-TO-TOP BUTTON FARBANPASSUNGEN PRO JAHRESZEIT        */
+/* -------------------------------------------------------------- */
+html.autumn:not(.dark) #scroll-to-top {
+  background-color: #c98350 !important;
+  color: #ffffff !important;
+}
+html.autumn:not(.dark) #scroll-to-top:hover {
+  background-color: #b45309 !important;
+}
+html.autumn.dark #scroll-to-top {
+  background-color: #1e293b !important;
+  border-color: #475569 !important;
+}
+
+html.winter:not(.dark) #scroll-to-top,
+html.christmas:not(.dark) #scroll-to-top {
+  background-color: #5b84a3 !important;
+  color: #ffffff !important;
+}
+html.winter:not(.dark) #scroll-to-top:hover,
+html.christmas:not(.dark) #scroll-to-top:hover {
+  background-color: #436986 !important;
+}
+html.winter.dark #scroll-to-top,
+html.christmas.dark #scroll-to-top {
+  background-color: #1e3a5f !important;
+  border-color: #38bdf8 !important;
+  color: #e0f2fe !important;
+}
+html.winter.dark #scroll-to-top:hover,
+html.christmas.dark #scroll-to-top:hover {
+  background-color: #264a78 !important;
+}
+

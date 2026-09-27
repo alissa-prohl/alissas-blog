@@ -1,0 +1,78 @@
+<!-- data-category: Abenteuer, Musik oder Projekte -->
+<!-- data-image (optional): Bestimmt das Vorschaubild auf der Startseite. Wenn weggelassen, wird automatisch das erste Bild aus dem Text genommen. -->
+<article data-category="Projekte" data-image="../img/backpack.webp">
+  <time>05.09.2026</time>
+  <h1>Dein Beitragstitel hier</h1>
+
+  <p>
+    Schreibe hier deinen Text. Durch das zentrale Design werden Überschriften,
+    Absätze und Bilder automatisch einheitlich formatiert (im Blocksatz, mit Silbentrennung
+    und passenden Abständen) – du musst keine Tailwind-Klassen angeben!
+  </p>
+
+  <!-- 1. Querformat-Foto: Schließt automatisch bündig links & rechts mit dem Text ab -->
+  <img src="../img/foto-querformat.webp" />
+
+  <p>
+    Weiterer Text nach dem Bild...
+  </p>
+
+  <!-- 2. Hochformat-Foto:
+       - Ohne Klasse: Steht kompakt zentriert unter / über dem Text
+       - class="rechts": Steht rechts im Text (vom Text umflossen)
+       - class="links": Steht links im Text (vom Text umflossen)
+  -->
+  <!--
+  <img src="../img/foto-hochformat.webp" class="rechts" />
+  -->
+
+  <!-- 3. Fotos nebeneinander (schließen bündig mit dem Text ab, gleiche Höhe automatisch!) -->
+  <!--
+  <div class="grid-2">
+    <img src="../img/foto1.webp" />
+    <img src="../img/foto2.webp" />
+  </div>
+  -->
+
+  <!--
+  <div class="grid-3">
+    <img src="../img/foto1.webp" />
+    <img src="../img/foto2.webp" />
+    <img src="../img/foto3.webp" />
+  </div>
+  -->
+
+  <!-- 4. Video (mit Autoplay bei Sichtbarkeit und Klick/Tipp-Ton) -->
+  <!--
+  <div class="relative group my-6 overflow-hidden rounded-lg shadow-sm border border-slate-100 dark:border-slate-800 bg-black max-w-2xl mx-auto">
+    <video
+      loop
+      muted
+      playsinline
+      preload="metadata"
+      class="w-full h-auto block rounded-lg cursor-pointer"
+      title="Klicken oder tippen, um Ton an- oder auszuschalten"
+    >
+      <source src="../img/mein-ordner/video.mp4" type="video/mp4" />
+      Dein Browser unterstützt dieses Video leider nicht.
+    </video>
+
+    <button
+      type="button"
+      data-sound-btn
+      onclick="toggleVideoSound(this)"
+      class="absolute bottom-3 right-3 bg-slate-900/80 hover:bg-slate-900 text-white text-xs font-sans px-3.5 py-1.5 rounded-full flex items-center gap-1.5 backdrop-blur-xs transition-all duration-200 cursor-pointer shadow-md select-none border border-white/20 active:scale-95 z-10"
+      aria-label="Ton an- oder ausschalten"
+    >
+      <svg data-icon-muted class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+      </svg>
+      <svg data-icon-sound class="w-4 h-4 text-emerald-400 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+      </svg>
+      <span data-sound-text>Ton an</span>
+    </button>
+  </div>
+  -->
+</article>
