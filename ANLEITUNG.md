@@ -38,6 +38,13 @@ Passe die Angaben oben an:
    * *Danach werden deine Beiträge automatisch von neu nach alt sortiert!*
 4. **`<h1>Dein Titel</h1>`**: Schreibe die Überschrift deines Beitrags.
    * *Dieser Titel wird automatisch für die Seite, den Browsertab und die Vorschaukarte übernommen.*
+5. **`data-draft="true"`** *(optional - Entwurf verstecken)*:
+   * Wenn du noch an einem Beitrag schreibst und ihn noch **nicht** veröffentlichen willst:
+     ```html
+     <article data-category="Abenteuer" data-draft="true">
+     ```
+   * **Alternativ:** Benenne die Datei einfach mit einem Unterstrich am Anfang (z. B. `content/_mein-ausflug.html`).
+   * **Der Clou:** Solange ein Beitrag als Entwurf markiert ist (oder mit `_` beginnt), wird er beim Bauen der Website komplett übersprungen. Du kannst nach Herzenslust `npm run build` und `git push` machen – niemand sieht den unfertigen Beitrag, bis du `data-draft="true"` (oder den Unterstrich) entfernst!
 
 ---
 

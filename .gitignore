@@ -10,3 +10,7 @@ Thumbs.db
 *.raw
 *.RAW
 img/raw/
+
+# Private Entwürfe (werden nicht zu GitHub synchronisiert)
+content/_*
+content/drafts/

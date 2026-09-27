@@ -211,18 +211,15 @@ export async function buildPosts() {
   const layoutTemplate = fs.readFileSync(LAYOUT_PATH, "utf-8");
 
   const files = fs.readdirSync(CONTENT_DIR).filter(
-    (f) => f.endsWith(".html") && f !== "template.html" && f !== "_template.html"
+    (f) =>
+      f.endsWith(".html") &&
+      f !== "template.html" &&
+      f !== "_template.html" &&
+      !f.startsWith("_") &&
+      !f.startsWith(".")
   );
 
-  // Remove any obsolete post files in posts/ that no longer exist in content/
-  const validFiles = new Set(files);
-  for (const existingFile of fs.readdirSync(POSTS_DIR)) {
-    if (existingFile.endsWith(".html") && !validFiles.has(existingFile)) {
-      fs.unlinkSync(path.join(POSTS_DIR, existingFile));
-      console.log(`[${new Date().toLocaleTimeString()}] Removed obsolete post: posts/${existingFile}`);
-    }
-  }
-
+  const publishedFiles = new Set();
   const articles = [];
 
   for (const filename of files) {
@@ -257,10 +254,21 @@ export async function buildPosts() {
     const titleMatch = content.match(/<h[12][^>]*>([\s\S]*?)<\/h[12]>/i);
     const title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, "").trim() : filename.replace(".html", "");
 
+    // Draft check: data-draft="true" or data-status="draft"
+    const isDraft =
+      /data-draft=["'](?:true|1|yes)["']/i.test(attrs) ||
+      /data-status=["']draft["']/i.test(attrs);
+    if (isDraft) {
+      console.log(`[${new Date().toLocaleTimeString()}] 📝 Entwurf übersprungen (data-draft="true"): content/${filename}`);
+      continue;
+    }
+
     if (title === "Dein Beitragstitel hier") {
       console.log(`[${new Date().toLocaleTimeString()}] Skipping unedited draft: content/${filename}`);
       continue;
     }
+
+    publishedFiles.add(filename);
 
     // Image: explicit data-image on <article>, or first <img> in article
     const dataImgMatch = attrs.match(/data-image=["\x27]([^"\x27]+)["\x27]/i);
@@ -370,6 +378,14 @@ export async function buildPosts() {
       .replace(/{{BUILD_TIME}}/g, Date.now());
 
     fs.writeFileSync(path.join(POSTS_DIR, filename), renderedPost, "utf-8");
+  }
+
+  // Remove any obsolete or unpublished/draft post files from posts/
+  for (const existingFile of fs.readdirSync(POSTS_DIR)) {
+    if (existingFile.endsWith(".html") && !publishedFiles.has(existingFile)) {
+      fs.unlinkSync(path.join(POSTS_DIR, existingFile));
+      console.log(`[${new Date().toLocaleTimeString()}] Removed unpublished/obsolete post: posts/${existingFile}`);
+    }
   }
 
   // Sort descending: newest first
