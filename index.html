@@ -313,8 +313,8 @@
                 src="img/mammutmarsch-hannover/IMG_3250.webp"
                 alt="Neuester Beitrag"
                 loading="lazy"
-                decoding="async"
-              / style="object-position: center 15%;">
+                style="object-position: center 15%;"
+              />
             </picture>
             <div class="p-6 sm:p-7 flex flex-col gap-3">
               <span id="latest-category" class="text-xs uppercase tracking-widest font-semibold text-emerald-700 dark:text-emerald-400">Abenteuer</span>
@@ -350,6 +350,9 @@
           if (latest.image) {
             document.getElementById('latest-img').src = latest.image;
             document.getElementById('latest-source').srcset = latest.image.endsWith('.webp') ? latest.image : latest.image.replace(/\.(png|jpe?g)$/i, '.webp');
+            if (latest.imagePosition) {
+              document.getElementById('latest-img').style.objectPosition = latest.imagePosition;
+            }
           }
           if (latest.url) document.getElementById('latest-link').href = latest.url;
         })

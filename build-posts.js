@@ -465,7 +465,7 @@ export async function buildPosts() {
         if (tag.includes("style=")) {
           tag = tag.replace(/style=["'][^"']*["']/i, `style="object-position: ${pos};"`);
         } else {
-          tag = tag.replace(/>$/, ` style="object-position: ${pos};">`);
+          tag = tag.replace(/\s*\/?>$/, ` style="object-position: ${pos};" />`);
         }
         return tag;
       }
