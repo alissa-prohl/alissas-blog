@@ -292,9 +292,12 @@ export async function buildPosts() {
       image = catConfig.fallbackImage;
     }
 
-    // Image position (optional: e.g. "top", "center", "bottom", "center 20%")
+    // Image position (optional: e.g. "top", "center", "bottom", "15%", "center 20%")
     const dataImgPosMatch = attrs.match(/data-image-position=["\x27]([^"\x27]+)["\x27]/i);
-    const imagePosition = dataImgPosMatch ? dataImgPosMatch[1].trim() : "center";
+    let imagePosition = dataImgPosMatch ? dataImgPosMatch[1].trim() : "center";
+    if (/^\d+(?:%|px)$/i.test(imagePosition)) {
+      imagePosition = `center ${imagePosition}`;
+    }
 
     // Preview paragraph
     const pMatch = content.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
