@@ -292,6 +292,10 @@ export async function buildPosts() {
       image = catConfig.fallbackImage;
     }
 
+    // Image position (optional: e.g. "top", "center", "bottom", "center 20%")
+    const dataImgPosMatch = attrs.match(/data-image-position=["\x27]([^"\x27]+)["\x27]/i);
+    const imagePosition = dataImgPosMatch ? dataImgPosMatch[1].trim() : "center";
+
     // Preview paragraph
     const pMatch = content.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
     const preview = pMatch ? pMatch[1].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim() : "";
@@ -302,6 +306,7 @@ export async function buildPosts() {
       date,
       timestamp: parseDate(date),
       image,
+      imagePosition,
       preview,
       url: `posts/${filename}`,
     });
@@ -361,9 +366,9 @@ export async function buildPosts() {
     const cleanDescription = (preview || title)
       .slice(0, 220)
       .replace(/"/g, "&quot;");
-    const ogUrl = `${SITE_URL}/posts/${filename}`;
+    const ogUrl = encodeURI(`${SITE_URL}/posts/${filename}`);
     const cleanImage = image.startsWith("../") ? image.slice(3) : image;
-    const ogImage = `${SITE_URL}/${cleanImage}`;
+    const ogImage = encodeURI(`${SITE_URL}/${cleanImage}`);
 
     let ogImageMeta = "";
     try {
@@ -450,8 +455,17 @@ export async function buildPosts() {
     );
 
     indexHtml = indexHtml.replace(
-      /(<img[^>]*?id=["\x27]latest-img["\x27][^>]*?src=["\x27])([^"\x27]*)(["\x27])/i,
-      `$1${latest.image}$3`
+      /(<img[^>]*?id=["\x27]latest-img["\x27][^>]*?src=["\x27])([^"\x27]*)(["\x27][^>]*>)/i,
+      (match, p1, p2, p3) => {
+        let tag = `${p1}${latest.image}${p3}`;
+        const pos = latest.imagePosition || "center";
+        if (tag.includes("style=")) {
+          tag = tag.replace(/style=["'][^"']*["']/i, `style="object-position: ${pos};"`);
+        } else {
+          tag = tag.replace(/>$/, ` style="object-position: ${pos};">`);
+        }
+        return tag;
+      }
     );
 
     fs.writeFileSync(indexPath, indexHtml, "utf-8");
@@ -475,11 +489,12 @@ export async function buildPosts() {
               const month = dateMatch ? parseInt(dateMatch[2], 10) : "";
               const year = dateMatch ? dateMatch[3] : "";
               const cleanTitle = art.title.replace(/"/g, "&quot;");
+              const posStyle = art.imagePosition ? ` style="object-position: ${art.imagePosition};"` : "";
               return `
         <a href="${art.url}" data-title="${cleanTitle}" data-date="${art.date}" data-year="${year}" data-month="${month}" class="post-card group block bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col justify-between border border-slate-100 dark:border-slate-700/60 cursor-pointer">
           <div>
             <div class="block overflow-hidden">
-              <img src="${art.image}" alt="${art.title}" class="w-full h-48 object-cover opacity-95 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 mx-auto" />
+              <img src="${art.image}" alt="${art.title}" class="w-full h-48 object-cover opacity-95 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 mx-auto"${posStyle} />
             </div>
             <div class="p-5 flex flex-col gap-2">
               <span class="text-xs text-slate-400 dark:text-slate-400 uppercase tracking-wider">${art.date}</span>
