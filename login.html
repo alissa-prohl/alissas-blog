@@ -243,7 +243,7 @@
         </svg>
       </div>
       <h1>Alissas Blog</h1>
-      <p class="lead">Dieser Blog ist privat.<br />Bitte gib das Passwort ein.</p>
+      <p class="lead">Dieser Blog ist privat.<br />Bitte gib den Code ein. Du kannst Alissa fragen, wenn du den Code vergessen hast 😊</p>
 
       <p id="msg" class="msg" role="alert" hidden></p>
 
@@ -293,7 +293,7 @@
         }
 
         if (params.has("logout")) show("Du wurdest abgemeldet.", "info");
-        if (params.has("error")) show("Falsches Passwort. Versuch es nochmal.", "error");
+        if (params.has("error")) show("Falscher Code. Versuch es nochmal.", "error");
 
         reveal.addEventListener("click", function () {
           var visible = input.type === "password";
