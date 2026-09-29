@@ -380,6 +380,7 @@
           try {
             localStorage.removeItem(STORAGE_KEY_ATTEMPTS);
             localStorage.removeItem(STORAGE_KEY_LOCKOUT);
+            localStorage.removeItem("alissas_blog_logged_out");
             localStorage.setItem(STORAGE_KEY_ACTIVITY, String(Date.now()));
           } catch (e) {}
           location.replace(target);
@@ -398,6 +399,10 @@
           if (logoutReason === "timeout" || params.has("timeout")) {
             show("Du wurdest nach 1 Stunde Inaktivität automatisch abgemeldet.", "info");
           } else if (params.has("logout")) {
+            try {
+              localStorage.removeItem(STORAGE_KEY_ACTIVITY);
+              localStorage.setItem("alissas_blog_logged_out", "true");
+            } catch (e) {}
             show("Du wurdest abgemeldet.", "info");
           } else if (params.has("error")) {
             registerFailedAttempt();
