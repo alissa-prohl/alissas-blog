@@ -2,9 +2,9 @@
 <!--
   Login-Seite für buensapps.de/alissas-blog (kein normaler Blog-Inhalt).
   Der Server (Apache mod_auth_form) leitet alle Blog-Seiten hierher um, bis man eingeloggt ist.
-  Nur das Passwort wird abgefragt; der Benutzername "alissa" steckt im versteckten Feld unten.
+  Nur der Code wird abgefragt; der Benutzername "alissa" steckt im versteckten Feld unten.
   Absichtlich komplett eigenständig (CSS/JS inline): vor dem Login sind style.css und die
-  anderen Dateien noch gesperrt. Passwort ändern: ssh -t hostinger alissas-blog-password
+  anderen Dateien noch gesperrt. Code ändern: ssh -t hostinger alissas-blog-password
 -->
 <html lang="de">
   <head>
@@ -185,6 +185,8 @@
       button[type="submit"]:active { transform: scale(0.98); }
       button[type="submit"]:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--focus); }
       button[type="submit"]:disabled { opacity: 0.6; cursor: progress; }
+      button[type="submit"].disabled { cursor: not-allowed; }
+      input:disabled { opacity: 0.6; cursor: not-allowed; }
 
       .msg {
         font-size: 0.8rem; line-height: 1.5;
@@ -248,13 +250,13 @@
       <p id="msg" class="msg" role="alert" hidden></p>
 
       <form id="login" method="post" action="/alissas-blog/dologin" novalidate>
-        <!-- Apache mod_auth_form braucht einen Benutzernamen: fest vorgegeben, damit nur das Passwort eingegeben wird -->
+        <!-- Apache mod_auth_form braucht einen Benutzernamen: fest vorgegeben, damit nur der Code eingegeben wird -->
         <input type="hidden" name="httpd_username" value="alissa" autocomplete="username" />
         <input type="hidden" name="httpd_location" id="location" value="/alissas-blog/" />
-        <label for="password" class="sr-only">Passwort</label>
+        <label for="password" class="sr-only">Code</label>
         <div class="field" id="field">
-          <input type="password" id="password" name="httpd_password" placeholder="Passwort" autocomplete="current-password" required autofocus />
-          <button type="button" class="reveal" id="reveal" aria-label="Passwort anzeigen" aria-pressed="false">
+          <input type="password" id="password" name="httpd_password" placeholder="Code" autocomplete="current-password" required autofocus />
+          <button type="button" class="reveal" id="reveal" aria-label="Code anzeigen" aria-pressed="false">
             <svg class="eye" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" /><circle cx="12" cy="12" r="3" />
             </svg>
@@ -279,6 +281,13 @@
         var reveal = document.getElementById("reveal");
         var params = new URLSearchParams(location.search);
 
+        var MAX_ATTEMPTS = 3;
+        var LOCKOUT_MS = 24 * 60 * 60 * 1000; // 24 Stunden Sperre
+        var STORAGE_KEY_ATTEMPTS = "alissas_blog_failed_attempts";
+        var STORAGE_KEY_LOCKOUT = "alissas_blog_lockout_until";
+        var STORAGE_KEY_ACTIVITY = "alissas_blog_last_activity";
+        var lockoutTimer = null;
+
         // Nach dem Login zurück zur ursprünglich aufgerufenen Seite (nur innerhalb des Blogs)
         var target = params.get("r") || BASE;
         if (target.indexOf(BASE) !== 0 || target.indexOf("//") !== -1 || target.indexOf(BASE + "login.html") === 0) {
@@ -292,14 +301,115 @@
           msg.hidden = false;
         }
 
-        if (params.has("logout")) show("Du wurdest abgemeldet.", "info");
-        if (params.has("error")) show("Falscher Code. Versuch es nochmal.", "error");
+        function getStoredLockout() {
+          try {
+            var val = localStorage.getItem(STORAGE_KEY_LOCKOUT);
+            if (!val) return 0;
+            var until = parseInt(val, 10);
+            if (isNaN(until)) return 0;
+            var diff = until - Date.now();
+            if (diff <= 0) {
+              localStorage.removeItem(STORAGE_KEY_LOCKOUT);
+              localStorage.removeItem(STORAGE_KEY_ATTEMPTS);
+              return 0;
+            }
+            return diff;
+          } catch (e) {
+            return 0;
+          }
+        }
+
+        function formatDuration(ms) {
+          var totalMinutes = Math.ceil(ms / (60 * 1000));
+          var hours = Math.floor(totalMinutes / 60);
+          var minutes = totalMinutes % 60;
+          if (hours > 0) {
+            return hours + (hours === 1 ? " Stunde" : " Stunden") + (minutes > 0 ? " und " + minutes + " Min." : "");
+          }
+          return totalMinutes + (totalMinutes === 1 ? " Minute" : " Minuten");
+        }
+
+        function updateLockoutUI() {
+          var remaining = getStoredLockout();
+          if (remaining > 0) {
+            input.disabled = true;
+            input.value = "";
+            submit.disabled = true;
+            submit.classList.add("disabled");
+            show("Zu viele Fehlversuche. Der Login ist für 24 Stunden gesperrt (noch " + formatDuration(remaining) + ").", "error");
+            if (!lockoutTimer) {
+              lockoutTimer = setInterval(updateLockoutUI, 30 * 1000);
+            }
+            return true;
+          } else {
+            if (lockoutTimer) {
+              clearInterval(lockoutTimer);
+              lockoutTimer = null;
+            }
+            input.disabled = false;
+            submit.disabled = false;
+            submit.classList.remove("disabled");
+            return false;
+          }
+        }
+
+        function registerFailedAttempt() {
+          var attempts = 1;
+          try {
+            attempts = parseInt(localStorage.getItem(STORAGE_KEY_ATTEMPTS) || "0", 10) + 1;
+            localStorage.setItem(STORAGE_KEY_ATTEMPTS, String(attempts));
+          } catch (e) {}
+
+          if (attempts >= MAX_ATTEMPTS) {
+            var lockUntil = Date.now() + LOCKOUT_MS;
+            try {
+              localStorage.setItem(STORAGE_KEY_LOCKOUT, String(lockUntil));
+            } catch (e) {}
+            updateLockoutUI();
+          } else {
+            var left = MAX_ATTEMPTS - attempts;
+            var hint = left === 1
+              ? "Falscher Code. Noch 1 Versuch, bevor der Login für 24 Stunden gesperrt wird."
+              : "Falscher Code. Du hast noch " + left + " Versuche.";
+            show(hint, "error");
+            input.select();
+          }
+        }
+
+        function onLoginSuccess() {
+          try {
+            localStorage.removeItem(STORAGE_KEY_ATTEMPTS);
+            localStorage.removeItem(STORAGE_KEY_LOCKOUT);
+            localStorage.setItem(STORAGE_KEY_ACTIVITY, String(Date.now()));
+          } catch (e) {}
+          location.replace(target);
+        }
+
+        // Status beim Laden prüfen
+        if (updateLockoutUI()) {
+          // Sperre aktiv
+        } else {
+          var logoutReason = null;
+          try {
+            logoutReason = sessionStorage.getItem("alissas_blog_logout_reason");
+            if (logoutReason) sessionStorage.removeItem("alissas_blog_logout_reason");
+          } catch (e) {}
+
+          if (logoutReason === "timeout" || params.has("timeout")) {
+            show("Du wurdest nach 1 Stunde Inaktivität automatisch abgemeldet.", "info");
+          } else if (params.has("logout")) {
+            show("Du wurdest abgemeldet.", "info");
+          } else if (params.has("error")) {
+            registerFailedAttempt();
+          }
+        }
 
         reveal.addEventListener("click", function () {
+          if (input.disabled) return;
           var visible = input.type === "password";
           input.type = visible ? "text" : "password";
           reveal.setAttribute("aria-pressed", String(visible));
-          reveal.setAttribute("aria-label", visible ? "Passwort verbergen" : "Passwort anzeigen");
+          reveal.setAttribute("aria-label", visible ? "Code verbergen" : "Code anzeigen");
           input.focus();
         });
 
@@ -309,6 +419,10 @@
 
         form.addEventListener("submit", function (e) {
           e.preventDefault();
+          if (getStoredLockout() > 0) {
+            updateLockoutUI();
+            return;
+          }
           if (!input.value) {
             input.focus();
             return;
@@ -323,23 +437,29 @@
           })
             .then(function (res) {
               // Apache leitet bei Erfolg zur Zielseite weiter (und setzt das Session-Cookie),
-              // bei falschem Passwort zurück auf login.html?error=1
+              // bei falschem Code zurück auf login.html?error=1
               var landed = new URL(res.url, location.href);
               if (res.ok && landed.pathname.indexOf(BASE + "login.html") !== 0) {
-                location.replace(target);
+                onLoginSuccess();
                 return;
               }
               field.classList.remove("invalid");
               void field.offsetWidth; // Shake-Animation neu starten
               field.classList.add("invalid");
-              show(landed.searchParams.has("error") ? "Falsches Passwort. Versuch es nochmal." : "Anmeldung gerade nicht möglich. Bitte später nochmal versuchen.", "error");
-              input.select();
+
+              if (landed.searchParams.has("error") || !res.ok) {
+                registerFailedAttempt();
+              } else {
+                show("Anmeldung gerade nicht möglich. Bitte später nochmal versuchen.", "error");
+              }
             })
             .catch(function () {
               show("Keine Verbindung. Bitte später nochmal versuchen.", "error");
             })
             .finally(function () {
-              submit.disabled = false;
+              if (getStoredLockout() <= 0) {
+                submit.disabled = false;
+              }
             });
         });
       })();

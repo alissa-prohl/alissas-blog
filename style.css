@@ -1333,6 +1333,9 @@
   .dark\:text-slate-400:where(.dark, .dark *) {
     color: var(--color-slate-400);
   }
+  .dark\:text-slate-500:where(.dark, .dark *) {
+    color: var(--color-slate-500);
+  }
   .dark\:text-white:where(.dark, .dark *) {
     color: var(--color-white);
   }
@@ -1370,6 +1373,9 @@
     }
     .dark\:hover\:text-slate-200:where(.dark, .dark *):hover {
       color: var(--color-slate-200);
+    }
+    .dark\:hover\:text-slate-300:where(.dark, .dark *):hover {
+      color: var(--color-slate-300);
     }
     .dark\:hover\:text-yellow-200:where(.dark, .dark *):hover {
       color: var(--color-yellow-200);
