@@ -5,7 +5,7 @@ import sharp from "sharp";
 const CONTENT_DIR = path.resolve("content");
 const POSTS_DIR = path.resolve("posts");
 const LAYOUT_PATH = path.resolve("post-layout.html");
-const SITE_URL = "https://alissa-prohl.github.io/alissas-blog";
+const SITE_URL = "https://buensapps.de/alissas-blog";
 
 const CATEGORY_CONFIG = {
   projekte: { file: "projects.html", name: "Projekte", fallbackImage: "img/programmer.webp" },

@@ -1,0 +1,4 @@
+# Bilder für Vorschaukarten und Webseiten-Assets freigeben
+<IfModule mod_authz_core.c>
+    Require all granted
+</IfModule>

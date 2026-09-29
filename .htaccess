@@ -1,0 +1,26 @@
+# ======================================================================
+# Alissas Blog - Apache Konfiguration (.htaccess)
+# ======================================================================
+
+# 1. Social-Media- & Messenger-Crawler erkennen (WhatsApp, iMessage, Facebook, Telegram etc.)
+<IfModule mod_setenvif.c>
+    SetEnvIfNoCase User-Agent "(facebookexternalhit|WhatsApp|Applebot|Twitterbot|TelegramBot|LinkedInBot|Slackbot|Discordbot|SkypeUriPreview)" allow_crawler=1
+</IfModule>
+
+# 2. Zugriff auf HTML-Seiten:
+# - Reguläre Besucher müssen eingeloggt sein (Code eingeben)
+# - Erkannte Crawler dürfen Beitrags-Metadaten für Link-Vorschaukarten (Open Graph) abrufen
+<IfModule mod_authz_core.c>
+    <RequireAny>
+        Require valid-user
+        Require env allow_crawler
+    </RequireAny>
+</IfModule>
+
+# 3. Bilder & Mediendateien für Vorschaukarten freigeben
+# So können WhatsApp, iMessage & Co. das Beitragsbild (og:image) zuverlässig laden
+<FilesMatch "\.(webp|png|jpe?g|gif|svg|ico)$">
+    <IfModule mod_authz_core.c>
+        Require all granted
+    </IfModule>
+</FilesMatch>
