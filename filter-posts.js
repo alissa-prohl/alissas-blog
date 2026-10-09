@@ -44,11 +44,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let year = card.getAttribute("data-year");
     if (!year) {
       const dateText = card.querySelector("span")?.textContent || "";
-      const match = dateText.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/);
-      if (match) {
-        year = match[3];
+      const matches = [...dateText.matchAll(/(\d{1,2})\.(\d{1,2})\.(\d{4})/g)];
+      if (matches.length > 0) {
+        const lastMatch = matches[matches.length - 1];
+        year = lastMatch[3];
         card.setAttribute("data-year", year);
-        card.setAttribute("data-month", parseInt(match[2], 10).toString());
+        card.setAttribute("data-month", parseInt(lastMatch[2], 10).toString());
       }
     }
     if (year) years.add(year);

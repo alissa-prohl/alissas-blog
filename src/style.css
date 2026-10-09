@@ -65,6 +65,53 @@ article img {
   @apply block rounded-lg shadow-sm object-cover cursor-zoom-in transition-all duration-200 hover:brightness-105 active:scale-95;
 }
 
+/* Freigestellte Skizzen, Handzeichnungen & Grafiken ohne Rahmen/Schatten */
+article img.no-shadow,
+article img.shadow-none,
+article img.borderless,
+article img.no-border,
+article img.skizze,
+article img.illustration {
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+article img.no-shadow:hover,
+article img.shadow-none:hover,
+article img.borderless:hover,
+article img.no-border:hover,
+article img.skizze:hover,
+article img.illustration:hover {
+  filter: none !important;
+}
+
+article img.no-shadow:active,
+article img.shadow-none:active,
+article img.borderless:active,
+article img.no-border:active,
+article img.skizze:active,
+article img.illustration:active {
+  transform: none !important;
+}
+
+html:not(.dark) article img.no-shadow,
+html:not(.dark) article img.shadow-none,
+html:not(.dark) article img.borderless,
+html:not(.dark) article img.no-border,
+html:not(.dark) article img.skizze,
+html:not(.dark) article img.illustration {
+  mix-blend-mode: multiply;
+}
+
+html.dark article img.no-shadow,
+html.dark article img.shadow-none,
+html.dark article img.borderless,
+html.dark article img.no-border,
+html.dark article img.skizze,
+html.dark article img.illustration {
+  border-radius: var(--radius-lg, 0.5rem) !important;
+}
+
 /* 1. Querformat-Bilder & Standard-Bilder (außerhalb von Grids): Schließen IMMER bündig mit dem Text ab (100% Textbreite) */
 article > img.img-landscape,
 article > p > img.img-landscape,

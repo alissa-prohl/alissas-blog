@@ -38,13 +38,13 @@ Passe die Angaben oben an:
    * *Danach werden deine Beiträge automatisch von neu nach alt sortiert!*
 4. **`<h1>Dein Titel</h1>`**: Schreibe die Überschrift deines Beitrags.
    * *Dieser Titel wird automatisch für die Seite, den Browsertab und die Vorschaukarte übernommen.*
-5. **`data-draft="true"`** *(optional - Entwurf verstecken)*:
+5. **`data-draft="true"`** *(optional - Entwurf mit lokaler Vorschau)*:
    * Wenn du noch an einem Beitrag schreibst und ihn noch **nicht** veröffentlichen willst:
      ```html
      <article data-category="Abenteuer" data-draft="true">
      ```
-   * **Alternativ:** Benenne die Datei einfach mit einem Unterstrich am Anfang (z. B. `content/_mein-ausflug.html`).
-   * **Der Clou:** Solange ein Beitrag als Entwurf markiert ist (oder mit `_` beginnt), wird er beim Bauen der Website komplett übersprungen. Du kannst nach Herzenslust `npm run build` und `git push` machen – niemand sieht den unfertigen Beitrag, bis du `data-draft="true"` (oder den Unterstrich) entfernst!
+   * **Der Clou für die lokale Vorschau:** Das System baut den Beitrag in `posts/` mit dem kompletten Design und einem gelben Entwurfs-Banner zusammen, listet ihn aber **weder** auf der Startseite noch in den Kategorieseiten oder `posts.json`. Du kannst die Datei `posts/dein-beitrag.html` also direkt lokal im Browser öffnen und anschauen!
+   * **Alternativ komplett unsichtbar:** Beginnt der Dateiname mit einem Unterstrich (z. B. `content/_mein-ausflug.html`), wird er beim Bauen komplett ignoriert.
 
 ---
 
@@ -68,6 +68,11 @@ Schreibe deine Texte einfach in `<p>`-Tags:
 ```
 * *Das Bild wird automatisch zentriert, abgerundet und bekommt einen sanften Schatten.*
 * *Alle Bilder sind automatisch **anklickbar** und öffnen sich im Vollbild (Lightbox)!*
+* **Skizzen, Handzeichnungen & Grafiken ohne Rand/Schatten:**
+  Gib dem `<img>`-Tag einfach die Klasse `class="no-shadow"` (oder `class="skizze"` / `class="borderless"`). Dadurch verschwinden Schatten und Ecken, sodass die Zeichnung nahtlos und ohne sichtbaren Kasten auf der Seite liegt:
+  ```html
+  <img src="../img/skizze.webp" class="no-shadow" />
+  ```
 
 ### Foto-Raster (Mehrere Bilder nebeneinander)
 Wenn du mehrere Schnappschüsse nebeneinander zeigen willst, packe sie einfach in ein Raster:

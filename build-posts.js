@@ -21,12 +21,13 @@ const CATEGORY_PAGES = [
 
 function parseDate(dateStr) {
   if (!dateStr) return 0;
-  // Parse format DD.MM.YYYY (e.g. 01.06.2026)
-  const match = dateStr.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/);
-  if (match) {
-    const day = parseInt(match[1], 10);
-    const month = parseInt(match[2], 10) - 1;
-    const year = parseInt(match[3], 10);
+  // Parse format DD.MM.YYYY (e.g. 01.06.2026 or range like 30.09.–03.10.2026)
+  const matches = [...dateStr.matchAll(/(\d{1,2})\.(\d{1,2})\.(\d{4})/g)];
+  if (matches.length > 0) {
+    const lastMatch = matches[matches.length - 1];
+    const day = parseInt(lastMatch[1], 10);
+    const month = parseInt(lastMatch[2], 10) - 1;
+    const year = parseInt(lastMatch[3], 10);
     return new Date(year, month, day).getTime();
   }
   return 0;
@@ -246,27 +247,23 @@ export async function buildPosts() {
     const catKey = category.toLowerCase();
     const catConfig = CATEGORY_CONFIG[catKey] || CATEGORY_CONFIG.projekte;
 
-    // Date
-    const dateMatch = content.match(/<(?:span|time)[^>]*>(\d{1,2}\.\d{1,2}\.\d{4})<\/(?:span|time)>/i);
-    const date = dateMatch ? dateMatch[1].trim() : "";
+    // Date (supports single date or date ranges e.g. 30.09.–03.10.2026)
+    const dateMatch = content.match(/<(?:span|time)[^>]*>([\s\S]*?)<\/(?:span|time)>/i);
+    const date = dateMatch ? dateMatch[1].replace(/<[^>]+>/g, "").trim() : "";
 
     // Title (h1 or h2)
     const titleMatch = content.match(/<h[12][^>]*>([\s\S]*?)<\/h[12]>/i);
     const title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, "").trim() : filename.replace(".html", "");
 
-    // Draft check: data-draft="true" or data-status="draft"
-    const isDraft =
-      /data-draft=["'](?:true|1|yes)["']/i.test(attrs) ||
-      /data-status=["']draft["']/i.test(attrs);
-    if (isDraft) {
-      console.log(`[${new Date().toLocaleTimeString()}] 📝 Entwurf übersprungen (data-draft="true"): content/${filename}`);
-      continue;
-    }
-
     if (title === "Dein Beitragstitel hier") {
       console.log(`[${new Date().toLocaleTimeString()}] Skipping unedited draft: content/${filename}`);
       continue;
     }
+
+    // Draft check: data-draft="true" or data-status="draft"
+    const isDraft =
+      /data-draft=["'](?:true|1|yes)["']/i.test(attrs) ||
+      /data-status=["']draft["']/i.test(attrs);
 
     publishedFiles.add(filename);
 
@@ -303,16 +300,20 @@ export async function buildPosts() {
     const pMatch = content.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
     const preview = pMatch ? pMatch[1].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim() : "";
 
-    articles.push({
-      category: catConfig.name,
-      title,
-      date,
-      timestamp: parseDate(date),
-      image,
-      imagePosition,
-      preview,
-      url: `posts/${filename}`,
-    });
+    if (!isDraft) {
+      articles.push({
+        category: catConfig.name,
+        title,
+        date,
+        timestamp: parseDate(date),
+        image,
+        imagePosition,
+        preview,
+        url: `posts/${filename}`,
+      });
+    } else {
+      console.log(`[${new Date().toLocaleTimeString()}] 📝 Entwurf als lokale Vorschau bereitgestellt (nicht öffentlich gelistet): posts/${filename}`);
+    }
 
     // Automatically convert any image reference to .webp in the post content if .webp exists
     let processedArticleHtml = articleHtml.replace(
@@ -363,6 +364,17 @@ export async function buildPosts() {
       /(<iframe[^>]+src=["'])https?:\/\/(?:www\.)?(?:youtube\.com\/watch\?(?:[^"']*&)?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})([^"']*["'][^>]*>)/gi,
       "$1https://www.youtube-nocookie.com/embed/$2$3"
     );
+
+    // Ensure all iframes have referrerpolicy="strict-origin-when-cross-origin"
+    processedArticleHtml = processedArticleHtml.replace(
+      /<iframe\b(?![^>]*\breferrerpolicy\b)([^>]*)>/gi,
+      '<iframe$1 referrerpolicy="strict-origin-when-cross-origin">'
+    );
+
+    if (isDraft) {
+      const draftBanner = `\n    <div class="mb-6 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-800 dark:text-amber-200 text-xs sm:text-sm flex items-center justify-between gap-3 select-none">\n      <div class="flex items-center gap-2">\n        <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>\n        <span class="font-bold tracking-wide">ENTWURF / VORSCHAU</span>\n        <span class="text-slate-500 dark:text-slate-400 font-normal hidden sm:inline">(Nicht auf Startseite &amp; Kategorien verlinkt)</span>\n      </div>\n      <span class="font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-700 dark:text-amber-300">data-draft="true"</span>\n    </div>`;
+      processedArticleHtml = processedArticleHtml.replace(/(<article[^>]*>)/i, `$1${draftBanner}`);
+    }
 
     // Prepare Open Graph metadata
     const ogTitle = `${title} - Alissa's Blog`;
@@ -488,7 +500,8 @@ export async function buildPosts() {
       categoryArticles.length > 0
         ? categoryArticles
             .map((art) => {
-              const dateMatch = art.date ? art.date.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/) : null;
+              const matches = art.date ? [...art.date.matchAll(/(\d{1,2})\.(\d{1,2})\.(\d{4})/g)] : [];
+              const dateMatch = matches.length > 0 ? matches[matches.length - 1] : null;
               const month = dateMatch ? parseInt(dateMatch[2], 10) : "";
               const year = dateMatch ? dateMatch[3] : "";
               const cleanTitle = art.title.replace(/"/g, "&quot;");

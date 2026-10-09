@@ -1,6 +1,15 @@
 [
   {
     "category": "Abenteuer",
+    "title": "Unser Niederlande/Belgien-Roadtrip",
+    "date": "30.09.–03.10.2026",
+    "image": "img/NEBE-trip/roadmap.webp",
+    "imagePosition": "center",
+    "preview": "Letzte Woche ging es für uns auf einen kleinen Niederlande/Belgien-Roadtrip. Auf unserem Plan stand ein Tag in Efteling (einem Freizeitpark in den Niederlanden), ein Tag in Antwerpen, ein Tag in Brüssel und ein Tag im Walibi (einem Freizeitpark in Belgien).",
+    "url": "posts/niederlande-belgien-roadtrip.html"
+  },
+  {
+    "category": "Abenteuer",
     "title": "Mammutmarsch Hannover",
     "date": "27.09.2026",
     "image": "img/mammutmarsch-hannover/IMG_6198.webp",
