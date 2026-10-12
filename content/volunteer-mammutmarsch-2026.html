@@ -1,6 +1,6 @@
 <!-- data-category: Abenteuer -->
 <!-- data-image: Bestimmt das Vorschaubild auf der Start- und Kategorieseite -->
-<article data-category="Abenteuer" data-image="../img/volunteer-mammutmarsch-2026/IMG_6968.webp" data-image-position="top" class="my-4">
+<article data-category="Abenteuer" data-image="../img/volunteer-mammutmarsch-2026/IMG_6968.webp" data-image-position="center 40%" class="my-4">
   <time>10.10.2026</time>
   <h1>Als Volunteer beim Mammutmarsch 🦣</h1>
 
@@ -22,38 +22,40 @@
     Naja, obwohl noch vor den ersten Mammuts ein Läufer ins Ziel kam, der die 42km gejoggt war. Der kam schon an, als wir noch gar nicht im Ziel waren. Ich fand es ehrlich gesagt ziemlich unpassend; der Mammutmarsch ist schließlich ein Wanderevent und kein Marathon.
   </p>
 
-  <img src="../img/volunteer-mammutmarsch-2026/IMG_6962.webp" />
+  <div class="grid-2" style="grid-template-columns: 4fr 3fr;">
+    <img src="../img/volunteer-mammutmarsch-2026/IMG_6962.webp" />
 
-  <div class="relative group my-6 overflow-hidden rounded-lg shadow-sm border border-slate-100 dark:border-slate-800 bg-black max-w-sm mx-auto">
-    <video
-      loop
-      muted
-      playsinline
-      preload="metadata"
-      class="w-full h-auto block rounded-lg cursor-pointer"
-      title="Klicken oder tippen, um Ton an- oder auszuschalten"
-    >
-      <source src="../img/volunteer-mammutmarsch-2026/IMG_6966.mp4" type="video/mp4" />
-      Dein Browser unterstützt dieses Video leider nicht.
-    </video>
+    <div class="relative group overflow-hidden rounded-lg shadow-sm border border-slate-100 dark:border-slate-800 bg-black w-full h-full flex items-center justify-center">
+      <video
+        loop
+        muted
+        playsinline
+        preload="metadata"
+        class="w-full h-auto block rounded-lg cursor-pointer"
+        title="Klicken oder tippen, um Ton an- oder auszuschalten"
+      >
+        <source src="../img/volunteer-mammutmarsch-2026/IMG_6966.mp4" type="video/mp4" />
+        Dein Browser unterstützt dieses Video leider nicht.
+      </video>
 
-    <!-- Ton an/aus Button -->
-    <button
-      type="button"
-      data-sound-btn
-      onclick="toggleVideoSound(this)"
-      class="absolute bottom-3 right-3 bg-slate-900/80 hover:bg-slate-900 text-white text-xs font-sans px-3.5 py-1.5 rounded-full flex items-center gap-1.5 backdrop-blur-xs transition-all duration-200 cursor-pointer shadow-md select-none border border-white/20 active:scale-95 z-10"
-      aria-label="Ton an- oder ausschalten"
-    >
-      <svg data-icon-muted class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
-      </svg>
-      <svg data-icon-sound class="w-4 h-4 text-emerald-400 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-      </svg>
-      <span data-sound-text>Ton an</span>
-    </button>
+      <!-- Ton an/aus Button -->
+      <button
+        type="button"
+        data-sound-btn
+        onclick="toggleVideoSound(this)"
+        class="absolute bottom-2 sm:bottom-3 right-2 sm:right-3 bg-slate-900/80 hover:bg-slate-900 text-white text-xs font-sans px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full flex items-center gap-1 sm:gap-1.5 backdrop-blur-xs transition-all duration-200 cursor-pointer shadow-md select-none border border-white/20 active:scale-95 z-10"
+        aria-label="Ton an- oder ausschalten"
+      >
+        <svg data-icon-muted class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+        </svg>
+        <svg data-icon-sound class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+        </svg>
+        <span data-sound-text class="text-[10px] sm:text-xs">Ton an</span>
+      </button>
+    </div>
   </div>
 
   <p>
